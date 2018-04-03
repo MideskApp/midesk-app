@@ -1,18 +1,17 @@
 import { Component  } from '@angular/core';
-import { AlertController, Events } from 'ionic-angular';
+import { AlertController, Events, MenuController } from 'ionic-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from './../../app/services/authentication/auth.service';
 import { UserService } from './../../app/services/user.service';
 import { App } from 'ionic-angular';
-import { Keyboard } from '@ionic-native/keyboard';
 //import { HomePage } from '../home/home';
 
 //@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers: [UserService,Keyboard]
+  providers: [UserService]
 })
 export class LoginPage {
 	private loginForm : FormGroup;
@@ -28,7 +27,7 @@ export class LoginPage {
     private _userService: UserService,
     private alertCtrl: AlertController,
     public events: Events,
-    private keyboard: Keyboard,
+    private menuCtrl: MenuController
     //private platform: Platform,
   ){
   	app._setDisableScroll(true);
@@ -37,12 +36,9 @@ export class LoginPage {
         password: new FormControl('', Validators.required)
   	 });
   }
-  showKeyboard(){
-    this.keyboard.show();
-  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
-    this.keyboard.show();
+    this.menuCtrl.swipeEnable(false);
   }
   onFormSubmit(){
      let email = this.loginForm.get('email').value;

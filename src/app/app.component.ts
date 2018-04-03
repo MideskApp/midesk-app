@@ -87,8 +87,9 @@ export class MyApp {
           text: 'Đồng ý',
           handler: data => {
             this._auth.logoutUser();
-            this.nav.setRoot(LoginPage);
-            this.rootPage = LoginPage;
+            // this.nav.setRoot(LoginPage);
+            // this.rootPage = LoginPage;
+            window.location.reload();
           }
         }
       ]
