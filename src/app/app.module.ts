@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule, RequestOptions } from '@angular/http';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -35,69 +35,71 @@ import { PopoverCategory } from './../pages/ticket/ticket-add/popover-category/p
 import { GetFirstCharacter } from './pipes/get-first-character.pipe';
 import { ConvertLengthTitle } from './pipes/convert-length-title.pipe';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { Keyboard } from '@ionic-native/keyboard';
 
 @NgModule({
-  declarations: [
-    MyApp,
-    HomePage,
-    ListPage,
-    LoginPage,
-    TicketAddPage,
-    TicketDetailPage,
-    ModalAssign,
-    ModalRequester,
-    ModalSearchComponent,
-    GetFirstCharacter,
-    ConvertLengthTitle,
-    SafeHtmlPipe,
-    PopoverSort,
-    PopoverChannel,
-    PopoverCategory
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpModule,
-    HttpClientModule,
-    IonicModule.forRoot(MyApp)
-  ],
-  exports:[
-    GetFirstCharacter,
-    ConvertLengthTitle,
-    SafeHtmlPipe
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    HomePage,
-    ListPage,
-    LoginPage,
-    TicketAddPage,
-    TicketDetailPage,
-    ModalAssign,
-    ModalRequester,
-    ModalSearchComponent,
-    PopoverSort,
-    PopoverChannel,
-    PopoverCategory
-    //GetFirstCharacter
-  ],
-  providers: [
-    SettingService,
-    CookieService,
-    SettingService,
-    UserService,
-    TicketService,
-    AuthService,
-    StatusBar,
-    SplashScreen,
-    HTTP,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    {
-      provide: RequestOptions,
-      useClass: AuthRequestOptions  //automatically appending headers to every request.
-    }
-  ]
+    declarations: [
+        MyApp,
+        HomePage,
+        ListPage,
+        LoginPage,
+        TicketAddPage,
+        TicketDetailPage,
+        ModalAssign,
+        ModalRequester,
+        ModalSearchComponent,
+        GetFirstCharacter,
+        ConvertLengthTitle,
+        SafeHtmlPipe,
+        PopoverSort,
+        PopoverChannel,
+        PopoverCategory
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpModule,
+        HttpClientModule,
+        IonicModule.forRoot(MyApp)
+    ],
+    exports: [
+        GetFirstCharacter,
+        ConvertLengthTitle,
+        SafeHtmlPipe
+    ],
+    bootstrap: [IonicApp],
+    entryComponents: [
+        MyApp,
+        HomePage,
+        ListPage,
+        LoginPage,
+        TicketAddPage,
+        TicketDetailPage,
+        ModalAssign,
+        ModalRequester,
+        ModalSearchComponent,
+        PopoverSort,
+        PopoverChannel,
+        PopoverCategory
+        //GetFirstCharacter
+    ],
+    providers: [
+        SettingService,
+        CookieService,
+        SettingService,
+        UserService,
+        TicketService,
+        AuthService,
+        StatusBar,
+        Keyboard,
+        SplashScreen,
+        HTTP,
+        { provide: ErrorHandler, useClass: IonicErrorHandler },
+        {
+            provide: RequestOptions,
+            useClass: AuthRequestOptions  //automatically appending headers to every request.
+        }
+    ]
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,39 +1,43 @@
 page-login {
-	.login-background{
-		background-color:#2cd094;
-	}
-	.img-midesk{
-		padding:5%;
-	}
-	.scroll-content{
-		align-content:center;
-		display:flex;
-		flex-direction:column;
-		justify-content:center;
-		text-align:center;
-		padding:0!important;
-	}
-	ion-card.card{
-		box-shadow: none;
-		background: rgba( 0 , 0 , 0 , 0.5 );
-		border-radius:5px;
-	}
-	a, p,
-	ion-card-header.card-header{
-		color:#FFF;
-	}
-	.list > .item-block:first-child{
-		border:medium none;
-	}
-
-	.item{
-		margin-bottom:10px;
-		background:rbga(255,255,255,0.5);
-		border:medium none;
-		.text-input,
-		input::moz-placeholder{
-			color: #FFF!important;
-		}
-	}
-
+    .login-background {
+        background-color: #2cd094;
+    }
+    .img-midesk {
+        padding: 5%;
+    }
+    .logo {
+        width: 200px;
+        margin: 20px auto;
+        height: 100px;
+    }
+    .scroll-content {
+        align-content: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 0!important;
+    }
+    ion-card.card {
+        box-shadow: none;
+        background: rgba( 0, 0, 0, 0.5);
+        border-radius: 5px;
+    }
+    a,
+    p,
+    ion-card-header.card-header {
+        color: #FFF;
+    }
+    .list>.item-block:first-child {
+        border: medium none;
+    }
+    .item {
+        margin-bottom: 10px;
+        background: rbga(255, 255, 255, 0.5);
+        border: medium none;
+        .text-input,
+        input::moz-placeholder {
+            color: #FFF!important;
+        }
+    }
 }
