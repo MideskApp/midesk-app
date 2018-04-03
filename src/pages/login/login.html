@@ -13,7 +13,7 @@
 						<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onFormSubmit()" id="login-form">
 						<ion-list no-line>
 							<ion-item>
-								<ion-input type="text" placeholder="Email" name="email" required="required" formControlName="email"></ion-input>
+								<ion-input type="text" placeholder="Email" name="email" required="required" formControlName="email" autofocus></ion-input>
 							</ion-item>
 							<ion-item>
 								<ion-input type="password" placeholder="Mật khẩu" name="password" required="required" formControlName="password"></ion-input>
