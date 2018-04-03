@@ -3,6 +3,7 @@ import { NavController, ModalController, PopoverController  } from 'ionic-angula
 import { TicketService } from './../../../app/services/ticket.service';
 import { ModalAssign } from'./../../ticket/ticket-add/modal-assign/modal-assign';
 import { ModalRequester } from './../../ticket/ticket-add/modal-requester/modal-requester';
+import { ModalProperties } from './../../ticket/ticket-add/modal-properties/modal-properties';
 import { PopoverCategory } from './../../ticket/ticket-add/popover-category/popover-category';
 //import { UserService } from './../../../app/services/user.service';
 //import { GetFirstCharacter } from './../../../app/pipes/get-first-character.pipe';
@@ -101,6 +102,10 @@ export class TicketAddPage {
       }
     })
     categoryPopover.present();
+  }
+  openModalProperties(){
+    let propertiesModal = this.modalCtrl.create(ModalProperties);
+    propertiesModal.present();
   }
   createTicket(){
     console.log(this.ticketParams);

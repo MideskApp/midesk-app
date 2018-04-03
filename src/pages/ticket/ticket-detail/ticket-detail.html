@@ -4,7 +4,7 @@
 	      <ion-icon name="menu"></ion-icon>
 	    </button>
 	    <ion-title>Ticket Detail</ion-title>
-	    <ion-buttons end><button id="send-btn" class="bg-transparent" (click)="updateTicket()"><ion-icon class="icon-size" color="light" name="send"></ion-icon><ion-badge *ngIf="countChange>0" id="send-badge">{{countChange}}</ion-badge></button></ion-buttons>
+	    <ion-buttons end><button id="send-btn" class="bg-transparent" [disabled]="countChange<=0" (click)="actionTicket()"><ion-icon class="icon-size" color="light" name="send"></ion-icon><ion-badge *ngIf="countChange>0" id="send-badge">{{countChange}}</ion-badge></button></ion-buttons>
 	    <ion-buttons end><button class="bg-transparent"><ion-icon class="icon-size"  color="light" (click)="openActionSheet()" name="more"></ion-icon></button></ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -19,12 +19,15 @@
   	</ion-row>
   	<ion-row no-padding>
 	  	<ion-col col-6>
-	  		<p class="requester" no-margin>from: {{requesterName | convertLength}}</p>
+	  		<p *ngIf="requesterName!==''" class="requester" no-margin>from: {{requesterName | convertLength}}</p>
+	  		<p *ngIf="requesterName===''" class="requester" no-margin>chưa có người yêu cầu</p>
 	  		<p class="date" no-margin>{{ticketInfo.created_at| date: 'dd/MM'}}</p>
 	  	</ion-col>
 	  	<ion-col col-6>
-
-			<ion-chip *ngIf="ticketInfo.assign_team!==0 && ticketInfo.assign_agent===0" float-right>
+			<button *ngIf=" assignTeam==='' && assignName ==='' " no-margin float-right style="padding:0 0.5em!important" ion-button class="assign-button">
+	  				<span (click)="openModalAssign()">Người xử lý</span>
+	  			</button>
+			<ion-chip *ngIf=" assignTeam!=='' && assignName===''" float-right>
 			  <ion-avatar class="box-assign">{{assignTeam | charAt}}</ion-avatar>
 			  <ion-label>{{assignTeam|convertLength}}</ion-label>
 			  <button ion-button clear color="light">
@@ -32,7 +35,7 @@
 			    <ion-icon *ngIf="!reChoose" (click)="openModalAssign()" name="swap"></ion-icon>
 			  </button>
 			</ion-chip>
-			<ion-chip *ngIf="ticketInfo.assign_team!==0 && ticketInfo.assign_agent!==0" float-right>
+			<ion-chip *ngIf="assignTeam!=='' && assignName!==''" float-right>
 			  <ion-avatar class="box-assign">{{assignName | charAt}}</ion-avatar>
 			  <ion-label>{{assignName|convertLength}}</ion-label>
 			  <button ion-button clear color="light">
@@ -40,7 +43,7 @@
 			    <ion-icon *ngIf="!reChoose" (click)="openModalAssign()" name="swap"></ion-icon>
 			  </button>
 			</ion-chip>
-			<ion-chip *ngIf="ticketInfo.assign_team===0 && ticketInfo.assign_agent!==0" float-right>
+			<ion-chip *ngIf="assignTeam==='' && assignName!==''" float-right>
 			  <ion-avatar class="box-assign">{{assignName | charAt}}</ion-avatar>
 			  <ion-label>{{assignName|convertLength}}</ion-label>
 			  <button ion-button clear color="light">

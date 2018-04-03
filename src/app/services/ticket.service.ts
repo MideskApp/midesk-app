@@ -62,6 +62,15 @@ export class TicketService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    actionTicket(data:any){
+        let headers = new Headers();
+        headers.append('Authorization', 'Bearer '+ this._authService.getToken());
+        headers.delete('Content-Type');
+        let options = new RequestOptions({ headers : headers });
+        return this._http.post(this._settingGlobal._api_action_ticket, data, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     private handleError = (error: any) => {
         return Observable.of([]);
     }

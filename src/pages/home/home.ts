@@ -123,12 +123,12 @@ export class HomePage {
   }
   openPopoverSort(myEvent) {
     let data = {priority:this.priority,status:this.status}
-    let popover = this.popoverCtrl.create(PopoverSort,data,{ enableBackdropDismiss: false });
+    let popover = this.popoverCtrl.create(PopoverSort,data,{ enableBackdropDismiss: true });
     popover.present({
       ev: myEvent
     });
     popover.onDidDismiss(data=>{
-      if(!data.cancel){
+      if(data!==null){
         this.modelTicket.sortBy=data;
         this.initListTicket();
       }

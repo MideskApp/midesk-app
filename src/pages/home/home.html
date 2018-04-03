@@ -12,8 +12,8 @@
         </ion-col>
         <ion-col col-4>
           <ion-icon float-right color="light" ios="ios-search" md="md-search" (click)="openModal()"></ion-icon>
-          <ion-icon float-right padding-right color="light" ios="ios-funnel" md="md-funnel" (click)="openPopoverSort($event)"></ion-icon>
-           <ion-icon float-right padding-right color="light" name="more" (click)="openPopoverChannel($event)"></ion-icon>
+          <ion-icon float-right class="padding-icon" color="light" ios="ios-funnel" md="md-funnel" (click)="openPopoverSort($event)"></ion-icon>
+           <ion-icon float-right class="padding-icon" color="light" name="more" (click)="openPopoverChannel($event)"></ion-icon>
         </ion-col>
       </ion-row>
     </ion-grid>   
@@ -31,8 +31,10 @@
       <ion-avatar item-start class="box-avatar" *ngIf="item.request===null">
         ERR
       </ion-avatar>
-      <h2>{{item.request}}</h2>
-      <p>{{item.title}}</p>
+      <h2 *ngIf="item.request!==null">{{item.request}}</h2>
+      <h2 *ngIf="item.request===null">Chưa có người yêu cầu</h2>
+      <p *ngIf="item.title!==''" >{{item.title}}</p>
+      <p *ngIf="item.title===''" >Chưa có tiêu đề</p>
       <span item-end class="date-bagde-ticket">{{item.created_at| date: 'dd/MM'}}
         <span *ngFor=" let stt of status" >
           <ion-badge *ngIf="stt.value===item.status" item-end color="{{stt.value}}">{{stt.alias}}</ion-badge>
@@ -42,7 +44,7 @@
   </ion-card>
   <ion-card *ngIf="modelTicket.dataItems.length<=0 && !modelTicket.dataLoading">
     <ion-item >
-      <p>Không tồn tại dữ liệu</p>
+      <p>Không tìm thấy dữ liệu</p>
     </ion-item>
   </ion-card>
   </ion-list>

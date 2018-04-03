@@ -106,7 +106,7 @@
   		<ion-row>
   			<ion-col col-4 no-padding>Chủ đề</ion-col>
   			<ion-col col-7 text-right padding-right><p>{{categoryName|convertLength}}</p></ion-col>
-  			<ion-col col-1 no-padding text-right><ion-buttons end><img src="../assets/imgs/caret-down.png" style="width:40px"></ion-buttons></ion-col> 
+  			<ion-col col-1 no-padding text-right><ion-buttons end><img src="../assets/imgs/caret-down.png" style="width:25px"></ion-buttons></ion-col> 
   		</ion-row>
 
 	    <!-- <ion-select  interface="popover"  (ionClick)="changeCategory()" (ionChange)="changeCategory()"  [(ngModel)]="filterCategory.selected">
@@ -116,7 +116,7 @@
   	</ion-item>
   	
   	<ion-item text-center>
-  		<img class="more-icon" src="../assets/imgs/more.png" />
+  		<img (click)="openModalProperties()" class="more-icon" src="../assets/imgs/more.png" />
   	</ion-item>
   </ion-list>
   </ion-grid>

@@ -44,7 +44,7 @@ export class PopoverSort {
     //this.checkedItems = new Array(this.priority.length);
   }
   close() {
-    this.viewCtrl.dismiss({cancel:true});
+    this.viewCtrl.dismiss();
   }
   confirmSort(){
     this.checkedItems={
