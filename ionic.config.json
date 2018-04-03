@@ -1,0 +1,8 @@
+{
+  "name": "midesk",
+  "app_id": "2e0441c8",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
