@@ -1,0 +1,50 @@
+<ion-header style="background-color: #FFF!important">
+
+  <ion-navbar>
+  	<ion-grid no-padding>
+  		<ion-row no-padding>
+  			<ion-col col-2>
+  				<ion-buttons>
+  					<button ion-button (click)="closeModal()"><ion-icon name="arrow-round-back" style="font-size: 40px"></ion-icon></button>
+  				</ion-buttons>
+  			</ion-col>
+  			<ion-col col-8>
+  				<ion-buttons>
+  					<ion-input [(ngModel)]="modelSearch.text" (keyup)="onSearchTicket($event)" type="text" style="color:#FFF" placeholder="Search..."></ion-input>
+  				</ion-buttons>
+  			</ion-col>
+  			<ion-col col-2>
+  				<ion-buttons end *ngIf="modelSearch.text!==''" >
+					<button padding-left ion-button (click)="clearSearch()"><ion-icon name="close"></ion-icon></button>
+				</ion-buttons>
+  			</ion-col>
+  		</ion-row>
+  		
+  	</ion-grid>
+  </ion-navbar>
+</ion-header>
+<ion-content no-padding>
+	<ion-spinner padding margin *ngIf="modelSearch.dataLoading"  name="crescent"></ion-spinner>
+	<ion-list no-padding class="list-ticket">
+      <ion-item *ngIf="modelSearch.dataTotal!==0">
+        Hiển thị {{modelSearch.currentData}} trên tổng {{modelSearch.dataTotal}} kết quả
+      </ion-item>
+	    <ion-item *ngFor="let item of modelSearch.dataItems">
+		      <ion-avatar item-start>
+		        <img src="../assets/imgs/user-icon.png">
+		      </ion-avatar>
+		      <h2>{{item.request}}</h2>
+		      <p>{{item.title}}</p>
+		      <span item-end class="date-bagde-ticket">{{item.created_at| date: 'dd/MM'}}
+		      	<span *ngFor=" let stt of status" >
+		      		<span *ngIf="stt.value===item.status" >
+		      			<ion-badge item-end color="{{stt.value}}">{{stt.alias}}</ion-badge>
+		      		</span>
+		      	</span>
+		      </span>
+	    </ion-item>
+    </ion-list>
+    <ion-infinite-scroll *ngIf="modelSearch.loadMore" (ionInfinite)="doInfinite($event)">
+    	<ion-infinite-scroll-content></ion-infinite-scroll-content>
+  	</ion-infinite-scroll>
+</ion-content>

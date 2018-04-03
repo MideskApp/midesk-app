@@ -1,0 +1,41 @@
+<ion-header style="background: transparent!important">
+
+  <ion-navbar>
+  	<ion-grid no-padding>
+  		<ion-row>
+  			<ion-col col-1 >
+  				
+  			</ion-col>
+  			<ion-col col-8 >
+  				<ion-buttons>
+  					<ion-input type="text" placeholder="Search" [(ngModel)]="modelRequester.searchText" (keyup)="onSearchRequester($event)"></ion-input>
+  				</ion-buttons>
+  			</ion-col>
+  			<ion-col col-1>
+  				<ion-buttons>
+  					<button *ngIf="modelRequester.searchText!==''" block ion-button (click)="clearSearch()"><ion-icon color="dark" name="close" style="padding:10px 0"></ion-icon></button>
+  				</ion-buttons>
+  			</ion-col>
+  			<ion-col col-2>
+  				<ion-buttons end><button block ion-button color="dark" ion-button (click)="closeModal()">Close</button></ion-buttons>
+  			</ion-col>
+  		</ion-row>
+  	</ion-grid>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-spinner padding margin class="loading-search" *ngIf="loading"  name="crescent"></ion-spinner>
+  <ion-list *ngIf="!loading">
+    <ion-card *ngFor=" let item of modelRequester.dataItems" (click)="selectRequester(item)">
+      <ion-item>
+        <ion-avatar item-start><img src="../assets/imgs/user-icon.png"></ion-avatar>
+        <p class="name-item">{{item.name}}</p>
+        <p>{{item.email}}</p>
+        <ion-icon item-end *ngIf="selected_requesterId===item.id" name="checkmark" color="checked"></ion-icon>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+  <ion-infinite-scroll *ngIf="modelRequester.loadMore" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

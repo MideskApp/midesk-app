@@ -1,0 +1,73 @@
+page-ticket-detail{
+	.title{
+		color:#FFFFFF;
+		font-weight: 500;
+	}
+	.date{
+		color:#EEEEEE;
+		font-size:0.8em;
+	}
+	.requester{
+		color:#FFFFFF;
+	}
+	.more-icon{
+		width:20px;
+		margin:0 auto;
+	}
+	.ticket-info{
+		width:100%;
+		margin:0;
+	
+		.item-inner{
+			border-bottom:0!important;
+		}
+		#detail{
+			border-bottom:0.55px solid #CCC;
+		}
+	}
+	.box-avatar{
+		width:45px;
+		height:45px;
+		background:#2979ff;
+		color:#fff;
+		text-align: center;
+		line-height: 45px;
+		font-size:22px;
+		font-weight:100;
+		border-radius: 50%;
+	}
+	.box-assign{
+		width:22px;
+		height:22px;
+		background:#2979ff;
+		color:#fff;
+		text-align: center;
+		line-height: 31px;
+		font-size:21px;
+		font-weight:100;
+		border-radius: 50%;
+	}
+	#send-btn{
+		position: relative;
+	}
+	#send-badge{
+		position: absolute;
+   		bottom: 0px;
+   		right: -5px;
+   		padding:2px 5px;
+   		font-size:1.1rem;
+   		background-color: #EEAD0E;
+	}
+	.badge-md{
+		border-radius: 10px!important;
+	}
+	.icon-size{
+		font-size:30px;
+	}
+	.bg-transparent{
+		background:transparent;
+	}
+	.no-border{
+		border:none!important;
+	}
+}

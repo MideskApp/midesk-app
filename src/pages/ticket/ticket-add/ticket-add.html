@@ -1,0 +1,137 @@
+<!-- <ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Add Ticket</ion-title>
+    <button style="background:transparent" padding-right no-margin ion-button float-right (click)="createTicket()" ><ion-icon name="send" style="font-size:" ></ion-icon></button>
+  </ion-navbar>
+</ion-header> -->
+<ion-header>
+	<ion-navbar>
+		<ion-buttons>
+			<button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
+		</ion-buttons>
+		<ion-buttons padding-horizital><ion-title>Add Ticket</ion-title>
+		</ion-buttons>
+		<ion-buttons end>
+			<button style="background:transparent" (click)="createTicket()"><ion-icon name="send" style="font-size:2em" color="light"></ion-icon></button>
+		</ion-buttons>
+	</ion-navbar>	
+</ion-header>
+
+<ion-content>
+  <ion-grid style="background-color: #2cd094;opacity:0.9">
+  	<ion-row no-padding>
+	  	<ion-col col-12>
+	  	<ion-item class="ticket-title" no-padding style="background-color: transparent;border:none!important">
+	    	<ion-input type="text" [(ngModel)]="ticketParams.title" placeholder="Tiêu đề" ></ion-input>
+	  	</ion-item>
+	  	</ion-col>
+  	</ion-row>
+  	<ion-row padding-vertical>
+	  	<ion-col col-6>
+	  		<ion-buttons *ngIf="ticketParams.requester===''">
+	  			<button (click)="openModalRequester()" no-margin no-padding  ion-button class="assign-button no-background">
+	  				<ion-icon ios="ios-add-circle-outline" md="md-add-circle"></ion-icon>
+	  				<span>&nbsp;Người yêu cầu</span>
+	  			</button>
+	  		</ion-buttons>
+	  		<ion-buttons *ngIf="ticketParams.requester!==''">
+	  			<button (click)="openModalRequester()" no-margin style="padding:0 0.5em!important"  ion-button color="dark" class="assign-button">{{requesterName |convertLength}}
+	  			<ion-icon style="margin:0 -5px 10px 5px" name="close-circle" (click)="clearRequester()" color="light" ></ion-icon>
+	  			</button>
+	  		</ion-buttons>		
+	  	</ion-col>
+	  	<ion-col col-6>
+	  			<button *ngIf=" ticketParams.assign_agent ==='' && ticketParams.assign_team ==='' " no-margin float-right style="padding:0 0.5em!important" ion-button class="assign-button">
+	  				<span (click)="openModalAssign()">Người xử lý</span>
+	  				<!-- <span *ngIf=" ticketParams.assign_agent ==='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">{{assignTeam |convertLength}}</span>
+	  				<span *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">{{assignName |convertLength}}</span>
+	  				<span *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team ==='' " (click)="openModalAssign()">{{assignName |convertLength}}</span>
+	  				<ion-icon *ngIf="ticketParams.assign_agent !=='' || ticketParams.assign_team !==''" style="margin:0 -5px 10px 5px" name="close-circle" color="light" (click)="clearAssign()"></ion-icon> -->
+	  			</button>
+	  			<ion-chip float-right *ngIf=" ticketParams.assign_agent ==='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">
+				  <ion-avatar>
+				    <img src="../assets/imgs/group.png">
+				  </ion-avatar>
+				  <ion-label>{{assignTeam |convertLength}}</ion-label>
+				  <button ion-button clear color="dark" (click)="clearAssign()">
+					<ion-icon name="close-circle"  ></ion-icon>
+				  </button>
+				</ion-chip>
+				<ion-chip float-right *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">
+				   <ion-avatar class="box-avatar">
+				    {{assignName | charAt}}
+				  </ion-avatar>
+				  <ion-label>{{assignName |convertLength}}</ion-label>
+				  <button ion-button clear color="dark"(click)="clearAssign()">
+					<ion-icon name="close-circle"></ion-icon>
+				  </button>
+				</ion-chip>
+				<ion-chip float-right *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team ==='' " (click)="openModalAssign()">
+				   <ion-avatar>
+				    {{assignName | charAt}}
+				  </ion-avatar>
+				  <ion-label>{{assignName |convertLength}}</ion-label>
+				  <button ion-button clear color="dark" (click)="clearAssign()">
+					<ion-icon name="close-circle"></ion-icon>
+				  </button>
+				</ion-chip>			
+	  	</ion-col>
+  	</ion-row>
+  </ion-grid>
+  <ion-grid no-padding>
+  <ion-list>
+  	<ion-item>
+  		<ion-label>Mức độ ưu tiên</ion-label>
+		    <ion-select interface="popover" [(ngModel)]="ticketParams.priority">
+		      <ion-option value="1">Khẩn cấp</ion-option>
+		      <ion-option value="2">Cao</ion-option>
+		      <ion-option value="3">Trung bình</ion-option>
+		      <ion-option value="4">Thấp</ion-option>
+		    </ion-select>
+  	</ion-item>
+  	<ion-item>
+  		<ion-label>Trạng thái</ion-label>
+	    <ion-select interface="popover" color="secondary" [(ngModel)]="ticketParams.status">
+	      <ion-option value="new">New<ion-icon name="user"></ion-icon></ion-option>
+	      <ion-option value="open">Open</ion-option>
+	      <ion-option value="pending">Pending</ion-option>
+	      <ion-option value="solved">Solved</ion-option>
+	    </ion-select>
+  	</ion-item>
+  	<ion-item class="custom-category" (click)="openPopoverCategory()" >
+  		<!-- <ion-label>Chủ đề</ion-label> -->
+  		<ion-row>
+  			<ion-col col-4 no-padding>Chủ đề</ion-col>
+  			<ion-col col-7 text-right padding-right><p>{{categoryName|convertLength}}</p></ion-col>
+  			<ion-col col-1 no-padding text-right><ion-buttons end><img src="../assets/imgs/caret-down.png" style="width:40px"></ion-buttons></ion-col> 
+  		</ion-row>
+
+	    <!-- <ion-select  interface="popover"  (ionClick)="changeCategory()" (ionChange)="changeCategory()"  [(ngModel)]="filterCategory.selected">
+	      <ion-option *ngFor="let item of filterCategory.dataItems" [value]="item.id">{{item.name}}</ion-option>
+	    </ion-select> -->
+
+  	</ion-item>
+  	
+  	<ion-item text-center>
+  		<img class="more-icon" src="../assets/imgs/more.png" />
+  	</ion-item>
+  </ion-list>
+  </ion-grid>
+  
+</ion-content>
+<ion-footer style="border-top: 1px outset #CCC;">
+	<ion-grid>
+		<ion-row>
+			<ion-col col-12>
+				<ion-textarea no-margin placeholder="Nội dung phiếu" rows="2" [(ngModel)]="note"  autocomplete="on" autocorrect="on"></ion-textarea>
+			</ion-col>
+			<ion-col col-6>
+			<label for="profile_image" color="primary" stacked><ion-icon name="attach" style="font-size:30px"></ion-icon></label>
+      		<input id="profile_image" hidden type="file" (change)="changeListener($event)">
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-footer>

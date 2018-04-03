@@ -1,0 +1,104 @@
+<ion-header>
+	<ion-navbar>
+	    <button ion-button menuToggle>
+	      <ion-icon name="menu"></ion-icon>
+	    </button>
+	    <ion-title>Ticket Detail</ion-title>
+	    <ion-buttons end><button id="send-btn" class="bg-transparent" (click)="updateTicket()"><ion-icon class="icon-size" color="light" name="send"></ion-icon><ion-badge *ngIf="countChange>0" id="send-badge">{{countChange}}</ion-badge></button></ion-buttons>
+	    <ion-buttons end><button class="bg-transparent"><ion-icon class="icon-size"  color="light" (click)="openActionSheet()" name="more"></ion-icon></button></ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+	  <ion-grid style="background-color: #2cd094;opacity:0.9">
+  	<ion-row no-padding>
+	  	<ion-col col-12>
+	  	<ion-item class="ticket-title bg-transparent no-border" no-padding>
+	    	<ion-label class="title">{{ticketInfo.title}}</ion-label>
+	  	</ion-item>
+	  	</ion-col>
+  	</ion-row>
+  	<ion-row no-padding>
+	  	<ion-col col-6>
+	  		<p class="requester" no-margin>from: {{requesterName | convertLength}}</p>
+	  		<p class="date" no-margin>{{ticketInfo.created_at| date: 'dd/MM'}}</p>
+	  	</ion-col>
+	  	<ion-col col-6>
+
+			<ion-chip *ngIf="ticketInfo.assign_team!==0 && ticketInfo.assign_agent===0" float-right>
+			  <ion-avatar class="box-assign">{{assignTeam | charAt}}</ion-avatar>
+			  <ion-label>{{assignTeam|convertLength}}</ion-label>
+			  <button ion-button clear color="light">
+			    <ion-icon *ngIf="reChoose"  (click)="reChooseAssign()" name="close-circle"></ion-icon>
+			    <ion-icon *ngIf="!reChoose" (click)="openModalAssign()" name="swap"></ion-icon>
+			  </button>
+			</ion-chip>
+			<ion-chip *ngIf="ticketInfo.assign_team!==0 && ticketInfo.assign_agent!==0" float-right>
+			  <ion-avatar class="box-assign">{{assignName | charAt}}</ion-avatar>
+			  <ion-label>{{assignName|convertLength}}</ion-label>
+			  <button ion-button clear color="light">
+			    <ion-icon *ngIf="reChoose"  (click)="reChooseAssign()" name="close-circle"></ion-icon>
+			    <ion-icon *ngIf="!reChoose" (click)="openModalAssign()" name="swap"></ion-icon>
+			  </button>
+			</ion-chip>
+			<ion-chip *ngIf="ticketInfo.assign_team===0 && ticketInfo.assign_agent!==0" float-right>
+			  <ion-avatar class="box-assign">{{assignName | charAt}}</ion-avatar>
+			  <ion-label>{{assignName|convertLength}}</ion-label>
+			  <button ion-button clear color="light">
+			    <ion-icon *ngIf="reChoose"  (click)="reChooseAssign()" name="close-circle"></ion-icon>
+			    <ion-icon *ngIf="!reChoose" (click)="openModalAssign()" name="swap"></ion-icon>
+			  </button>
+			</ion-chip>				
+	  	</ion-col>
+  	</ion-row>
+  </ion-grid>
+  <ion-card class="ticket-info">
+  <ion-grid no-padding>
+	  <ion-list>
+	  	<ion-item>
+	  		<ion-label>Mức độ ưu tiên</ion-label>
+			    <ion-select (ionChange)="changePriority()" interface="popover" [(ngModel)]="ticketInfo.priority">
+			      <ion-option *ngFor="let item of priority" [value]="item.id">{{item.name}}</ion-option>
+			    </ion-select>
+	  	</ion-item>
+	  	<ion-item>
+	  		<ion-label>Trạng thái</ion-label>
+		    <ion-select (ionChange)="changeStatus()" interface="popover" color="secondary" [(ngModel)]="ticketInfo.status">
+		      <ion-option *ngFor="let item of status" [value]="item.value">{{item.name}}</ion-option>
+		    </ion-select>
+	  	</ion-item>
+	  	<ion-item text-center>
+  			<img class="more-icon" src="../assets/imgs/more.png" />
+  		</ion-item>
+	  </ion-list>
+  </ion-grid>
+  </ion-card>
+  <ion-grid class="ticket-info">
+  	<ion-list no-margin>
+  		<div id="detail" *ngFor=" let detail of ticketDetail, let i = index " (click)="showMore(i)">
+		  	<ion-item>
+		  		<ion-avatar item-start class="box-avatar">{{detail.create_name | charAt}}</ion-avatar>
+			      <h2>{{detail.create_name}}</h2>
+			      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
+		  	</ion-item>
+	  		<ion-grid id="detail-{{i}}" style="display:none" padding-left padding-right padding-bottom>
+	  			<span [innerHTML]="detail.content|safeHtml"></span>
+	  		</ion-grid>
+	  	</div>
+	  </ion-list>
+  </ion-grid>
+</ion-content>
+<ion-footer style="border-top: 1px solid #CCC;">
+	<ion-grid>
+		<ion-row>
+			<ion-col col-12>
+				<ion-textarea no-margin placeholder="Nội dung phiếu" rows="2" [(ngModel)]="content" (keyup)="onComment()" autocomplete="on" autocorrect="on"></ion-textarea>
+			</ion-col>
+
+		</ion-row>
+	</ion-grid>
+</ion-footer>
+
+<ion-select  interface="action-sheet" #actionSheet >
+      <ion-option>Delete</ion-option>
+      <ion-option>Share</ion-option>
+</ion-select>

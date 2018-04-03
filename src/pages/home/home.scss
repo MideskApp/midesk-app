@@ -1,3 +1,47 @@
 page-home {
-
+	.no-background{
+		background:transparent;
+	}
+	.select-icon{
+		width: 14px!important;
+		color:#f4f4f4!important;
+	}
+	.select-text{
+		min-width:130px!important;
+		color:#FFFFFF;
+		font-size:1.2em!important;
+	}
+	ion-select{
+		max-width:100%!important;
+	}
+	ion-icon{
+		font-size:1.5em!important;
+	}
+	.list-ticket .item-ios{
+		border-bottom:0.55px solid #c8c7cc;
+	}
+	.list-ticket .item-inner{
+		border:none!important;
+	}
+	.item-inner .date-bagde-ticket{
+		font-size:0.7em!important;
+		margin:0!important;
+	}
+	.item-inner .date-bagde-ticket ion-badge{
+		border-radius:2px!important;
+		margin:0 0 15px 7px!important;
+		padding:2px 5px!important;
+		color:white;
+	}
+	.box-avatar{
+		width:45px;
+		height:45px;
+		background:#2979ff;
+		color:#fff;
+		text-align: center;
+		line-height: 45px;
+		font-size:22px;
+		font-weight:100;
+		border-radius: 50%;
+	}
 }

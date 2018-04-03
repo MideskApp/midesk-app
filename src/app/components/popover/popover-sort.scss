@@ -1,0 +1,34 @@
+popover-sort,popover-channel{
+	.checkbox-icon{
+		width:16px!important;
+		height:16px!important;
+		border-radius: 0!important;
+	}
+	.checkbox-ios{
+		margin: 8px 8px 8px 2px!important;
+	}	
+	.item-inner{
+		border:none!important;
+	}
+	.item-checkbox{
+		margin:-10px 0px!important
+	}
+	.button-popover{
+		height:2.3em!important;
+		font-size:1.2rem!important;
+		padding:0;
+	}
+	ion-badge{
+		border-radius:2px!important;
+		//margin:0 0 15px 7px!important;
+		padding:2px 5px!important;
+		color:white!important;
+	}
+	.list-ios{
+		margin:0!important;
+	}
+	// .checkbox-icon{
+	// 	left:5px!important;
+	// 	top:3px!important;
+	// }
+}

@@ -1,0 +1,71 @@
+page-ticket-add{
+	.assign-button{
+		height: 1.8em;
+		font-size: 1.5rem;
+		max-width:100%;
+	}
+	ion-footer{
+		height:100px;
+	}
+	.no-background{
+		background:transparent!important;
+	}
+	.item-inner{
+		border-bottom:0.55px solid #E8E8E8!important;
+	}
+	.item{
+		.text-input::-moz-placeholder {
+		  color: #E8E8E8;
+		}
+
+		.text-input:-ms-input-placeholder {
+		  color: #E8E8E8;
+		}
+
+		.text-input::-webkit-input-placeholder {
+		  color: #E8E8E8;
+		}
+	}
+	.button-md{
+		box-shadow: none!important;
+	}
+	.name-item{
+		color:black!important;
+	}
+	.more-icon{
+		width:20px;
+	}
+	.ticket-title .item-inner{
+		border:none!important;
+	}
+	.ticket-title .item-inner {
+		input{
+			padding: 11px 8px 11px 0!important;
+			margin:0!important;
+			border-bottom:0.55px solid #E8E8E8!important;
+			caret-color:#FFF;
+			color:#FFF;
+		}
+		input:focus{
+			border-bottom:0.55px solid #FFFFFF!important;
+		}
+
+	}
+	.box-avatar{
+		width:25%;
+		height:25%;
+		background:#2979ff;
+		color:#fff;
+		text-align: center;
+		line-height: 33px;
+		font-size:22px;
+		font-weight:100;
+		border-radius: 50%;
+	}
+	.custom-category .item-inner{
+		padding-right:0px!important;
+		.label-ios{
+			margin:11px 4px 11px 0!important;
+		}
+	}
+}

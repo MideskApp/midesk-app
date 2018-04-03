@@ -1,0 +1,26 @@
+app-modal-search{
+	.list-ticket .item-ios{
+		border-bottom:0.55px solid #c8c7cc;
+	}
+	.list-ticket .item-inner{
+		border:none!important;
+	}
+	.item-inner .date-bagde-ticket{
+		font-size:0.7em!important;
+		margin:0!important;
+	}
+	.item-inner .date-bagde-ticket ion-badge{
+		border-radius:2px!important;
+		margin:0 0 15px 7px!important;
+		padding:2px 5px!important;
+		color:white;
+	}
+	.loading-search{
+		align-content:center;
+		display:flex;
+		flex-direction:column;
+		justify-content:center;
+		text-align:center;
+	}
+	
+}
