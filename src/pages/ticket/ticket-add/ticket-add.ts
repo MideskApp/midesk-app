@@ -1,10 +1,14 @@
 import { Component} from '@angular/core';
-import { NavController, ModalController, PopoverController  } from 'ionic-angular';
+import { NavController, ModalController, PopoverController,ToastController, LoadingController, AlertController  } from 'ionic-angular';
+// import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+// import { File } from '@ionic-native/file';
 import { TicketService } from './../../../app/services/ticket.service';
 import { ModalAssign } from'./../../ticket/ticket-add/modal-assign/modal-assign';
 import { ModalRequester } from './../../ticket/ticket-add/modal-requester/modal-requester';
 import { ModalProperties } from './../../ticket/ticket-add/modal-properties/modal-properties';
 import { PopoverCategory } from './../../ticket/ticket-add/popover-category/popover-category';
+import { TicketDetailPage} from './../ticket-detail/ticket-detail';
+
 //import { UserService } from './../../../app/services/user.service';
 //import { GetFirstCharacter } from './../../../app/pipes/get-first-character.pipe';
 //import { ConvertLengthTitle } from './../../../app/pipes/convert-length-title.pipe';
@@ -27,6 +31,8 @@ export class TicketAddPage {
      priority:'',
      status:'',
      category:'',
+     file:null,
+     content:'',
   }
   filterCategory={
     dataItems:[],
@@ -40,19 +46,24 @@ export class TicketAddPage {
   assignName = '';
   assignTeam = '';
   cateId = 0;
-  newItem = `
-    `;  
+  fileName='';
+  submitCreate = false;
   constructor(
   	public navCtrl: NavController,
   	private _ticketService: TicketService,
   	private modalCtrl : ModalController,
     private popoverCtrl : PopoverController,
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
     //private _userService: UserService,
   	){
     //  this._userService.getListRequester().subscribe(res=>{
     //       this.requesters = res.data;
     // });
+    //const fileTransfer: FileTransferObject = this.transfer.create();
   }
+
   changeCategory(){
     console.log(this.filterCategory.selected);
     this._ticketService.getTicketCategory(this.filterCategory.selected).subscribe(res=>{
@@ -105,13 +116,22 @@ export class TicketAddPage {
   }
   openModalProperties(){
     let propertiesModal = this.modalCtrl.create(ModalProperties);
+    propertiesModal.onDidDismiss(data=>{
+      if(typeof data!= undefined && data!=null){
+          this.ticketParams.category = data.category;
+      }
+    })
     propertiesModal.present();
   }
+  onChangeUpload($event){
+    this.ticketParams.file = $event.target.files[0];
+    this.fileName = $event.target.files[0].name;
+  }
   createTicket(){
+    let loader = this.loadingCtrl.create({
+      content: "Please wait...",
+    });
     console.log(this.ticketParams);
-    // if(this.ticketParams.file!==null){
-    //   var file:File = this.ticketParams.file[0];
-    // }
     var formData = new FormData()
     formData.append('title',this.ticketParams.title);
     formData.append('assign_agent',this.ticketParams.assign_agent);
@@ -120,9 +140,40 @@ export class TicketAddPage {
     formData.append('requester',this.ticketParams.requester);
     formData.append('requester_type',this.ticketParams.requester_type);
     formData.append('status',this.ticketParams.status);
-    this._ticketService.createTicket(formData).subscribe(res=>{
-      console.log(res);
-    });
+    formData.append('content',this.ticketParams.content);
+    if(this.ticketParams.file!=null){
+      //var file:File = this.ticketParams.file;
+      formData.append('file',this.ticketParams.file,this.ticketParams.file.name);
+    }
+    loader.present().then(()=>{
+        this._ticketService.createTicket(formData).subscribe(res=>{
+        loader.dismiss();
+        if(res.code==200){
+          //this.presentToast(res.message,'success-toast');
+          let presentAlert = this.alertCtrl.create({
+            title:res.message,
+            subTitle:'Bạn có muốn đến phiếu vừa tạo không?',
+            buttons:[
+              {
+                text: 'Cancel',
+              },
+              {
+                text: 'OK',
+                handler: data=>{
+                  //console.log(res.data.ticket);
+                  this.navCtrl.push(TicketDetailPage,{data:res.data.ticket});
+                }
+              }
+            ]
+          })
+          presentAlert.present();
+          
+        }
+        else this.presentToast(res.message,'fail-toast');
+
+      });
+    })
+    
   }
   clearAssign(){
     this.ticketParams.assign_agent = '';
@@ -134,6 +185,15 @@ export class TicketAddPage {
     this.ticketParams.requester = '';
     this.requesterName = '';
   }
+  presentToast(mess,css) {
+    let toast = this.toastCtrl.create({
+      message: mess,
+      duration: 2000,
+      position: 'bottom',
+      cssClass: css
+    });
+    toast.present();
+  } 
 }
 
 

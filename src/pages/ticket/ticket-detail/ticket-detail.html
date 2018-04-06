@@ -24,10 +24,21 @@
 	  		<p class="date" no-margin>{{ticketInfo.created_at| date: 'dd/MM'}}</p>
 	  	</ion-col>
 	  	<ion-col col-6>
-			<button *ngIf=" assignTeam==='' && assignName ==='' " no-margin float-right style="padding:0 0.5em!important" ion-button class="assign-button">
-	  				<span (click)="openModalAssign()">Người xử lý</span>
-	  			</button>
-			<ion-chip *ngIf=" assignTeam!=='' && assignName===''" float-right>
+			<button *ngIf="assign===''" no-margin float-right style="padding:0 0.5em!important" ion-button class="assign-button">
+	  			<span (click)="openModalAssign()">Người xử lý</span>
+	  		</button>
+	  		<ion-chip *ngIf="assign!==''" float-right>
+			  <ion-avatar class="box-assign" [ngStyle]="{'background':avatar}">{{assign| charAt}}</ion-avatar>
+			  <ion-label>{{assign|convertLength}}</ion-label>
+			  <button ion-button clear color="light">
+			    <ion-icon *ngIf="reChoose"  (click)="reChooseAssign()" name="close-circle"></ion-icon>
+			    <ion-icon *ngIf="!reChoose" (click)="openModalAssign()" name="swap"></ion-icon>
+			  </button>
+			</ion-chip>
+	  		<!-- <button *ngIf=" assignTeam==='' && assignName ==='' " no-margin float-right style="padding:0 0.5em!important" ion-button class="assign-button">
+	  			<span (click)="openModalAssign()">Người xử lý</span>
+	  		</button> -->
+			<!-- <ion-chip *ngIf=" assignTeam!=='' && assignName===''" float-right>
 			  <ion-avatar class="box-assign">{{assignTeam | charAt}}</ion-avatar>
 			  <ion-label>{{assignTeam|convertLength}}</ion-label>
 			  <button ion-button clear color="light">
@@ -50,7 +61,7 @@
 			    <ion-icon *ngIf="reChoose"  (click)="reChooseAssign()" name="close-circle"></ion-icon>
 			    <ion-icon *ngIf="!reChoose" (click)="openModalAssign()" name="swap"></ion-icon>
 			  </button>
-			</ion-chip>				
+			</ion-chip>	 -->			
 	  	</ion-col>
   	</ion-row>
   </ion-grid>
@@ -75,16 +86,25 @@
 	  </ion-list>
   </ion-grid>
   </ion-card>
-  <ion-grid class="ticket-info">
+  <ion-grid class="ticket-info" *ngIf="ticketDetail.length>0">
   	<ion-list no-margin>
-  		<div id="detail" *ngFor=" let detail of ticketDetail, let i = index " (click)="showMore(i)">
+  		<div id="detail"  *ngFor=" let detail of ticketDetail, let i = index " (click)="showMore(detail,i)">
 		  	<ion-item>
 		  		<ion-avatar item-start class="box-avatar">{{detail.create_name | charAt}}</ion-avatar>
 			      <h2>{{detail.create_name}}</h2>
 			      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
 		  	</ion-item>
-	  		<ion-grid id="detail-{{i}}" style="display:none" padding-left padding-right padding-bottom>
-	  			<span [innerHTML]="detail.content|safeHtml"></span>
+	  		<ion-grid padding-left padding-right>
+	  			<ion-row>
+	  				<ion-col col-12 *ngIf="detail.compactContent==''" [innerHTML]="detail.content|safeHtml"></ion-col>
+	  				<ion-col col-12 *ngIf="detail.showMore==true &&detail.compactContent!=''" [innerHTML]="detail.content|safeHtml"></ion-col>
+	  				<ion-col col-12 *ngIf="detail.showMore==false &&detail.compactContent!=''" [innerHTML]="detail.compactContent|safeHtml"></ion-col>
+	  				<ion-col *ngIf="detail.type=='file'">
+	  					<label>File đính kèm:</label>
+	  					<img src="{{urlFile+detail.file_original}}">
+	  					<a href="{{urlFile+detail.file_original}}" target="_blank" download>{{detail.file_original}}</a>
+	  				</ion-col>
+	  			</ion-row>
 	  		</ion-grid>
 	  	</div>
 	  </ion-list>

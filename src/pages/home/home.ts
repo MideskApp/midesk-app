@@ -85,12 +85,12 @@ export class HomePage {
   }
   doRefresh(refresher) {
     //console.log('Begin async operation', refresher);
-    //setTimeout(() => {
+    setTimeout(() => {
       this.modelTicket.dataPage = 1;
       this.modelTicket.dataTotal = 0;
       this.initListTicket();
       refresher.complete();
-   // }, 3000);
+   }, 3000);
   }
   doInfinite(infiniteScroll){
   	this.modelTicket.dataPage += 1;
@@ -128,7 +128,7 @@ export class HomePage {
       ev: myEvent
     });
     popover.onDidDismiss(data=>{
-      if(data!==null){
+      if(typeof data!=undefined && data!=null){
         this.modelTicket.sortBy=data;
         this.initListTicket();
       }
@@ -144,7 +144,7 @@ export class HomePage {
       ev: myEvent
     });
     popover.onDidDismiss(data=>{
-      if(data!==null){       
+      if(typeof data!=undefined && data !=null){     
         this.modelTicket.channel = data.channel;
         this.initListTicket(); 
       }

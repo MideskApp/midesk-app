@@ -22,5 +22,31 @@ app-modal-search{
 		justify-content:center;
 		text-align:center;
 	}
-	
+	.toolbar-background-md,.toolbar-background-ios{
+		background:#FFF!important;
+	// }
+	}
+	// .bar-buttons-md,.bar-buttons-ios{
+	// 	padding-top:5px;
+	// }
+	.toolbar-md{
+		min-height: inherit;
+	}
+	.margin-header-icon{
+		margin:5px!important;
+	}
+	.text-input-ios{
+		margin:13px 8px 11px 0!important;
+	}
+	// .header-ios::after{
+	// 	left: 0;
+ //    	bottom: -5px;
+ //    	background-position: left 0 top -2px;
+ //    	position: absolute;
+ //    	width: 100%;
+ //    	height: 5px;
+ //    	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAHBAMAAADzDtBxAAAAD1BMV…h/TXEAAAAaSURBVAjXYxCEAgY4UIICBmMogMsgFLtAAQCNSwXZKOdPxgAAAABJRU5ErkJggg==);
+ //    	background-repeat: repeat-x;
+ //    	content: "";
+	// }
 }

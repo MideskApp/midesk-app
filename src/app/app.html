@@ -1,9 +1,9 @@
 <ion-menu [content]="content">
-  <ion-header>
+  <!-- <ion-header>
     <ion-toolbar>
       <ion-title>Menu</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
 
   <ion-content>
       <ion-list *ngIf="logged">
@@ -16,7 +16,7 @@
          <!-- <ion-icon ios="ios-{{p.icon}}" md="md-{{p.icon}}" padding-right></ion-icon>{{p.title}} -->
          <ion-grid no-padding>
             <ion-row>
-              <ion-col col-2><ion-icon ios="ios-{{p.icon}}" md="md-{{p.icon}}"></ion-icon></ion-col>
+              <ion-col col-2><ion-icon name={{p.icon}}></ion-icon></ion-col>
               <ion-col col-8>{{p.title}}</ion-col>
             </ion-row>
          </ion-grid>

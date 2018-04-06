@@ -7,6 +7,12 @@ page-ticket-add{
 	ion-footer{
 		height:100px;
 	}
+	.chip-ios{
+		margin:0;
+	}
+	.button-md{
+		text-transform: none!important;
+	}
 	.no-background{
 		background:transparent!important;
 	}
@@ -52,8 +58,6 @@ page-ticket-add{
 
 	}
 	.box-avatar{
-		width:25%;
-		height:25%;
 		background:#2979ff;
 		color:#fff;
 		text-align: center;

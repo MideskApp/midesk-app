@@ -5,9 +5,11 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+// import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+// import { File } from '@ionic-native/file';
 
 import { CookieService } from 'angular2-cookie/core';
-import { Keyboard } from '@ionic-native/keyboard';
+//import { Keyboard } from '@ionic-native/keyboard';
 
 import { SettingService } from './common/setting.service';
 import { UserService } from './services/user.service';
@@ -17,7 +19,7 @@ import { AuthRequestOptions } from './services/authentication/auth-request.servi
 
 import { MyApp } from './app.component';
 import { HomePage } from './../pages/home/home';
-import { ListPage } from './../pages/list/list';
+//import { ListPage } from './../pages/list/list';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
@@ -38,7 +40,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
+    //ListPage,
     LoginPage,
     TicketAddPage,
     TicketDetailPage,
@@ -69,7 +71,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
+    //ListPage,
     LoginPage,
     TicketAddPage,
     TicketDetailPage,
@@ -90,7 +92,11 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     AuthService,
     StatusBar,
     SplashScreen,
-    Keyboard,
+    //Keyboard,
+    //FileTransfer,
+    //FileUploadOptions,
+    //FileTransferObject,
+    //File,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: RequestOptions,

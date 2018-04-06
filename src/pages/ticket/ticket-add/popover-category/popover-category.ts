@@ -5,14 +5,19 @@ import { TicketService } from './../../../../app/services/ticket.service';
 
 
 @Component({
+ // <ion-col col-1 *ngIf="filterCategory.dataChoose.length>0">
+ //              <ion-icon (click)="chooseCategory(item,$type='bakc')" name="arrow-round-back" style="font-size: 20px"></ion-icon>
+ //            </ion-col>
+ //            <ion-col text-center>Chủ đề</ion-col>
   template: `
     <ion-header style="border-bottom:0.55px solid #CCC">
         <ion-grid>
           <ion-row>
-            <ion-col col-1 *ngIf="filterCategory.dataChoose.length>0">
-              <ion-icon (click)="chooseCategory(item,$type='back')" name="arrow-round-back" style="font-size: 20px"></ion-icon>
+            <ion-col col-2>
+              <ion-icon align-left *ngIf="filterCategory.dataChoose.length>0" (click)="chooseCategory(item,$type='back')" name="arrow-back" style="font-size: 20px">
+              </ion-icon>
             </ion-col>
-            <ion-col text-center><h5 no-margin>Chủ đề</h5></ion-col>
+            <ion-col col-10>Chủ đề</ion-col>
           </ion-row>
         </ion-grid>
     </ion-header>
@@ -21,20 +26,15 @@ import { TicketService } from './../../../../app/services/ticket.service';
       <ion-list *ngIf="!loading" >
         <ion-item *ngFor="let item of filterCategory.dataItems" (click)="chooseCategory(item,$type='choose')">
         {{item.name}}
-        <ion-icon item-end name="checkmark" color="checked"></ion-icon>
+        <ion-icon item-end name="checkmark" style="font-size:1.2em" color="checked"></ion-icon>
         </ion-item>
       </ion-list>
-    </ion-content>
-    <ion-footer>
-      <ion-grid>
-        <ion-row>
-          <ion-col col-6 padding-left><button class="button-popover" ion-button block color="secondary" (click)="doCategory()">Xác nhận</button></ion-col>
-          <ion-col col-6 padding-right><button class="button-popover" ion-button block color="solved" (click)="close()">Hủy</button></ion-col>
+      <ion-row *ngIf="!loading">
+          <ion-col col-6 padding-left><button *ngIf="filterCategory.dataChoose.length>0" class="button-popover" ion-button block color="secondary" (click)="doCategory()">Xác nhận</button></ion-col>
+          <ion-col col-6 padding-right><button class="button-popover" ion-button block color="solved" (click)="close()">Đóng</button></ion-col>
       </ion-row>
-      </ion-grid>
-    </ion-footer>
- 
-    
+    </ion-content>
+
   `,
   selector:'popover-category',
 })
@@ -56,7 +56,7 @@ export class PopoverCategory {
     });
   }
   close() {
-    this.viewCtrl.dismiss({cancel:true});
+    this.viewCtrl.dismiss();
   }
   chooseCategory(index,$type){
     if($type=='back'){

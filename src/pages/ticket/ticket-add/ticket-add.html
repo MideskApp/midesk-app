@@ -1,26 +1,30 @@
-<!-- <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Add Ticket</ion-title>
-    <button style="background:transparent" padding-right no-margin ion-button float-right (click)="createTicket()" ><ion-icon name="send" style="font-size:" ></ion-icon></button>
-  </ion-navbar>
-</ion-header> -->
 <ion-header>
-	<ion-navbar>
-		<ion-buttons>
+	<ion-navbar no-padding>
+		<ion-row>
+			<ion-col col-2 class="header-title">
+				<ion-buttons>
+					<button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
+				</ion-buttons>
+			</ion-col>
+			<ion-col col-7 class="header-title"><span>Add Ticket</span></ion-col>
+			<ion-col col-3 class="header-title">
+				<ion-buttons end>
+					<button [disabled]="ticketParams.title==''||ticketParams.priority==''||ticketParams.status==''||ticketParams.requester==''" style="background:transparent" (click)="createTicket()"><ion-icon name="send" style="width:25px" color="light"></ion-icon></button>
+				</ion-buttons>
+			</ion-col>
+		</ion-row>
+		<!-- <ion-buttons>
 			<button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
 		</ion-buttons>
 		<ion-buttons padding-horizital><ion-title>Add Ticket</ion-title>
 		</ion-buttons>
 		<ion-buttons end>
 			<button style="background:transparent" (click)="createTicket()"><ion-icon name="send" style="font-size:2em" color="light"></ion-icon></button>
-		</ion-buttons>
+		</ion-buttons> -->
 	</ion-navbar>	
 </ion-header>
 
-<ion-content>
+<ion-content no-padding>
   <ion-grid style="background-color: #2cd094;opacity:0.9">
   	<ion-row no-padding>
 	  	<ion-col col-12>
@@ -101,19 +105,13 @@
 	      <ion-option value="solved">Solved</ion-option>
 	    </ion-select>
   	</ion-item>
-  	<ion-item class="custom-category" (click)="openPopoverCategory()" >
-  		<!-- <ion-label>Chủ đề</ion-label> -->
+<!--   	<ion-item class="custom-category" (click)="openPopoverCategory()" >
   		<ion-row>
   			<ion-col col-4 no-padding>Chủ đề</ion-col>
   			<ion-col col-7 text-right padding-right><p>{{categoryName|convertLength}}</p></ion-col>
   			<ion-col col-1 no-padding text-right><ion-buttons end><img src="../assets/imgs/caret-down.png" style="width:25px"></ion-buttons></ion-col> 
   		</ion-row>
-
-	    <!-- <ion-select  interface="popover"  (ionClick)="changeCategory()" (ionChange)="changeCategory()"  [(ngModel)]="filterCategory.selected">
-	      <ion-option *ngFor="let item of filterCategory.dataItems" [value]="item.id">{{item.name}}</ion-option>
-	    </ion-select> -->
-
-  	</ion-item>
+  	</ion-item> -->
   	
   	<ion-item text-center>
   		<img (click)="openModalProperties()" class="more-icon" src="../assets/imgs/more.png" />
@@ -126,12 +124,18 @@
 	<ion-grid>
 		<ion-row>
 			<ion-col col-12>
-				<ion-textarea no-margin placeholder="Nội dung phiếu" rows="2" [(ngModel)]="note"  autocomplete="on" autocorrect="on"></ion-textarea>
+				<ion-textarea no-margin placeholder="Nội dung phiếu" rows="2" [(ngModel)]="ticketParams.content"  autocomplete="on" autocorrect="on"></ion-textarea>
 			</ion-col>
-			<ion-col col-6>
-			<label for="profile_image" color="primary" stacked><ion-icon name="attach" style="font-size:30px"></ion-icon></label>
-      		<input id="profile_image" hidden type="file" (change)="changeListener($event)">
+			<ion-col col-1>
+				<label padding-right for="profile_image" color="primary">
+					<ion-icon name="attach" style="font-size:20px" ></ion-icon>
+				</label>
+				<input id="profile_image" hidden type="file" (change)="onChangeUpload($event)">
 			</ion-col>
+			<ion-col col-11>
+				<p no-margin>{{fileName}}</p>
+			</ion-col>
+      		
 		</ion-row>
 	</ion-grid>
 </ion-footer>

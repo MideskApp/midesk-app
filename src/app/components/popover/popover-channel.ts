@@ -9,7 +9,7 @@ import { NavParams, ViewController } from 'ionic-angular';
       <ion-row>
         <ion-col>
           <ion-label padding-left>Kênh</ion-label>
-          <ion-list radio-group [(ngModel)]="channel">
+          <ion-list class="list-channel" radio-group [(ngModel)]="channel">
           <ion-item no-padding>
             <ion-label><ion-icon color="allchanel" name="aperture"></ion-icon><span style="padding-left:5px;padding-bottom:10px;font-size:1.4rem">Tất cả</span></ion-label>
             <ion-radio value="all"></ion-radio>

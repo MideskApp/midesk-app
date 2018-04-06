@@ -1,18 +1,16 @@
 <ion-header>
-	<ion-navbar>
-		<ion-buttons><button ion-button (click)="closeModal()"><ion-icon name="arrow-back"></ion-icon></button></ion-buttons>
-		<ion-title>Properties</ion-title>
+	<ion-navbar no-padding>
+		<ion-row no-padding>
+			<ion-col col-2><ion-buttons><button ion-button (click)="closeModal()"><ion-icon style="font-size:1.5em" name="arrow-back"></ion-icon></button></ion-buttons></ion-col>
+			<ion-col col-10 class="header-title"><span>Properties</span></ion-col>
+		</ion-row>
+
 	</ion-navbar>
 </ion-header>
-<ion-content>
-	<ion-list>
-		<ion-item class="custom-category" (click)="openPopoverCategory()" >
-  		<ion-row>
-  			<ion-col col-4 no-padding>Chủ đề</ion-col>
-  			<!-- <ion-col col-7 text-right padding-right><p>{{categoryName|convertLength}}</p></ion-col> -->
-  			<ion-col col-1 no-padding text-right><ion-buttons end><img src="../assets/imgs/caret-down.png" style="width:25px"></ion-buttons></ion-col> 
-  		</ion-row>
-
-  	</ion-item>
-	</ion-list>
+<ion-content no-padding>
+	<ion-row style="padding:10px"(click)="openPopoverCategory()">
+		<ion-col col-4>Chủ đề</ion-col>
+		<ion-col col-7 text-right padding-right><p no-margin>{{categoryName|convertLength}}</p></ion-col>
+		<ion-col col-1 no-padding text-right><ion-buttons end><img src="../assets/imgs/caret-down.png" style="width:25px"></ion-buttons></ion-col> 
+	</ion-row>
 </ion-content>

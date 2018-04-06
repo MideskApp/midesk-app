@@ -28,7 +28,7 @@ page-ticket-detail{
 	.box-avatar{
 		width:45px;
 		height:45px;
-		background:#2979ff;
+		background:#4F4F4F;
 		color:#fff;
 		text-align: center;
 		line-height: 45px;
@@ -39,7 +39,7 @@ page-ticket-detail{
 	.box-assign{
 		width:22px;
 		height:22px;
-		background:#2979ff;
+		background:#4F4F4F;
 		color:#fff;
 		text-align: center;
 		line-height: 31px;
@@ -62,7 +62,7 @@ page-ticket-detail{
 		border-radius: 10px!important;
 	}
 	.icon-size{
-		font-size:30px;
+		font-size:25px;
 	}
 	.bg-transparent{
 		background:transparent;
@@ -74,5 +74,8 @@ page-ticket-detail{
 		height: 1.8em;
 		font-size: 1.5rem;
 		max-width:100%;
+	}
+	.button-md{
+		text-transform: none!important;
 	}
 }

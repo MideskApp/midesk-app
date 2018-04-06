@@ -36,7 +36,7 @@ page-home {
 	.box-avatar{
 		width:45px;
 		height:45px;
-		background:#2979ff;
+		background:#4F4F4F;
 		color:#fff;
 		text-align: center;
 		line-height: 45px;
@@ -45,6 +45,24 @@ page-home {
 		border-radius: 50%;
 	}
 	.padding-icon{
-		padding-right:9px;
+		padding-right:13px;
 	}
+	.toolbar-content-ios{
+		padding-top:7px!important;
+		padding-bottom:3px!important;
+	}
+	.toolbar-content-md{
+		padding-top:4px!important;
+	}
+	.bar-button-menutoggle-ios,.bar-button-menutoggle-md{
+		margin:4px 6px 0px 0px !important;
+	}
+	.toolbar-md{
+		min-height: inherit;
+		padding:7px 3px 7px 0px;
+	}
+	.chip-md > ion-label{
+		margin:0 3px !important;
+	}
+
 }

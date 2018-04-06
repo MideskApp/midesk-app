@@ -7,6 +7,8 @@ import { PopoverCategory } from './../../../ticket/ticket-add/popover-category/p
 	templateUrl: 'modal-properties.html',
 })
 export class ModalProperties{
+	categoryName = '';
+	category = '';
 	constructor(
 		public navParams: NavParams,
 		private viewCtrl: ViewController,
@@ -17,13 +19,22 @@ export class ModalProperties{
 
 	}
 	closeModal(){
-      this.viewCtrl.dismiss();
+      this.viewCtrl.dismiss({category:this.category});
   	}
   	openPopoverCategory(){
-  		let categoryPopover = this.popoverCtrl.create(PopoverCategory,{data:[]},{cssClass:"custom-popup",enableBackdropDismiss:false});
-	    // categoryPopover.onDidDismiss(data=>{
+  		let categoryPopover = this.popoverCtrl.create(PopoverCategory,{data:[]},{cssClass:"custom-popup",enableBackdropDismiss:true});
+	    categoryPopover.onDidDismiss(data=>{
+	    	if(typeof data!=undefined && data!=null){
+	    		this.category = '';
+	    		this.categoryName = '';
+	    		for(let i = 0; i<data.data.length;i++){
+	            	this.category+=data.data[i].id+',';
+	            	this.categoryName +=data.data[i].name+' ';
+	          	}
+	    	}
+	    })
 	    //   if(!data.cancel){
-	    //     this.ticketParams.category='';
+	    //     this.category='';
 	    //     this.categoryName='';
 	    //       for(let i = 0; i<data.data.length;i++){
 	    //         this.ticketParams.category+=data.data[i].id+',';
