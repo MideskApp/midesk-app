@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from './../../app/services/authentication/auth.service';
 import { UserService } from './../../app/services/user.service';
-import { App } from 'ionic-angular';
+//import { App } from 'ionic-angular';
 //import { HomePage } from '../home/home';
 
 //@IonicPage()
@@ -21,7 +21,7 @@ export class LoginPage {
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
-  	public app: App,
+  	//public app: App,
   	public loadingCtrl: LoadingController,
   	private _authService: AuthService,
     private _userService: UserService,
@@ -30,15 +30,16 @@ export class LoginPage {
     private menuCtrl: MenuController
     //private platform: Platform,
   ){
-  	app._setDisableScroll(true);
-  	this.loginForm = new FormGroup({
-        email: new FormControl('', Validators.required),
-        password: new FormControl('', Validators.required)
-  	 });
+  	//app._setDisableScroll(true);
+  	
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
     this.menuCtrl.swipeEnable(false);
+    this.loginForm = new FormGroup({
+        email: new FormControl('', Validators.required),
+        password: new FormControl('', Validators.required)
+     });
   }
   onFormSubmit(){
      let email = this.loginForm.get('email').value;
