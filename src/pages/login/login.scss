@@ -31,7 +31,8 @@ page-login {
 	}
 	ion-card.card{
 		box-shadow: none;
-		background: rgba( 0 , 0 , 0 , 0.5 );
+		//background: rgba( 0 , 0 , 0 , 0.5 );
+		background: rgb(248,248,255);
 		border-radius:5px;
 	}
 	a, p,
@@ -44,8 +45,8 @@ page-login {
 
 	.item{
 		margin-bottom:10px;
-		background:rbga(255,255,255,0.5);
-
+		//background:rbga(255,255,255,0.5);
+		background:hsla(0, 100%, 90%,0);
 		border:medium none;
 		.text-input,
 		input::moz-placeholder{

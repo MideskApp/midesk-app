@@ -8,20 +8,20 @@
 		<ion-row>
 			<ion-col>
 				<ion-card>
-					<ion-card-header>ĐĂNG NHẬP</ion-card-header>
+					<ion-card-header style="color:#000">ĐĂNG NHẬP</ion-card-header>
 					<ion-card-content>
 						<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onFormSubmit()" id="login-form">
 						<ion-list no-line>
 							<ion-item>
-								<ion-label fixed>Email</ion-label>
+								<ion-label floating>Email</ion-label>
 								<ion-input clearInput type="text" name="email" required="required" formControlName="email"></ion-input>
 							</ion-item>
 							<ion-item>
-								<ion-label fixed>Mật khẩu</ion-label>
+								<ion-label floating>Mật khẩu</ion-label>
 								<ion-input clearInput type="password" name="password" required="required" formControlName="password"></ion-input>
 							</ion-item>
 						</ion-list>
-						<button [disabled]="!loginForm.valid" ion-button block outline color="light" type="submit" ><ion-spinner *ngIf="submitLoading" name="bubbles"></ion-spinner>Đăng Nhập</button>
+						<button [disabled]="!loginForm.valid" ion-button block  color="secondary" type="submit" ><ion-spinner *ngIf="submitLoading" name="bubbles"></ion-spinner>Đăng Nhập</button>
 						</form>
 					</ion-card-content>
 				</ion-card>
