@@ -1,4 +1,4 @@
-<ion-content class="login-background">
+<ion-content class="login-background" padding center text-center>
 	<ion-grid>
 		<ion-row>
 			<ion-col>
@@ -13,13 +13,14 @@
 						<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onFormSubmit()" id="login-form">
 						<ion-list no-line>
 							<ion-item>
-								<ion-input type="text" placeholder="Email" name="email" required="required" autofocus formControlName="email"></ion-input>
+								<ion-label fixed>Email</ion-label>
+								<ion-input clearInput type="text" name="email" required="required" formControlName="email"></ion-input>
 							</ion-item>
 							<ion-item>
-								<ion-input type="password" placeholder="Mật khẩu" name="password" required="required" formControlName="password"></ion-input>
+								<ion-label fixed>Mật khẩu</ion-label>
+								<ion-input clearInput type="password" name="password" required="required" formControlName="password"></ion-input>
 							</ion-item>
 						</ion-list>
-						<!-- <a (click)="showKeyboard()">Quên mật khẩu?</a> -->
 						<button [disabled]="!loginForm.valid" ion-button block outline color="light" type="submit" ><ion-spinner *ngIf="submitLoading" name="bubbles"></ion-spinner>Đăng Nhập</button>
 						</form>
 					</ion-card-content>
@@ -27,23 +28,33 @@
 			</ion-col>
 		</ion-row>
 	</ion-grid>
-	
-	<!-- <img class="img-midesk" src="../assets/imgs/midesk.png" />
-	<ion-card >
-		<ion-card-header>ĐĂNG NHẬP</ion-card-header>
-		<ion-card-content>
-			<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onFormSubmit()" id="login-form">
-			<ion-list no-line>
-				<ion-item>
-					<ion-input type="text" placeholder="Email" name="email" required="required" formControlName="email"></ion-input>
-				</ion-item>
-				<ion-item>
-					<ion-input type="password" placeholder="Mật khẩu" name="password" required="required" formControlName="password"></ion-input>
-				</ion-item>
-			</ion-list>
-			<a (click)="showKeyboard()">Quên mật khẩu?</a>
-			<button [disabled]="!loginForm.valid" ion-button block outline color="light" type="submit" ><ion-spinner *ngIf="submitLoading" name="bubbles"></ion-spinner>Đăng Nhập</button>
-			</form>
-		</ion-card-content>
-	</ion-card> -->
+	<!-- <ion-grid>
+		<ion-row>
+			<ion-col>
+				<img class="img-midesk" src="../assets/imgs/midesk.png" />
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+				<ion-card>
+					<ion-card-header>
+						LOGIN
+					</ion-card-header>
+					<ion-card-content>
+						<ion-list no-lines>
+							<ion-item>
+								<ion-label fixed>Email</ion-label>
+								<ion-input type="text"></ion-input>
+							</ion-item>
+							<ion-item>
+								<ion-label fixed>Mật khẩu</ion-label>
+								<ion-input type="password"></ion-input>
+							</ion-item>
+						</ion-list>
+						<button ion-button color="light" block outline>Đăng nhập</button>
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid> -->
 </ion-content>
