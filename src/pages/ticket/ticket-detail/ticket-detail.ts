@@ -9,7 +9,7 @@ import { SettingService } from './../../../app/common/setting.service';
 //import { GetFirstCharacter } from './../../../app/pipes/get-first-character.pipe';
 //import { ConvertLengthTitle } from './../../../app/pipes/convert-length-title.pipe';
 //import { SafeHtmlPipe } from './../../../app/pipes/safe-html.pipe';
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
 
 @Component({
   selector: 'page-ticket-detail',
@@ -53,8 +53,7 @@ export class TicketDetailPage {
   reChoose = false;
   show = false;
   requesterName = '';
-  assignName = '';
-  assignTeam = '';
+  loading = false;
   content = '';
   urlFile ='';
   contentCompact = ''; 
@@ -77,6 +76,7 @@ export class TicketDetailPage {
   initTicketDetail(){
      let navData = (this.navParamsCtrl.get('data'));
     //console.log(navData.id);
+    this.loading = true;
     this._ticketService.getTicketDetail(navData).subscribe(res=>{
       this.ticketInfo = res.success;
       this.ticketDefault.priority = res.success.priority;
@@ -97,73 +97,44 @@ export class TicketDetailPage {
         this.requesterName = this.ticketInfo.request;
       }
       this.ticketDetail = res.detail;
+      this.loading = false;
     });
   }
   openModalAssign() {
     let data = {selected_teamId:this.ticketInfo.assign_team,selected_memberId:this.ticketInfo.assign_agent};
     let contactModal = this.modalCtrl.create(ModalAssign,{data:data});
     contactModal.onDidDismiss(data=>{
-      console.log(data);
-      if(this.ticketInfo.assign_team==data.assign_team.team_id){
-        if(data.assign_agent.id!=''){
-          this.ticketUpdate['assign_agent']=data.assign_agent.id;
-          this.assign = data.assign_agent.name;
-          this.avatar = '#4F4F4F';
-          this.reChoose = true;
-          //chọn user trong team hiện tại
-        }else{
-          console.log('không chọn agent');
-        }
-      }
-      else{
-        if(data.assign_agent.id!=''){
-          this.ticketUpdate['assign_agent']=data.assign_agent.id;
-          this.assign = data.assign_agent.name;
-          this.ticketUpdate['assign_team']=data.assign_team.team_id;
-          this.reChoose = true;
-          this.avatar = '#4F4F4F';
-          //chọn user xử lý trong team khác
+      if(data!=null && typeof data != undefined){
+        if(this.ticketInfo.assign_team==data.assign_team.team_id){
+          if(data.assign_agent.id!=''){
+            this.ticketUpdate['assign_agent']=data.assign_agent.id;
+            this.assign = data.assign_agent.name;
+            this.avatar = '#4F4F4F';
+            this.reChoose = true;
+            //chọn user trong team hiện tại
+          }else{
+            console.log('không chọn agent');
+          }
         }
         else{
-          this.ticketUpdate['assign_agent']=0;
-          this.assign = data.assign_team.team_name;
-          this.ticketUpdate['assign_team']=data.assign_team.team_id;
-          this.reChoose = true;
-          this.avatar = '#2979ff';
-          //chọn team xử lý trong team khác
+          if(data.assign_agent.id!=''){
+            this.ticketUpdate['assign_agent']=data.assign_agent.id;
+            this.assign = data.assign_agent.name;
+            this.ticketUpdate['assign_team']=data.assign_team.team_id;
+            this.reChoose = true;
+            this.avatar = '#4F4F4F';
+            //chọn user xử lý trong team khác
+          }
+          else{
+            this.ticketUpdate['assign_agent']=0;
+            this.assign = data.assign_team.team_name;
+            this.ticketUpdate['assign_team']=data.assign_team.team_id;
+            this.reChoose = true;
+            this.avatar = '#2979ff';
+            //chọn team xử lý trong team khác
+          }
         }
       }
-      // if(!data.cancel){
-      //   this.reChoose = true;
-      //   if(this.ticketInfo.assign_team == data.assign_team.team_id){
-      //     if(this.ticketInfo.assign_agent != data.assign_agent.id){
-      //       this.assignName = data.assign_agent.name;
-      //       this.ticketInfo.assign_agent = data.assign_agent.id;
-      //       this.ticketUpdate['assign_agent']=data.assign_agent.id;
-      //     }
-      //     else{
-      //       this.reChoose = false;
-      //     }
-      //   }
-      //   else{
-      //     if(data.assign_agent.id!=''){
-      //       this.ticketUpdate['assign_agent']=data.assign_agent.id;
-      //       this.assignName = data.assign_agent.name;
-      //       this.ticketInfo.assign_agent = data.assign_agent.id;
-      //       this.assignTeam = data.assign_team.team_name;
-      //       this.ticketInfo.assign_team = data.assign_team.team_id;
-      //       this.ticketUpdate['assign_team']= data.assign_team.team_id;
-      //     }
-      //     else{
-      //       this.assignName = '';
-      //       this.ticketInfo.assign_agent = 0; 
-      //       this.assignTeam = data.assign_team.team_name;
-      //       this.ticketInfo.assign_team = data.assign_team.team_id;
-      //       this.ticketUpdate['assign_team']= data.assign_team.team_id;
-      //       this.ticketUpdate['assign_agent']=0;
-      //     }
-      //   }
-      // }
       this.countChange = Object.keys(this.ticketUpdate).length;
     })
     contactModal.present();
@@ -172,7 +143,6 @@ export class TicketDetailPage {
      //console.log(index);
      if(index.compactContent!=''){
        this.ticketDetail[i].showMore=!index.showMore;
-       console.log(index);
      }
    }  
    openActionSheet(){
@@ -211,17 +181,6 @@ export class TicketDetailPage {
         this.avatar = '#2979ff';
       }
      this.countChange = Object.keys(this.ticketUpdate).length;
-     // delete this.ticketUpdate['assign_agent'];
-     // delete this.ticketUpdate['assign_team'];
-     // this.assignTeam = this.ticketDefault.team_name;
-     // this.ticketInfo.assign_team = this.ticketDefault.assign_team;
-     // this.assignName = this.ticketDefault.agent_name;
-     // this.ticketInfo.assign_agent = this.ticketDefault.assign_agent; 
-     // this.countChange = Object.keys(this.ticketUpdate).length;
-     // if(typeof this.assignName==undefined) this.assignName = '';
-     // if(typeof this.assignName==undefined) this.assignTeam = '';
-
-     // this.reChoose = false;
    }
    onComment(){
     if(this.content!=''){
@@ -233,9 +192,7 @@ export class TicketDetailPage {
     this.countChange = Object.keys(this.ticketUpdateDetail).length + Object.keys(this.ticketUpdate).length;
    }
    actionTicket(){
-     console.log(this.ticketUpdate);
      let ticketId = this.navParamsCtrl.get('data').id;
-     console.log(ticketId);
      this._ticketService.actionTicket({dataTicket:this.ticketUpdate,dataDetail:this.ticketUpdateDetail,ticketId: ticketId}).subscribe(res=>{
          if(res.code==200){
            let success = 'success-toast';
@@ -245,7 +202,6 @@ export class TicketDetailPage {
            this.ticketUpdateDetail = {};
            this.content = '';
            this.countChange = 0;
-
          }
          else{
            let fail = 'fail-toast';

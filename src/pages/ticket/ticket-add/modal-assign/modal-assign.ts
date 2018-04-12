@@ -51,7 +51,7 @@ export class ModalAssign {
   	private _userService: UserService) {
   }
   closeModal(){
-      this.viewCtrl.dismiss({cancel:true});
+      this.viewCtrl.dismiss();
   }
   ionViewWillLoad() {
     let data = this.navParams.get('data');
@@ -128,6 +128,10 @@ export class ModalAssign {
     }
   }
   clearSearch(){
+    this.modelSearchAssigner.dataItems = [];
+    this.modelSearchAssigner.text ='';
+  }
+  onCancel($event){
     this.modelSearchAssigner.dataItems = [];
     this.modelSearchAssigner.text ='';
   }

@@ -36,17 +36,17 @@ page-ticket-detail{
 		font-weight:100;
 		border-radius: 50%;
 	}
-	.box-assign{
-		width:22px;
-		height:22px;
-		background:#4F4F4F;
-		color:#fff;
-		text-align: center;
-		line-height: 31px;
-		font-size:21px;
-		font-weight:100;
-		border-radius: 50%;
-	}
+	// .box-assign{
+	// 	width:22px;
+	// 	height:22px;
+	// 	background:#4F4F4F;
+	// 	color:#fff;
+	// 	text-align: center;
+	// 	line-height: 31px;
+	// 	font-size:21px;
+	// 	font-weight:100;
+	// 	border-radius: 50%;
+	// }
 	#send-btn{
 		position: relative;
 	}
@@ -77,5 +77,27 @@ page-ticket-detail{
 	}
 	.button-md{
 		text-transform: none!important;
+	}
+	.chip-assign{
+		ion-chip{
+			margin:0;
+			height: 27px;
+			line-height: 27px;
+			font-size: 13px;
+			color:#FFF;
+			ion-avatar{
+				width:27px;
+				height: 27px;
+				line-height: 27px;
+				font-size:20px;
+				text-align: center;
+				min-width: 27px;
+				min-height: 27px;
+			}
+			.button{
+				width:27px!important;
+				height: 27px!important;
+			}
+		}
 	}
 }

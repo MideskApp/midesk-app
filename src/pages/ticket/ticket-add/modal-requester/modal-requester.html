@@ -1,7 +1,7 @@
 <ion-header style="background: transparent!important">
 
   <ion-navbar>
-  	<ion-grid no-padding>
+  	<!-- <ion-grid no-padding>
   		<ion-row>
   			<ion-col col-1 >
   				
@@ -20,7 +20,28 @@
   				<ion-buttons end><button block ion-button color="dark" ion-button (click)="closeModal()">Close</button></ion-buttons>
   			</ion-col>
   		</ion-row>
-  	</ion-grid>
+  	</ion-grid> -->
+      
+      <!-- <ion-buttons >
+        <ion-item padding-horizital>
+        <ion-input type="text" clearInput placeholder="Search" [(ngModel)]="modelRequester.searchText" (keyup)="onSearchRequester($event)"></ion-input>
+        </ion-item>
+      </ion-buttons> -->
+      
+      <ion-grid no-padding>
+        <ion-row no-padding>
+          <ion-col col-1><ion-buttons style="margin: 6px 0.2rem;"><button ion-button (click)="closeModal()"><ion-icon class="width-icon" color="dark" name="arrow-back"></ion-icon></button></ion-buttons></ion-col>
+          <ion-col col-11>
+          <ion-searchbar 
+            [(ngModel)]="modelRequester.searchText"
+            (keyup)="onSearchRequester($event)"
+            (ionClear)="onCancel($event)">
+            [animated]="true"
+          </ion-searchbar>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
   </ion-navbar>
 </ion-header>
 <ion-content>

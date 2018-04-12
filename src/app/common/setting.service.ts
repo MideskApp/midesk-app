@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 export class SettingService {
 	//public _baseAPIUrl = "http://localhost:8000/api/v1/";
     //public _baseUrl= "http://localhost:8000";
-	public _baseAPIUrl = "https://webapp-api.midesk.vn/api/v1/";
-	public _baseUrl= "https://webapp-api.midesk.vn/";
+    public _baseAPIUrl = "https://webapp-api.midesk.vn/api/v1/";
+    public _baseUrl= "https://webapp-api.midesk.vn/";
     //Authentication
     public _api_auth_login = this._baseAPIUrl + "login";
     public _api_auth_logout = this._baseAPIUrl + "logout";
@@ -16,7 +16,7 @@ export class SettingService {
     public _api_requester_search = this._baseAPIUrl + 'searchRequester';
     public _api_assigner_search = this._baseAPIUrl + 'searchAssigner';
     public _api_user_getListUserTeam = this._baseAPIUrl + 'getListUserTeam';
-    //
+    //--
     //ticket service
     public _api_ticket_getList = this._baseAPIUrl + 'getListTicket';
     public _api_ticket_getDetail = this._baseAPIUrl + 'getTicketDetail/';
@@ -26,5 +26,12 @@ export class SettingService {
     public _api_search_ticket = this._baseAPIUrl + 'searchTicket';
     public _api_create_ticket = this._baseAPIUrl + 'createTicket';
     public _api_action_ticket = this._baseAPIUrl + 'actionTicket';
-    //
+    public _api_ticket_customer = this._baseAPIUrl + 'getTicketByCustomer/';
+    //--
+    //customer service
+    public _api_customer_getList = this._baseAPIUrl + 'getListCustomer';
+    public _api_customer_profile = this._baseAPIUrl + 'getCustomerProfile/';
+    public _api_customer_update = this._baseAPIUrl + 'updateCustomer';
+    public _api_customer_add = this._baseAPIUrl + 'addCustomer';
+    //--
 }

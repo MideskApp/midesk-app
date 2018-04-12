@@ -19,10 +19,12 @@
 	border:none!important;
 }
 .custom-popup .popover-content{
-		top:20%!important;
-		left:15%!important;
-		width:200px!important;
-		height:auto!important;
+		// top:20%!important;
+		// left:15%!important;
+		// width:200px!important;
+		// height:auto!important;
+		right:10px!important;
+		top:85px!important;
 }
 .custom-popup .list-md{
 	margin:0!important;
@@ -32,6 +34,17 @@
 }
 .fail-toast .toast-wrapper{
 		background:#8B1A1A!important;	
+}
+.user-avatar{
+	width:60px;
+	height:60px;
+	border-radius: 50%;
+	background: #FFF;
+	text-align: center;
+	line-height:60px;
+	font-size: 25px;
+	color:#2cd094;
+	margin:8px 0;
 }
 //header
 .ion-md-arrow-round-back{
@@ -44,11 +57,11 @@
 	min-height:44px!important;
 	//padding: 6px 4px 4px 4px!important;
 }
-.content-md{
-	.fixed-content,.scroll-content{
-		margin-top:44px!important;
-	}
-}
+// .content-md{
+// 	.fixed-content,.scroll-content{
+// 		margin-top:44px!important;
+// 	}
+// }
 .back-button-md{
 	margin:0 6px 0 0!important;
 }
@@ -66,6 +79,9 @@
 }
 .chip-md > ion-label{
 	margin:0 3px !important;
+}
+.width-icon{
+	font-size:2rem;
 }
 
 //

@@ -8,9 +8,9 @@
   				</ion-buttons>
   			</ion-col>
   			<ion-col col-8 no-padding>
-  				<ion-buttons>
-  					<ion-input [(ngModel)]="modelSearch.text" (keyup)="onSearchTicket($event)" type="text" placeholder="Search..."></ion-input>
-  				</ion-buttons>
+  				  
+  					<ion-input clearInput [(ngModel)]="modelSearch.text" (keyup)="onSearchTicket($event)" type="text" placeholder="Search..."></ion-input>
+  				
   			</ion-col>
   			<ion-col col-2 no-padding>
   				<ion-buttons end *ngIf="modelSearch.text!==''" class="margin-header-icon">

@@ -31,16 +31,24 @@ export class LoginPage {
     //private platform: Platform,
   ){
   	//app._setDisableScroll(true);
+    
   	
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+  ionViewWillLoad(){
     this.menuCtrl.swipeEnable(false);
     this.loginForm = new FormGroup({
         email: new FormControl('', Validators.required),
         password: new FormControl('', Validators.required)
-     });
+    });
   }
+  // ionViewDidLoad() {
+  //   console.log('ionViewDidLoad LoginPage');
+  //   this.menuCtrl.swipeEnable(false);
+  //   this.loginForm = new FormGroup({
+  //       email: new FormControl('', Validators.required),
+  //       password: new FormControl('', Validators.required)
+  //   });
+  // }
   onFormSubmit(){
      let email = this.loginForm.get('email').value;
      let password = this.loginForm.get('password').value;

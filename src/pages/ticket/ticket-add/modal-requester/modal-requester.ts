@@ -87,9 +87,6 @@ export class ModalRequester {
         this.loading = false;
       })
     }
-    if($event.target.value==='' && $event.keyCode==8){
-      this.clearSearch();
-    }
   }
   selectRequester(index){
     this.selected_requester = index;
@@ -100,6 +97,18 @@ export class ModalRequester {
     this.loading = true;
     this.modelRequester.searchText = '';
     this.modelRequester.dataTotal = 0;
+    this.modelRequester.dataPage = 1;
+    this._userService.getListRequester(this.modelRequester).subscribe(res=>{
+        this.modelRequester.dataItems = res.data;
+        if(res.next_page_url!==null) this.modelRequester.loadMore = true;
+        else this.modelRequester.loadMore = false; 
+        this.loading = false;
+    })
+  }
+  onCancel($event){
+    this.loading = true;
+    this.modelRequester.dataTotal = 0;
+    this.modelRequester.searchText = '';
     this.modelRequester.dataPage = 1;
     this._userService.getListRequester(this.modelRequester).subscribe(res=>{
         this.modelRequester.dataItems = res.data;

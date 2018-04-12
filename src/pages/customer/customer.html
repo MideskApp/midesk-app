@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+  	<ion-buttons><button ion-button menuToggle><ion-icon name="menu"></ion-icon></button></ion-buttons>
+    <ion-title>Customer</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<div padding *ngIf="loading">
+		<ion-spinner text-center name="crescent"></ion-spinner>
+	</div>
+	<ion-list *ngIf="!loading">
+		<ion-item *ngFor=" let item of modelCustomer.dataItems " (click)="customerProfile(item)">
+			<ion-avatar item-start class="customer-avatar margin-vertical" [ngStyle]="{'background':item.id|randomColor}">{{item.customer|charAt}}</ion-avatar>
+			<p>{{item.customer}}</p>
+		</ion-item>
+	</ion-list>
+	<ion-infinite-scroll *ngIf="modelCustomer.loadMore" (ionInfinite)="doInfinite($event)">
+	    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+	<ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+	    <ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+</ion-content>
+<ion-footer no-lines>
+	<ion-buttons (click)="openAddCustomer()" float-right style="padding:0 5px 5px 0"><button class="btn-add-customer"><ion-icon name="person-add"></ion-icon></button></ion-buttons>
+</ion-footer>

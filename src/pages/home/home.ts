@@ -2,6 +2,7 @@ import { Component, ViewChild, Injectable } from '@angular/core';
 import { NavController, Select, Platform, ModalController, PopoverController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { LoginPage } from'./../login/login';
 import { TicketService } from './../../app/services/ticket.service';
 import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
@@ -58,7 +59,8 @@ export class HomePage {
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
-    private modalCtrl: ModalController, 
+    private modalCtrl: ModalController,
+    private localNotifications: LocalNotifications, 
     ) {
     // this.navCtrl.setRoot(this.navCtrl.getActive().component);
   	this.initListTicket();
@@ -74,6 +76,14 @@ export class HomePage {
   //   });
     
   // }
+  ionViewDidLoad() {
+        console.log('ionViewDidLoad About2');
+        this.localNotifications.schedule({
+                id: 1,
+                text: 'Single I LocalNotification',
+                data: 'test'
+        });
+  }
   initListTicket(){
     this.modelTicket.dataLoading = true;
     this._ticketService.getListTicket(this.modelTicket).subscribe(res=>{
@@ -85,12 +95,10 @@ export class HomePage {
   }
   doRefresh(refresher) {
     //console.log('Begin async operation', refresher);
-    setTimeout(() => {
       this.modelTicket.dataPage = 1;
       this.modelTicket.dataTotal = 0;
       this.initListTicket();
       refresher.complete();
-   }, 3000);
   }
   doInfinite(infiniteScroll){
   	this.modelTicket.dataPage += 1;
@@ -101,7 +109,6 @@ export class HomePage {
       this.modelTicket.dataLoading = false;
       infiniteScroll.complete();
   	})
-  	
   }
   openModal(){
     let contactModal = this.modalCtrl.create(ModalSearchComponent);

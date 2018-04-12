@@ -72,4 +72,23 @@ page-ticket-add{
 			margin:11px 4px 11px 0!important;
 		}
 	}
+	.chip-assign{
+		ion-chip{
+			margin:0;
+			height: 27px;
+			line-height: 27px;
+			font-size: 13px;
+			color:#FFF;
+			ion-avatar{
+				width:27px;
+				height: 27px;
+				min-width: 27px;
+				min-height: 27px;
+			}
+			.button{
+				width:27px!important;
+				height: 27px!important;
+			}
+		}
+	}
 }

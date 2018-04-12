@@ -1,5 +1,5 @@
 modal-requester {
-	.toolbar-background-ios{
+	.toolbar-background-ios,.toolbar-background-md{
 		background-color: transparent;
 		color:#000;
 	}
@@ -9,4 +9,15 @@ modal-requester {
 	.name-item{
 		color:black;
 	}
+	.searchbar-search-icon { display:none; width:0; height:0; }
+	.searchbar-md{
+		padding:0!important;
+	}
+	.searchbar-md .searchbar-input{
+		padding:8px 10px 0 10px!important;
+		webkit-box-shadow:none!important;
+		box-shadow: none!important;
+		font-size:1.4rem!important;
+	}
+
 }

@@ -52,7 +52,7 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
   <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
-  <ion-refresher (ionRefresh)="doRefresh($event)">
+  <ion-refresher *ngIf="modelTicket.dataLoading==false" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 </ion-content>

@@ -5,6 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 // import { File } from '@ionic-native/file';
 
@@ -13,6 +14,7 @@ import { CookieService } from 'angular2-cookie/core';
 
 import { SettingService } from './common/setting.service';
 import { UserService } from './services/user.service';
+import { CustomerService } from './services/customer.service';
 import { TicketService } from './services/ticket.service';
 import { AuthService } from './services/authentication/auth.service';
 import { AuthRequestOptions } from './services/authentication/auth-request.service';
@@ -22,7 +24,11 @@ import { HomePage } from './../pages/home/home';
 //import { ListPage } from './../pages/list/list';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
+import { CustomerPage } from './../pages/customer/customer';
+import { CustomerProfilePage } from './../pages/customer/customer-profile/customer-profile';
+import { SettingPage } from './../pages/setting/setting';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
+import { CustomerAddPage } from './../pages/customer/customer-add/customer-add';
 import { ModalAssign } from './../pages/ticket/ticket-add/modal-assign/modal-assign';
 import { ModalRequester } from './../pages/ticket/ticket-add/modal-requester/modal-requester';
 import { ModalProperties } from './../pages/ticket/ticket-add/modal-properties/modal-properties';
@@ -35,11 +41,16 @@ import { PopoverCategory } from './../pages/ticket/ticket-add/popover-category/p
 import { GetFirstCharacter } from './pipes/get-first-character.pipe';
 import { ConvertLengthTitle } from './pipes/convert-length-title.pipe';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { RandomColor } from './pipes/random-color.pipe';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
+    CustomerPage,
+    CustomerProfilePage,
+    CustomerAddPage,
+    SettingPage,
     //ListPage,
     LoginPage,
     TicketAddPage,
@@ -51,6 +62,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     GetFirstCharacter,
     ConvertLengthTitle,
     SafeHtmlPipe,
+    RandomColor,
     PopoverSort,
     PopoverChannel,
     PopoverCategory
@@ -65,12 +77,17 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
   exports:[
     GetFirstCharacter,
     ConvertLengthTitle,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    RandomColor
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
+    CustomerPage,
+    CustomerProfilePage,
+    CustomerAddPage,
+    SettingPage,
     //ListPage,
     LoginPage,
     TicketAddPage,
@@ -89,9 +106,11 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     SettingService,
     UserService,
     TicketService,
+    CustomerService,
     AuthService,
     StatusBar,
     SplashScreen,
+    LocalNotifications,
     //Keyboard,
     //FileTransfer,
     //FileUploadOptions,

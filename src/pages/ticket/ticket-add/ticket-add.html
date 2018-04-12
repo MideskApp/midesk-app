@@ -1,6 +1,10 @@
 <ion-header>
-	<ion-navbar no-padding>
-		<ion-row>
+	<ion-navbar>
+		<ion-title>Add Ticket</ion-title>
+		<ion-buttons end>
+			<button [disabled]="ticketParams.title==''||ticketParams.priority==''||ticketParams.status==''||ticketParams.requester==''"(click)="createTicket()" ion-button><ion-icon name="paper-plane" style="width:25px" color="light"></ion-icon></button>
+		</ion-buttons>
+		<!-- <ion-row>
 			<ion-col col-2 class="header-title">
 				<ion-buttons>
 					<button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
@@ -9,10 +13,10 @@
 			<ion-col col-7 class="header-title"><span>Add Ticket</span></ion-col>
 			<ion-col col-3 class="header-title">
 				<ion-buttons end>
-					<button [disabled]="ticketParams.title==''||ticketParams.priority==''||ticketParams.status==''||ticketParams.requester==''" style="background:transparent" (click)="createTicket()"><ion-icon name="send" style="width:25px" color="light"></ion-icon></button>
+					<button [disabled]="ticketParams.title==''||ticketParams.priority==''||ticketParams.status==''||ticketParams.requester==''" style="background:transparent" (click)="createTicket()"><ion-icon name="paper-plane" style="width:25px" color="light"></ion-icon></button>
 				</ion-buttons>
 			</ion-col>
-		</ion-row>
+		</ion-row> -->
 		<!-- <ion-buttons>
 			<button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
 		</ion-buttons>
@@ -47,20 +51,29 @@
 	  			</button>
 	  		</ion-buttons>		
 	  	</ion-col>
-	  	<ion-col col-6>
-	  			<button *ngIf=" ticketParams.assign_agent ==='' && ticketParams.assign_team ==='' " no-margin float-right style="padding:0 0.5em!important" ion-button class="assign-button">
+	  	<ion-col col-6 class="chip-assign">
+	  			<button *ngIf="assign==''" no-margin float-right style="padding:0 0.5em!important" ion-button class="assign-button">
 	  				<span (click)="openModalAssign()">Người xử lý</span>
 	  				<!-- <span *ngIf=" ticketParams.assign_agent ==='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">{{assignTeam |convertLength}}</span>
 	  				<span *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">{{assignName |convertLength}}</span>
 	  				<span *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team ==='' " (click)="openModalAssign()">{{assignName |convertLength}}</span>
 	  				<ion-icon *ngIf="ticketParams.assign_agent !=='' || ticketParams.assign_team !==''" style="margin:0 -5px 10px 5px" name="close-circle" color="light" (click)="clearAssign()"></ion-icon> -->
 	  			</button>
-	  			<ion-chip float-right *ngIf=" ticketParams.assign_agent ==='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">
+	  			<ion-chip float-right *ngIf="assign!==''" (click)="openModalAssign()">
+				  <ion-avatar>
+				    <img src="../assets/imgs/group.png">
+				  </ion-avatar>
+				  <ion-label>{{assign |convertLength}}</ion-label>
+				  <button ion-button clear color="light" (click)="clearAssign()">
+					<ion-icon name="close-circle"  ></ion-icon>
+				  </button>
+				</ion-chip>
+	  			<!-- <ion-chip float-right *ngIf=" ticketParams.assign_agent ==='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">
 				  <ion-avatar>
 				    <img src="../assets/imgs/group.png">
 				  </ion-avatar>
 				  <ion-label>{{assignTeam |convertLength}}</ion-label>
-				  <button ion-button clear color="dark" (click)="clearAssign()">
+				  <button ion-button clear color="light" (click)="clearAssign()">
 					<ion-icon name="close-circle"  ></ion-icon>
 				  </button>
 				</ion-chip>
@@ -69,7 +82,7 @@
 				    {{assignName | charAt}}
 				  </ion-avatar>
 				  <ion-label>{{assignName |convertLength}}</ion-label>
-				  <button ion-button clear color="dark"(click)="clearAssign()">
+				  <button ion-button clear color="light"(click)="clearAssign()">
 					<ion-icon name="close-circle"></ion-icon>
 				  </button>
 				</ion-chip>
@@ -78,10 +91,10 @@
 				    {{assignName | charAt}}
 				  </ion-avatar>
 				  <ion-label>{{assignName |convertLength}}</ion-label>
-				  <button ion-button clear color="dark" (click)="clearAssign()">
+				  <button ion-button clear color="light" (click)="clearAssign()">
 					<ion-icon name="close-circle"></ion-icon>
 				  </button>
-				</ion-chip>			
+				</ion-chip>			 -->
 	  	</ion-col>
   	</ion-row>
   </ion-grid>

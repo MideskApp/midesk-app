@@ -4,6 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from './../pages/home/home';
+import { SettingPage } from './../pages/setting/setting';
+import { CustomerPage } from './../pages/customer/customer';
 //import { ListPage } from './../pages/list/list';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
@@ -33,9 +35,11 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage, icon: 'home' },
+      //{ title: 'Home', component: HomePage, icon: 'home' },
       //{ title: 'List', component: ListPage, icon: 'notifications-outline'},
       { title: 'Add Ticket', component: TicketAddPage, icon:'create'},
+      { title: 'Customer', component: CustomerPage, icon:'people'},
+      { title: 'Settings', component: SettingPage, icon:'settings'},
     ];
 
   }
@@ -55,6 +59,7 @@ export class MyApp {
         //this.nav.setRoot(LoginPage);
         this.rootPage = LoginPage;
       } 
+      console.log(this.nav)
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();

@@ -71,6 +71,11 @@ export class TicketService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    getTicketByCustomer(customerId:number){
+        return this._http.get(this._settingGlobal._api_ticket_customer + customerId)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     private handleError = (error: any) => {
         return Observable.of([]);
     }
