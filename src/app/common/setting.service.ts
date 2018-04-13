@@ -29,7 +29,7 @@ export class SettingService {
     public _api_ticket_customer = this._baseAPIUrl + 'getTicketByCustomer/';
     //--
     //customer service
-    public _api_customer_getList = this._baseAPIUrl + 'getListCustomer';
+    public _api_customer_getList = this._baseAPIUrl + 'getListCustomer/';
     public _api_customer_profile = this._baseAPIUrl + 'getCustomerProfile/';
     public _api_customer_update = this._baseAPIUrl + 'updateCustomer';
     public _api_customer_add = this._baseAPIUrl + 'addCustomer';

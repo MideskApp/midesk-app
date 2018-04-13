@@ -29,7 +29,8 @@ export class AuthService {
             this.isloggedIn = true;
             this.loggedInUser = userLogin.success;
             this._cookieService.putObject('curuser', { info: this.loggedInUser.user, user_log: this.loggedInUser.user_log });
-            this._cookieService.putObject('curgroup', this.loggedInUser.group);
+            this._cookieService.putObject('curgroup',{ group: this.loggedInUser.group, team: this.loggedInUser.team_info });
+            this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
         } else {
             console.log('Empty token ---');
@@ -63,12 +64,23 @@ export class AuthService {
         }
         return this.loggedInUser;
     }
-
+    getLoggedInUserTeam() {
+        if (this._cookieService.getObject('curgroup')) {
+            this.loggedInUser = this._cookieService.getObject('curgroup')['team'];
+        }
+        return this.loggedInUser;
+    }
     getUserLastlogId() {
         if (this._cookieService.getObject('curuser')) {
             return this._cookieService.getObject('curuser')['user_log'].id;
         }
         return 0;
+    }
+    getPriority(){
+        if (this._cookieService.getObject('priority')) {
+            this.loggedInUser = this._cookieService.getObject('priority')['priority'];
+        }
+        return this.loggedInUser;
     }
 
     logoutUser(): void {

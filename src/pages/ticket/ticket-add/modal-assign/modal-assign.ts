@@ -88,7 +88,9 @@ export class ModalAssign {
     };
     this.loading = true;
     this._userService.getUserInTeam(index.team_id).subscribe(res=>{
-      this.members = res;
+      if(res.code==200){
+        this.members = res.data;
+      }
       this.loading = false;
     })
   }

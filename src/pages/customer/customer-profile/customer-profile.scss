@@ -50,4 +50,21 @@ page-customer-profile {
 			font-size:1rem;
 		}
 	}
+	.list-ios > .item-block:first-child{
+		border:0!important;
+	}
+	.list-ios > .item-block:last-child{
+		border:0!important;
+	}
+	.segment-ios-whitee{
+		color:#FFFFFF;
+		background:transparent;
+	}
+	.segment-ios-whitee .segment-button{
+		border:0;
+		border-radius: 0;
+	}
+	.segment-ios-whitee .segment-button.segment-activated{
+		color:#2cd094;
+	}
 }

@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavParams, NavController, ModalController, Select, ToastController  } from 'ionic-angular';
+import { NavParams, NavController, ModalController, Select, ToastController, LoadingController  } from 'ionic-angular';
 import { TicketService } from './../../../app/services/ticket.service';
 import { ModalAssign } from'./../../ticket/ticket-add/modal-assign/modal-assign';
 import { SettingService } from './../../../app/common/setting.service';
+import { AuthService} from './../../../app/services/authentication/auth.service';
 //import { ModalRequester } from './../../ticket/ticket-add/modal-requester/modal-requester';
 //import { PopoverCategory } from './../../ticket/ticket-add/popover-category/popover-category';
 //import { UserService } from './../../../app/services/user.service';
@@ -51,7 +52,6 @@ export class TicketDetailPage {
   }
   //ticketDefault=[];
   reChoose = false;
-  show = false;
   requesterName = '';
   loading = false;
   content = '';
@@ -64,19 +64,23 @@ export class TicketDetailPage {
   	private modalCtrl : ModalController,
     private navParamsCtrl : NavParams,
     private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
+    private _authService: AuthService
   	){
     this.urlFile = this._settingService._baseUrl+'/public/upload/';
+    let loader = this.loadingCtrl.create({
+      duration:500
+    });
+    loader.present();
   }
   ionViewWillLoad() {
-    this._ticketService.getPriority().subscribe(res=>{
-      this.priority = res;
-    })
+    this.priority = this._authService.getPriority();
     this.initTicketDetail();
   }
   initTicketDetail(){
      let navData = (this.navParamsCtrl.get('data'));
     //console.log(navData.id);
-    this.loading = true;
+    
     this._ticketService.getTicketDetail(navData).subscribe(res=>{
       this.ticketInfo = res.success;
       this.ticketDefault.priority = res.success.priority;
@@ -97,7 +101,7 @@ export class TicketDetailPage {
         this.requesterName = this.ticketInfo.request;
       }
       this.ticketDetail = res.detail;
-      this.loading = false;
+      
     });
   }
   openModalAssign() {
@@ -193,7 +197,12 @@ export class TicketDetailPage {
    }
    actionTicket(){
      let ticketId = this.navParamsCtrl.get('data').id;
+     let loader = this.loadingCtrl.create({
+       content:'Please wait...',
+     })
+     loader.present();
      this._ticketService.actionTicket({dataTicket:this.ticketUpdate,dataDetail:this.ticketUpdateDetail,ticketId: ticketId}).subscribe(res=>{
+         loader.dismiss();
          if(res.code==200){
            let success = 'success-toast';
            this.presentToast(res.message,success);

@@ -33,7 +33,7 @@ export class CustomerPage {
   }
   initListCustomer(){
   	this.loading = true;
-  	this._customerService.getListCustomer(this.modelCustomer).subscribe(res=>{
+  	this._customerService.getListCustomer(this.modelCustomer.dataPage).subscribe(res=>{
   		console.log(res.data);
   		this.modelCustomer.dataItems = res.data;
       if(res.next_page_url!==null) this.modelCustomer.loadMore = true;
@@ -50,7 +50,7 @@ export class CustomerPage {
   doInfinite(infiniteScroll){
     this.modelCustomer.dataPage += 1;
     //this.loading = true;
-    this._customerService.getListCustomer(this.modelCustomer).subscribe(res=>{
+    this._customerService.getListCustomer(this.modelCustomer.dataPage).subscribe(res=>{
       this.modelCustomer.dataItems.push(...res.data);
       if(res.next_page_url!==null) this.modelCustomer.loadMore = true;
       else this.modelCustomer.loadMore = false;

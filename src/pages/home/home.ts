@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { LoginPage } from'./../login/login';
+import { AuthService } from './../../app/services/authentication/auth.service';
 import { TicketService } from './../../app/services/ticket.service';
 import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
 import { ModalSearchComponent } from './../../app/components/modal-search/modal-search.component';
@@ -25,7 +26,6 @@ export class HomePage {
   ];
   arrayFilter:any=[
       { id:'filter1', name:'Yêu cầu tạo bởi bạn', value:'yêu cầu được tạo bởi bạn' },
-      { id:'filter2',name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' },
       { id:'filter3',name:'Yêu cầu chưa phân công', value: 'yêu cầu chưa phân công' },
       { id:'filter4', name:'Yêu cầu đang chờ xử lý', value: 'yêu cầu đang chờ xử lý' },
       { id:'filter5', name:'Yêu cầu đã xử lý', value: 'yêu cầu đã xử lý' },
@@ -60,13 +60,10 @@ export class HomePage {
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
-    private localNotifications: LocalNotifications, 
+    private localNotifications: LocalNotifications,
+    private _authService: AuthService 
     ) {
     // this.navCtrl.setRoot(this.navCtrl.getActive().component);
-  	this.initListTicket();
-    this._ticketService.getPriority().subscribe(res=>{
-      this.priority = res;
-    })
   }
   // ionViewDidLoad() {
   //   this.platform.ready().then(() => {
@@ -76,13 +73,25 @@ export class HomePage {
   //   });
     
   // }
+  ionViewWillLoad(){
+    this.initListTicket();
+    // this._ticketService.getPriority().subscribe(res=>{
+    //   this.priority = res;
+    // })
+    this.priority = this._authService.getPriority();
+    console.log(this._authService.getPriority());
+    var aaaa = this._authService.getLoggedInUserTeam();
+    if(aaaa.length>0){
+      this.arrayFilter.push({ id:'filter2',name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' });
+    }
+    
+  }
   ionViewDidLoad() {
-        console.log('ionViewDidLoad About2');
-        this.localNotifications.schedule({
-                id: 1,
-                text: 'Single I LocalNotification',
-                data: 'test'
-        });
+    this.localNotifications.schedule({
+      id: 1,
+      text: 'Welcome to Midesk App',
+      data: 'test'
+    });
   }
   initListTicket(){
     this.modelTicket.dataLoading = true;

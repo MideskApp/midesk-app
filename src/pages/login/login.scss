@@ -57,7 +57,16 @@ page-login {
 		border:none!important;
 	}
 	.label-md,.label-ios{
-		margin:13px 0px!important;
+		margin:0!important;
 	}
-
+	.text-input-md,.text-input-ios{
+		margin:0 0 10px 0!important;
+	}
+	.item-md{
+		padding-left:0!important;
+	}
+	.card-header-md,.card-header-ios{
+		padding: 16px 16px 10px 16px!important;
+	}
+	
 }

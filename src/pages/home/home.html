@@ -5,8 +5,8 @@
     </button>
     
       <ion-row no-padding color="light">
-        <ion-col col-8>
-          <ion-select interface="popover" no-padding (ionChange)="doFilter()" [(ngModel)]="modelTicket.filterBy">
+        <ion-col class="filter" col-8>
+          <ion-select  interface="popover" no-padding (ionChange)="doFilter()" [(ngModel)]="modelTicket.filterBy">
             <ion-option *ngFor="let item of arrayFilter"  [value]="item.value">{{item.name}}</ion-option>
           </ion-select>
         </ion-col>
@@ -23,6 +23,7 @@
 <ion-content no-padding>
   <ion-spinner padding margin class="loading-search" *ngIf="modelTicket.dataLoading"  name="crescent"></ion-spinner>
   <ion-list no-padding class="list-ticket">
+  <div *ngIf="modelTicket.dataItems.length>0">
   <ion-card *ngFor="let item of modelTicket.dataItems" (click)="clickTicket(item)">
     <ion-item >
       <ion-avatar item-start class="box-avatar" *ngIf="item.request!==null">{{item.request | charAt}}
@@ -42,6 +43,7 @@
       </span>
     </ion-item>
   </ion-card>
+  </div>
   <ion-card *ngIf="modelTicket.dataItems.length<=0 && !modelTicket.dataLoading">
     <ion-item >
       <p>Không tìm thấy dữ liệu</p>

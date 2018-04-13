@@ -2,6 +2,7 @@ import { Component} from '@angular/core';
 import { NavController, NavParams, ModalController, PopoverController,ToastController, LoadingController, AlertController  } from 'ionic-angular';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 // import { File } from '@ionic-native/file';
+import { AuthService } from './../../../app/services/authentication/auth.service';
 import { TicketService } from './../../../app/services/ticket.service';
 import { ModalAssign } from'./../../ticket/ticket-add/modal-assign/modal-assign';
 import { ModalRequester } from './../../ticket/ticket-add/modal-requester/modal-requester';
@@ -38,6 +39,7 @@ export class TicketAddPage {
     loadMore:false,
     dataChildItems:{},
   }
+  priority:any;
   categoryName = '';
   requesterName = '';
   assign = '';
@@ -53,6 +55,7 @@ export class TicketAddPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
+    private _authService: AuthService
     //private _userService: UserService,
   	){
     //  this._userService.getListRequester().subscribe(res=>{
@@ -61,6 +64,7 @@ export class TicketAddPage {
     //const fileTransfer: FileTransferObject = this.transfer.create();
   }
   ionViewWillLoad(){
+    this.priority = this._authService.getPriority();
     let navData = this.navParams.get('data');
     if(navData != null && typeof navData != undefined){
         this.requesterName = navData.requesterName;

@@ -67,7 +67,7 @@
   		</ion-grid>
   	</ion-card>
  	<ion-grid class="ticket-info" *ngIf="ticketDetail.length>0">
-	  	<ion-list no-margin>
+	  	<ion-list no-margin style="overflow-y: scroll;max-height: 90%;">
 	  		<div id="detail" *ngFor=" let detail of ticketDetail, let i = index " (click)="showMore(detail,i)">
 			  	<ion-item>
 			  		<ion-avatar item-start class="box-avatar">{{detail.create_name | charAt}}</ion-avatar>
@@ -91,7 +91,7 @@
   	</ion-grid>
   	</div>
 </ion-content>
-<ion-footer *ngIf="!loading" style="border-top: 1px solid #CCC;">
+<ion-footer no-lines *ngIf="!loading" style="border-top: 1px solid #CCC;">
 	<ion-grid>
 		<ion-row>
 			<ion-col col-12>

@@ -102,12 +102,15 @@
   <ion-list>
   	<ion-item>
   		<ion-label>Mức độ ưu tiên</ion-label>
-		    <ion-select interface="popover" [(ngModel)]="ticketParams.priority">
+		    <!-- <ion-select interface="popover" [(ngModel)]="ticketParams.priority">
 		      <ion-option value="1">Khẩn cấp</ion-option>
 		      <ion-option value="2">Cao</ion-option>
 		      <ion-option value="3">Trung bình</ion-option>
 		      <ion-option value="4">Thấp</ion-option>
-		    </ion-select>
+		    </ion-select> -->
+	    	<ion-select  interface="popover" [(ngModel)]="ticketParams.priority">
+	      		<ion-option *ngFor="let item of priority" [value]="item.id">{{item.name}}</ion-option>
+	    	</ion-select>
   	</ion-item>
   	<ion-item>
   		<ion-label>Trạng thái</ion-label>

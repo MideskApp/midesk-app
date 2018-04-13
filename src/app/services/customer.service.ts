@@ -12,8 +12,8 @@ export class CustomerService {
 	constructor(private _http: Http, private _settingGlobal: SettingService) {
 
     }
-    getListCustomer(data: any={}){
-    	return this._http.post(this._settingGlobal._api_customer_getList,data)
+    getListCustomer(dataPage:number){
+    	return this._http.get(this._settingGlobal._api_customer_getList+dataPage)
     		.map(this.extractData)
     		.catch(this.handleError);
     }
