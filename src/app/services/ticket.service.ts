@@ -76,6 +76,15 @@ export class TicketService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    pushNotifications(data:any){
+        let headers = new Headers();
+        headers.append('Content-Type','application/json');
+        headers.append('Authorization','key=518123301176');
+        let options = new RequestOptions({ headers : headers });
+        return this._http.post(this._settingGlobal._api_notification,data,options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     private handleError = (error: any) => {
         return Observable.of([]);
     }

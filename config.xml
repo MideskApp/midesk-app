@@ -3,7 +3,7 @@
     <name>app-midesk-ionic-3</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.0.107:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -87,6 +87,7 @@
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <allow-navigation href="http://192.168.0.107:8100" />
     <plugin name="de.appplant.cordova.plugin.local-notification" spec="^0.8.5" />
+    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
     <engine name="browser" spec="5.0.3" />
     <engine name="ios" spec="4.5.4" />
 </widget>

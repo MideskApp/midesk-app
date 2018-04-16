@@ -87,11 +87,14 @@ export class HomePage {
     
   }
   ionViewDidLoad() {
-    this.localNotifications.schedule({
-      id: 1,
-      text: 'Welcome to Midesk App',
-      data: 'test'
-    });
+    if(this.platform.is('android')){
+        this.localNotifications.schedule({
+        id: 1,
+        text: 'Welcome to Midesk App',
+        data: 'test'
+      });
+    }
+    
   }
   initListTicket(){
     this.modelTicket.dataLoading = true;
@@ -166,5 +169,23 @@ export class HomePage {
       }
     });
   }
-
+  testNotification(){
+    let body ={
+      "notification":{
+      "title":"New Notification has arrived",
+      "body":"Notification Body",
+      "sound":"default",
+      "click_action":"FCM_PLUGIN_ACTIVITY",
+      "icon":"fcm_push_icon"
+      },
+      "data":{
+        "param1":"value1",
+        "param2":"value2"
+      },
+      "to":"/topics/all",
+      "priority":"high",
+      "restricted_package_name":""
+    }
+    this._ticketService.pushNotifications(body).subscribe();
+  }
 }
