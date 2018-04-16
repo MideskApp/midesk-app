@@ -74,6 +74,9 @@ export class MyApp {
             console.log("Received in background");
           } else {
             console.log("Received in foreground");
+            this.alertCtrl.create({
+              message: data.message
+            }).present();
           };
         })
         this.fcm.onTokenRefresh().subscribe(token=>{
