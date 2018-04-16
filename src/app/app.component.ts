@@ -67,7 +67,7 @@ export class MyApp {
       if(this.platform.is('android')){
         this.fcm.subscribeToTopic('all');
         this.fcm.getToken().then(token=>{
-          console.log(token);
+          alert(token);
         })
         this.fcm.onNotification().subscribe(data=>{
           if(data.wasTapped){
@@ -80,7 +80,7 @@ export class MyApp {
           };
         })
         this.fcm.onTokenRefresh().subscribe(token=>{
-          console.log(token);
+          alert(token);
         });
       }
       this.statusBar.styleDefault();
