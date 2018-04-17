@@ -10,6 +10,7 @@ import { ModalSearchComponent } from './../../app/components/modal-search/modal-
 import { PopoverSort } from './../../app/components/popover/popover-sort';
 import { PopoverChannel } from './../../app/components/popover/popover-channel';
 //import { GetFirstCharacter } from './../../app/pipes/get-first-character.pipe';
+import { FCM } from '@ionic-native/fcm';
 
 @Component({
   selector: 'page-home',
@@ -59,9 +60,11 @@ export class HomePage {
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
-    private _authService: AuthService 
+    private _authService: AuthService, 
+    private fcm: FCM
     ) {
     // this.navCtrl.setRoot(this.navCtrl.getActive().component);
+    this.onNotification();
   }
   // ionViewDidLoad() {
   //   this.platform.ready().then(() => {
@@ -86,6 +89,15 @@ export class HomePage {
   }
   ionViewDidLoad() {
   }
+  async onNotification(){
+    try{
+      await this.platform.ready();
+        alert(this.fcm.getToken());
+    }
+    catch(e){
+      console.error(e);
+    }
+  }  
   initListTicket(){
     this.modelTicket.dataLoading = true;
     this._ticketService.getListTicket(this.modelTicket).subscribe(res=>{
