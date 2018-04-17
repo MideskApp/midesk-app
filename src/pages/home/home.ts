@@ -9,8 +9,6 @@ import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
 import { ModalSearchComponent } from './../../app/components/modal-search/modal-search.component';
 import { PopoverSort } from './../../app/components/popover/popover-sort';
 import { PopoverChannel } from './../../app/components/popover/popover-channel';
-//import { GetFirstCharacter } from './../../app/pipes/get-first-character.pipe';
-import { FCM } from '@ionic-native/fcm';
 
 @Component({
   selector: 'page-home',
@@ -42,7 +40,6 @@ export class HomePage {
   	filterBy:'yêu cầu được tạo bởi bạn',
   	sortBy:'desc'
   };
-  test:any;
   modelTicket:any={
   	dataItems:[],
   	dataPage:1,
@@ -62,10 +59,8 @@ export class HomePage {
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
     private _authService: AuthService, 
-    private fcm: FCM
     ) {
     // this.navCtrl.setRoot(this.navCtrl.getActive().component);
-    this.onNotification();
   }
   // ionViewDidLoad() {
   //   this.platform.ready().then(() => {
@@ -90,17 +85,21 @@ export class HomePage {
   }
   ionViewDidLoad() {
   }
-  async onNotification(){
-    try{
-      await this.platform.ready();
-      this.fcm.getToken().then(token => {
-        alert(token);
-      });
-    }
-    catch(e){
-      console.error(e);
-    }
-  }  
+  // async onNotification(){
+  //   try{
+  //     await this.platform.ready();
+  //     this.fcm.subscribeToTopic('all');
+  //     this.fcm.onNotification(function(data){
+
+  //     })
+  //     // this.fcm.getToken().then(token => {
+  //     //   alert(token);
+  //     // });
+  //   }
+  //   catch(e){
+  //     console.error(e);
+  //   }
+  // }  
   initListTicket(){
     this.modelTicket.dataLoading = true;
     this._ticketService.getListTicket(this.modelTicket).subscribe(res=>{
