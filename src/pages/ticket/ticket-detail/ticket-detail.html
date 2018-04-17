@@ -69,9 +69,14 @@
  	<ion-grid class="ticket-info" *ngIf="ticketDetail.length>0">
 	  	<ion-list no-margin style="overflow-y: scroll;max-height: 90%;">
 	  		<div id="detail" style="background-color:#FFF6D9!important" *ngFor=" let detail of ticketDetail, let i = index " (click)="showMore(detail,i)">
-			  	<ion-item [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
+			  	<ion-item *ngIf="detail.create_name!=null" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
 			  		<ion-avatar item-start [ngStyle]="{'background':'#'+detail.date}" class="box-avatar">{{detail.create_name | charAt}}</ion-avatar>
 				      <h2>{{detail.create_name}}</h2>
+				      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
+			  	</ion-item>
+			  	<ion-item *ngIf="detail.create_name==null" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
+			  		<ion-avatar item-start class="box-avatar">SYS</ion-avatar>
+				      <h2>System</h2>
 				      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
 			  	</ion-item>
 		  		<ion-grid [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private ? '0.55px solid #EFDAA3':'0.55px solid #CCC'}" padding-left padding-right>
