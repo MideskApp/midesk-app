@@ -140,7 +140,13 @@
 	<ion-grid>
 		<ion-row>
 			<ion-col col-12>
-				<ion-textarea no-margin placeholder="Nội dung phiếu" rows="2" [(ngModel)]="ticketParams.content"  autocomplete="on" autocorrect="on"></ion-textarea>
+				<ion-select class="note" no-padding interface="popover" [(ngModel)]="privateNote">
+			      	<ion-option [value]="0">Public</ion-option>
+			      	<ion-option [value]="1">Private</ion-option>
+			    </ion-select>
+			</ion-col>
+			<ion-col col-12>
+				<ion-textarea no-margin placeholder="Nội dung phiếu" rows="1" [(ngModel)]="ticketParams.content"  autocomplete="on" autocorrect="on"></ion-textarea>
 			</ion-col>
 			<ion-col col-1>
 				<label padding-right for="profile_image" color="primary">

@@ -17,7 +17,7 @@ page-ticket-detail{
 	.ticket-info{
 		width:100%;
 		margin:0;
-	
+		padding:0;
 		.item-inner{
 			border-bottom:0!important;
 		}
@@ -99,5 +99,15 @@ page-ticket-detail{
 				height: 27px!important;
 			}
 		}
+	}
+	.note{
+		padding-left:1px;
+		max-width: 25%;
+	}
+	.note .select-icon{
+		width:15px!important;
+	}
+	.background-note{
+		background-color: #FFF6D9!important;
 	}
 }

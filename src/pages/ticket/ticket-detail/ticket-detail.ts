@@ -51,6 +51,7 @@ export class TicketDetailPage {
     assign_team:0,
   }
   //ticketDefault=[];
+  privateNote = 0;
   reChoose = false;
   requesterName = '';
   loading = false;
@@ -201,7 +202,7 @@ export class TicketDetailPage {
        content:'Please wait...',
      })
      loader.present();
-     this._ticketService.actionTicket({dataTicket:this.ticketUpdate,dataDetail:this.ticketUpdateDetail,ticketId: ticketId}).subscribe(res=>{
+     this._ticketService.actionTicket({dataTicket:this.ticketUpdate,dataDetail:this.ticketUpdateDetail,ticketId: ticketId, private:this.privateNote}).subscribe(res=>{
          loader.dismiss();
          if(res.code==200){
            let success = 'success-toast';

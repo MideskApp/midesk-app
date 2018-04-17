@@ -64,25 +64,25 @@ export class MyApp {
       console.log(this.nav)
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      if(this.platform.is('android')){
-        this.fcm.subscribeToTopic('all');
-        this.fcm.getToken().then(token=>{
-          alert(token);
-        })
-        this.fcm.onNotification().subscribe(data=>{
-          if(data.wasTapped){
-            console.log("Received in background");
-          } else {
-            console.log("Received in foreground");
-            this.alertCtrl.create({
-              message: data.message
-            }).present();
-          };
-        })
-        this.fcm.onTokenRefresh().subscribe(token=>{
-          alert(token);
-        });
-      }
+      // if(this.platform.is('android')){
+      //   this.fcm.subscribeToTopic('all');
+      //   this.fcm.getToken().then(token=>{
+      //     alert(token);
+      //   })
+      //   this.fcm.onNotification().subscribe(data=>{
+      //     if(data.wasTapped){
+      //       console.log("Received in background");
+      //     } else {
+      //       console.log("Received in foreground");
+      //       this.alertCtrl.create({
+      //         message: data.message
+      //       }).present();
+      //     };
+      //   })
+      //   this.fcm.onTokenRefresh().subscribe(token=>{
+      //     alert(token);
+      //   });
+      // }
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });

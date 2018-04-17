@@ -43,6 +43,7 @@ import { GetFirstCharacter } from './pipes/get-first-character.pipe';
 import { ConvertLengthTitle } from './pipes/convert-length-title.pipe';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { RandomColor } from './pipes/random-color.pipe';
+import { GetLastSixCharacter} from './pipes/get-last-six-character.pipe';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { RandomColor } from './pipes/random-color.pipe';
     ConvertLengthTitle,
     SafeHtmlPipe,
     RandomColor,
+    GetLastSixCharacter,
     PopoverSort,
     PopoverChannel,
     PopoverCategory
@@ -79,7 +81,8 @@ import { RandomColor } from './pipes/random-color.pipe';
     GetFirstCharacter,
     ConvertLengthTitle,
     SafeHtmlPipe,
-    RandomColor
+    RandomColor,
+    GetLastSixCharacter
   ],
   bootstrap: [IonicApp],
   entryComponents: [

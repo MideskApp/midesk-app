@@ -39,6 +39,7 @@ export class TicketAddPage {
     loadMore:false,
     dataChildItems:{},
   }
+  privateNote:any = 0;
   priority:any;
   categoryName = '';
   requesterName = '';
@@ -154,6 +155,7 @@ export class TicketAddPage {
     formData.append('requester_type',this.ticketParams.requester_type);
     formData.append('status',this.ticketParams.status);
     formData.append('content',this.ticketParams.content);
+    formData.append('private',this.privateNote);
     if(this.ticketParams.file!=null){
       //var file:File = this.ticketParams.file;
       formData.append('file',this.ticketParams.file,this.ticketParams.file.name);

@@ -1,9 +1,10 @@
 import { Component  } from '@angular/core';
-import { AlertController, Events, MenuController } from 'ionic-angular';
+import { AlertController, Events, MenuController, Platform } from 'ionic-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from './../../app/services/authentication/auth.service';
 import { UserService } from './../../app/services/user.service';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { App } from 'ionic-angular';
 //import { HomePage } from '../home/home';
 
@@ -27,7 +28,9 @@ export class LoginPage {
     private _userService: UserService,
     private alertCtrl: AlertController,
     public events: Events,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private localNotifications: LocalNotifications,
+    private platform: Platform
     //private platform: Platform,
   ){
   	//app._setDisableScroll(true);
@@ -35,6 +38,13 @@ export class LoginPage {
   	
   }
   ionViewWillLoad(){
+    // if(this.platform.is('android')){
+    //     this.localNotifications.schedule({
+    //     id: 1,
+    //     text: 'Welcome to Midesk App',
+    //     data: 'test'
+    //   });
+    // }
     this.menuCtrl.swipeEnable(false);
     this.loginForm = new FormGroup({
         email: new FormControl('', Validators.required),

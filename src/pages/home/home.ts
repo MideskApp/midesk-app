@@ -2,7 +2,6 @@ import { Component, ViewChild, Injectable } from '@angular/core';
 import { NavController, Select, Platform, ModalController, PopoverController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { LoginPage } from'./../login/login';
 import { AuthService } from './../../app/services/authentication/auth.service';
 import { TicketService } from './../../app/services/ticket.service';
@@ -60,7 +59,6 @@ export class HomePage {
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
-    private localNotifications: LocalNotifications,
     private _authService: AuthService 
     ) {
     // this.navCtrl.setRoot(this.navCtrl.getActive().component);
@@ -87,14 +85,6 @@ export class HomePage {
     
   }
   ionViewDidLoad() {
-    if(this.platform.is('android')){
-        this.localNotifications.schedule({
-        id: 1,
-        text: 'Welcome to Midesk App',
-        data: 'test'
-      });
-    }
-    
   }
   initListTicket(){
     this.modelTicket.dataLoading = true;
@@ -149,6 +139,8 @@ export class HomePage {
     popover.onDidDismiss(data=>{
       if(typeof data!=undefined && data!=null){
         this.modelTicket.sortBy=data;
+        this.modelTicket.dataPage=1;
+        this.modelTicket.dataTotal=0;
         this.initListTicket();
       }
       //
@@ -165,6 +157,8 @@ export class HomePage {
     popover.onDidDismiss(data=>{
       if(typeof data!=undefined && data !=null){     
         this.modelTicket.channel = data.channel;
+        this.modelTicket.dataPage=1;
+        this.modelTicket.dataTotal=0;
         this.initListTicket(); 
       }
     });

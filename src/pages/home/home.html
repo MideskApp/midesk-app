@@ -26,14 +26,14 @@
   <div *ngIf="modelTicket.dataItems.length>0">
   <ion-card *ngFor="let item of modelTicket.dataItems" (click)="clickTicket(item)">
     <ion-item >
-      <ion-avatar item-start class="box-avatar" *ngIf="item.request!==null">{{item.request | charAt}}
+      <ion-avatar item-start [ngStyle]="{'background-color':'#'+item.date}" class="box-avatar" *ngIf="item.request!==null">{{item.request | charAt}}
         <!-- <img src="../assets/imgs/user-icon.png"> -->
       </ion-avatar>
       <ion-avatar item-start class="box-avatar" *ngIf="item.request===null">
         ERR
       </ion-avatar>
-      <h2 *ngIf="item.request!==null">{{item.request}}</h2>
-      <h2 *ngIf="item.request===null">Chưa có người yêu cầu</h2>
+      <h2 *ngIf="item.request!==null"><span style="font-size:1.3rem;color:#888888">#{{item.ticket_id}}</span> - {{item.request}}</h2>
+      <h2 *ngIf="item.request===null"><span style="font-size:1.3rem;color:#888888">#{{item.ticket_id}}</span> - Chưa có người yêu cầu</h2>
       <p *ngIf="item.title!==''" >{{item.title}}</p>
       <p *ngIf="item.title===''" >Chưa có tiêu đề</p>
       <span item-end class="date-bagde-ticket">{{item.created_at| date: 'dd/MM'}}

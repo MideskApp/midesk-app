@@ -68,13 +68,13 @@
   	</ion-card>
  	<ion-grid class="ticket-info" *ngIf="ticketDetail.length>0">
 	  	<ion-list no-margin style="overflow-y: scroll;max-height: 90%;">
-	  		<div id="detail" *ngFor=" let detail of ticketDetail, let i = index " (click)="showMore(detail,i)">
-			  	<ion-item>
-			  		<ion-avatar item-start class="box-avatar">{{detail.create_name | charAt}}</ion-avatar>
+	  		<div id="detail" style="background-color:#FFF6D9!important" *ngFor=" let detail of ticketDetail, let i = index " (click)="showMore(detail,i)">
+			  	<ion-item [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
+			  		<ion-avatar item-start [ngStyle]="{'background':'#'+detail.date}" class="box-avatar">{{detail.create_name | charAt}}</ion-avatar>
 				      <h2>{{detail.create_name}}</h2>
 				      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
 			  	</ion-item>
-		  		<ion-grid padding-left padding-right>
+		  		<ion-grid [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private ? '0.55px solid #EFDAA3':'0.55px solid #CCC'}" padding-left padding-right>
 		  			<ion-row>
 		  				<ion-col col-12 *ngIf="detail.compactContent==''" [innerHTML]="detail.content|safeHtml"></ion-col>
 		  				<ion-col col-12 *ngIf="detail.showMore==true &&detail.compactContent!=''" [innerHTML]="detail.content|safeHtml"></ion-col>
@@ -93,6 +93,14 @@
 </ion-content>
 <ion-footer no-lines *ngIf="!loading" style="border-top: 1px solid #CCC;">
 	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<ion-select class="note" no-padding interface="popover" [(ngModel)]="privateNote">
+			      	<ion-option [value]="0">Public</ion-option>
+			      	<ion-option [value]="1">Private</ion-option>
+			    </ion-select>
+			</ion-col>
+		</ion-row>
 		<ion-row>
 			<ion-col col-12>
 				<ion-textarea no-margin placeholder="Nội dung phiếu" rows="2" [(ngModel)]="content" (keyup)="onComment()" autocomplete="on" autocorrect="on"></ion-textarea>
