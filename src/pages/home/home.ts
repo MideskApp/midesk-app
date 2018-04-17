@@ -42,6 +42,7 @@ export class HomePage {
   	filterBy:'yêu cầu được tạo bởi bạn',
   	sortBy:'desc'
   };
+  test:any;
   modelTicket:any={
   	dataItems:[],
   	dataPage:1,
@@ -92,7 +93,9 @@ export class HomePage {
   async onNotification(){
     try{
       await this.platform.ready();
-        alert(this.fcm.getToken());
+      this.fcm.getToken().then(token => {
+        alert(token);
+      });
     }
     catch(e){
       console.error(e);
