@@ -10,6 +10,8 @@ import { ModalSearchComponent } from './../../app/components/modal-search/modal-
 import { PopoverSort } from './../../app/components/popover/popover-sort';
 import { PopoverChannel } from './../../app/components/popover/popover-channel';
 
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -59,6 +61,7 @@ export class HomePage {
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
     private _authService: AuthService, 
+    private push: Push,
     ) {
     // this.navCtrl.setRoot(this.navCtrl.getActive().component);
   }
@@ -81,7 +84,32 @@ export class HomePage {
     if(aaaa.length>0){
       this.arrayFilter.push({ id:'filter2',name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' });
     }
+    this.pushSetup();
     
+  }
+  pushSetup(){
+    const options: PushOptions = {
+       android: {
+         senderID:'518123301176'
+       },
+       ios: {
+           alert: 'true',
+           badge: true,
+           sound: 'false'
+       },
+       windows: {},
+       browser: {
+           pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+       }
+    };
+    const pushObject: PushObject = this.push.init(options);
+
+
+    pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+
+    pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+
+    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
   }
   ionViewDidLoad() {
   }

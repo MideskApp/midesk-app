@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Push } from '@ionic-native/push';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 // import { File } from '@ionic-native/file';
 
@@ -114,6 +115,7 @@ import { GetLastSixCharacter} from './pipes/get-last-six-character.pipe';
     StatusBar,
     SplashScreen,
     LocalNotifications,
+    Push,
     //Keyboard,
     //FileTransfer,
     //FileUploadOptions,
