@@ -10,6 +10,7 @@ import { CustomerPage } from './../pages/customer/customer';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
 import { AuthService } from './services/authentication/auth.service';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 //import { User } from './models/user';
 
 @Component({
@@ -30,8 +31,10 @@ export class MyApp {
     private _auth: AuthService,
     private alertCtrl: AlertController,
     public events : Events,
+    private push: Push,
     ) {
     this.initializeApp();
+    this.pushSetup();
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -45,6 +48,30 @@ export class MyApp {
   }
   ngOnInit(){
     
+  }
+   pushSetup(){
+    const options: PushOptions = {
+       android: {
+         senderID:'518123301176'
+       },
+       ios: {
+           alert: 'true',
+           badge: true,
+           sound: 'false'
+       },
+       windows: {},
+       browser: {
+           pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+       }
+    };
+    const pushObject: PushObject = this.push.init(options);
+
+
+    pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+
+    pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+
+    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
   } 
   initializeApp() {
     this.platform.ready().then(() => {
