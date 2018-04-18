@@ -37,6 +37,7 @@
     "cordova-ios": "4.5.4",
     "cordova-plugin-app-event": "^1.2.1",
     "cordova-plugin-device": "^2.0.1",
+    "cordova-plugin-fcm": "^2.1.2",
     "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
@@ -73,7 +74,8 @@
       "phonegap-plugin-push": {
         "SENDER_ID": "518123301176",
         "FCM_VERSION": "11.6.2"
-      }
+      },
+      "cordova-plugin-fcm": {}
     },
     "platforms": [
       "browser",

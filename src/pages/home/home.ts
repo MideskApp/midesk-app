@@ -1,5 +1,5 @@
 import { Component, ViewChild, Injectable } from '@angular/core';
-import { NavController, Select, Platform, ModalController, PopoverController } from 'ionic-angular';
+import { NavController, Select, Platform, ModalController, PopoverController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 //import { LoginPage } from'./../login/login';
@@ -11,6 +11,7 @@ import { PopoverSort } from './../../app/components/popover/popover-sort';
 import { PopoverChannel } from './../../app/components/popover/popover-channel';
 
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { FCM} from '@ionic-native/fcm';
 
 @Component({
   selector: 'page-home',
@@ -62,6 +63,8 @@ export class HomePage {
     private modalCtrl: ModalController,
     private _authService: AuthService, 
     private push: Push,
+    private fcm: FCM,
+    private alertCtrl: AlertController
     ) {
     // this.navCtrl.setRoot(this.navCtrl.getActive().component);
   }
@@ -71,7 +74,25 @@ export class HomePage {
   //     this.statusBar.styleDefault();
   //     this.splashScreen.hide();
   //   });
-    
+  async onNotification(){
+    try{
+      await this.platform.ready();
+      this.fcm.subscribeToTopic('all');
+         this.fcm.onNotification().subscribe(data=>{
+          if(data.wasTapped){
+            console.log("Received in background");
+          } else {
+            console.log("Received in foreground");
+            this.alertCtrl.create({
+              message: data.message
+            }).present();
+          };
+        })
+    }
+    catch(e){
+      console.error(e);
+    }
+  }
   // }
   ionViewWillLoad(){
     this.initListTicket();
