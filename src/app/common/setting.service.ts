@@ -34,6 +34,10 @@ export class SettingService {
     public _api_customer_update = this._baseAPIUrl + 'updateCustomer';
     public _api_customer_add = this._baseAPIUrl + 'addCustomer';
     //--
+    //notifications service
+    public _api_notifications_getList = this._baseAPIUrl + 'getListNotification/';
+    public _api_notifications_updateView = this._baseAPIUrl + 'updateViewNotify/';
+    public _api_notifications_deleteView = this._baseAPIUrl + 'deleteViewNotify/';
     //fcm notifications
     public _api_notification = 'https://fcm.googleapis.com/fcm/send';
 }

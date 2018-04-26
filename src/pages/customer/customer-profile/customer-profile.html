@@ -8,7 +8,7 @@
   </ion-navbar>
 	<ion-grid no-padding style="background:#2cd094">
 		<ion-row>
-			<ion-col col-12 text-center><ion-avatar text-center class="customer-avatar">S</ion-avatar></ion-col>
+			<ion-col col-12 text-center><ion-avatar text-center [ngStyle]="{'background':customerProfile.color}" class="customer-avatar">S</ion-avatar></ion-col>
 			<ion-col col-12 text-center><p style="color:white" no-margin>{{customerProfile.customer}}</p></ion-col>
 		</ion-row>
 		<ion-row>

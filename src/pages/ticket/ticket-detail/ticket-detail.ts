@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavParams, NavController, ModalController, Select, ToastController, LoadingController  } from 'ionic-angular';
+import { NavParams, NavController, ModalController, Select, ToastController, LoadingController, PopoverController  } from 'ionic-angular';
 import { TicketService } from './../../../app/services/ticket.service';
-import { ModalAssign } from'./../../ticket/ticket-add/modal-assign/modal-assign';
+import { ModalAssign } from'./../../../app/components/modal/modal-assign/modal-assign';
 import { SettingService } from './../../../app/common/setting.service';
 import { AuthService} from './../../../app/services/authentication/auth.service';
+import { PopoverPriority } from './../../../app/components/popover/popover-priority/popover-priority';
+import { PopoverStatus } from './../../../app/components/popover/popover-status/popover-status';
 //import { ModalRequester } from './../../ticket/ticket-add/modal-requester/modal-requester';
 //import { PopoverCategory } from './../../ticket/ticket-add/popover-category/popover-category';
 //import { UserService } from './../../../app/services/user.service';
@@ -23,7 +25,7 @@ export class TicketDetailPage {
       { id : 2, name : 'Đang mở', value : 'open', color : '#C80000', alias: 'o', checked: false },
       { id : 3, name : 'Đang chờ', value : 'pending', color : '#15BDE9', alias: 'p', checked: false },
       { id : 4, name : 'Đã xử lý', value : 'solved', color : '#CCCCCC', alias: 's', checked: false }
-  	];
+  ];
   assign='';
   avatar='';
   countChange = 0;
@@ -51,6 +53,15 @@ export class TicketDetailPage {
     assign_team:0,
   }
   //ticketDefault=[];
+  statusDefault:any={
+    name:'',
+    alias:'',
+    value:''
+  };
+  priorityDefault:any={
+    name:'',
+    color:''
+  };
   privateNote = 0;
   reChoose = false;
   requesterName = '';
@@ -66,7 +77,8 @@ export class TicketDetailPage {
     private navParamsCtrl : NavParams,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private popoverCtrl: PopoverController
   	){
     this.urlFile = this._settingService._baseUrl+'/public/upload/';
     let loader = this.loadingCtrl.create({
@@ -79,10 +91,9 @@ export class TicketDetailPage {
     this.initTicketDetail();
   }
   initTicketDetail(){
-     let navData = (this.navParamsCtrl.get('data'));
-    //console.log(navData.id);
-    
+    let navData = (this.navParamsCtrl.get('data'));
     this._ticketService.getTicketDetail(navData).subscribe(res=>{
+      console.log(res.success);
       this.ticketInfo = res.success;
       this.ticketDefault.priority = res.success.priority;
       this.ticketDefault.status = res.success.status;
@@ -101,8 +112,19 @@ export class TicketDetailPage {
       if(this.ticketInfo.request != null){
         this.requesterName = this.ticketInfo.request;
       }
+      for(let i=0;i<this.status.length;i++){
+        if(this.ticketDefault.status==this.status[i].value){
+          this.statusDefault = this.status[i];
+          break;
+        }
+      }
+      for(let i=0;i<this.priority.length;i++){
+        if(this.ticketDefault.priority==this.priority[i].id){
+          this.priorityDefault = this.priority[i];
+          break;
+        }
+      }
       this.ticketDetail = res.detail;
-      
     });
   }
   openModalAssign() {
@@ -110,11 +132,12 @@ export class TicketDetailPage {
     let contactModal = this.modalCtrl.create(ModalAssign,{data:data});
     contactModal.onDidDismiss(data=>{
       if(data!=null && typeof data != undefined){
+        console.log(data);
         if(this.ticketInfo.assign_team==data.assign_team.team_id){
           if(data.assign_agent.id!=''){
             this.ticketUpdate['assign_agent']=data.assign_agent.id;
             this.assign = data.assign_agent.name;
-            this.avatar = '#4F4F4F';
+            this.avatar = data.assign_agent.color;
             this.reChoose = true;
             //chọn user trong team hiện tại
           }else{
@@ -127,7 +150,7 @@ export class TicketDetailPage {
             this.assign = data.assign_agent.name;
             this.ticketUpdate['assign_team']=data.assign_team.team_id;
             this.reChoose = true;
-            this.avatar = '#4F4F4F';
+            this.avatar = data.assign_agent.color;
             //chọn user xử lý trong team khác
           }
           else{
@@ -135,7 +158,7 @@ export class TicketDetailPage {
             this.assign = data.assign_team.team_name;
             this.ticketUpdate['assign_team']=data.assign_team.team_id;
             this.reChoose = true;
-            this.avatar = '#2979ff';
+            this.avatar = data.assign_team.color;
             //chọn team xử lý trong team khác
           }
         }
@@ -154,22 +177,39 @@ export class TicketDetailPage {
      this.actionSheet.open();
    }
    changePriority(){
-     if(this.ticketDefault.priority!=this.ticketInfo.priority){
+    let popoverPriority = this.popoverCtrl.create(PopoverPriority,{data:this.ticketInfo.priority},{cssClass:"custom-priority",enableBackdropDismiss:true})
+    popoverPriority.onDidDismiss(data=>{
+      if(data!=null && typeof data!=undefined){
+       this.ticketInfo.priority = data.priority.id;
+       this.priorityDefault = data.priority;
+       if(this.ticketDefault.priority!=data.priority.id){
         this.ticketUpdate['priority']=this.ticketInfo.priority;
-     }
-     else{
-       delete this.ticketUpdate['priority'];
-     }
-     this.countChange = Object.keys(this.ticketUpdate).length;
+       }
+       else{
+         delete this.ticketUpdate['priority'];
+       }
+      }
+      this.countChange = Object.keys(this.ticketUpdate).length;
+    })
+    popoverPriority.present();
+     
    }
    changeStatus(){
-     if(this.ticketDefault.status!=this.ticketInfo.status){
+    let popoverStatus = this.popoverCtrl.create(PopoverStatus,{data:this.ticketInfo.status},{cssClass:"custom-status",enableBackdropDismiss:true})
+    popoverStatus.onDidDismiss(data=>{
+      if(data!=null && typeof data!=undefined){
+       this.ticketInfo.status = data.status.value;
+       this.statusDefault = data.status;
+       if(this.ticketDefault.status!=data.status.value){
         this.ticketUpdate['status']=this.ticketInfo.status;
-     }
-     else{
-       delete this.ticketUpdate['status'];
-     }
-     this.countChange = Object.keys(this.ticketUpdate).length;
+       }
+       else{
+         delete this.ticketUpdate['status'];
+       }
+      }
+      this.countChange = Object.keys(this.ticketUpdate).length;
+    })
+    popoverStatus.present();
    }
    reChooseAssign(){
      delete this.ticketUpdate['assign_agent'];
@@ -199,7 +239,7 @@ export class TicketDetailPage {
    actionTicket(){
      let ticketId = this.navParamsCtrl.get('data').id;
      let loader = this.loadingCtrl.create({
-       content:'Please wait...',
+       content:'Vui lòng chờ...',
      })
      loader.present();
      this._ticketService.actionTicket({dataTicket:this.ticketUpdate,dataDetail:this.ticketUpdateDetail,ticketId: ticketId, private:this.privateNote}).subscribe(res=>{

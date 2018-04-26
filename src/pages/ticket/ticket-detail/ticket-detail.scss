@@ -22,7 +22,7 @@ page-ticket-detail{
 			border-bottom:0!important;
 		}
 		#detail{
-			border-bottom:0.55px solid #CCC;
+			border-top:0.55px solid #CCC;
 		}
 	}
 	.box-avatar{
@@ -58,7 +58,10 @@ page-ticket-detail{
    		font-size:1.1rem;
    		background-color: #EEAD0E;
 	}
-	.badge-md{
+	// .badge-md{
+	// 	border-radius: 10px!important;
+	// }
+	.badge-count{
 		border-radius: 10px!important;
 	}
 	.icon-size{
@@ -89,7 +92,7 @@ page-ticket-detail{
 				width:27px;
 				height: 27px;
 				line-height: 27px;
-				font-size:20px;
+				font-size:16px;
 				text-align: center;
 				min-width: 27px;
 				min-height: 27px;
@@ -110,4 +113,14 @@ page-ticket-detail{
 	.background-note{
 		background-color: #FFF6D9!important;
 	}
+	ion-badge{
+		border-radius:2px!important;
+		//margin:0 0 15px 7px!important;
+		padding:2px 5px!important;
+		color:white!important;
+	}
+	.private-note{
+		background: #F4A460;
+	}
+
 }

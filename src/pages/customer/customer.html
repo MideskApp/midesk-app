@@ -14,7 +14,7 @@
 	</div>
 	<ion-list *ngIf="!loading">
 		<ion-item *ngFor=" let item of modelCustomer.dataItems " (click)="customerProfile(item)">
-			<ion-avatar item-start class="customer-avatar margin-vertical" [ngStyle]="{'background':item.id|randomColor}">{{item.customer|charAt}}</ion-avatar>
+			<ion-avatar item-start class="customer-avatar margin-vertical" [ngStyle]="{'background':item.color}">{{item.customer|charAt}}</ion-avatar>
 			<p>{{item.customer}}</p>
 		</ion-item>
 	</ion-list>

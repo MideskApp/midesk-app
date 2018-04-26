@@ -4,10 +4,12 @@ import { NavController, NavParams, ModalController, PopoverController,ToastContr
 // import { File } from '@ionic-native/file';
 import { AuthService } from './../../../app/services/authentication/auth.service';
 import { TicketService } from './../../../app/services/ticket.service';
-import { ModalAssign } from'./../../ticket/ticket-add/modal-assign/modal-assign';
-import { ModalRequester } from './../../ticket/ticket-add/modal-requester/modal-requester';
-import { ModalProperties } from './../../ticket/ticket-add/modal-properties/modal-properties';
-import { PopoverCategory } from './../../ticket/ticket-add/popover-category/popover-category';
+import { ModalAssign } from'./../../../app/components/modal/modal-assign/modal-assign';
+import { ModalRequester } from './../../../app/components/modal/modal-requester/modal-requester';
+import { ModalProperties } from './../../../app/components/modal/modal-properties/modal-properties';
+import { PopoverCategory } from './../../../app/components/popover/popover-category/popover-category';
+import { PopoverStatus } from './../../../app/components/popover/popover-status/popover-status';
+import { PopoverPriority } from './../../../app/components/popover/popover-priority/popover-priority';
 import { TicketDetailPage} from './../ticket-detail/ticket-detail';
 
 //import { UserService } from './../../../app/services/user.service';
@@ -40,13 +42,15 @@ export class TicketAddPage {
     dataChildItems:{},
   }
   privateNote:any = 0;
-  priority:any;
+  priority:any={};
+  status:any={};
   categoryName = '';
   requesterName = '';
   assign = '';
   cateId = 0;
   fileName='';
   submitCreate = false;
+  avatar='';
   constructor(
   	public navCtrl: NavController,
     private navParams: NavParams,
@@ -102,15 +106,39 @@ export class TicketAddPage {
         if(data.assign_agent.id==''){
           this.assign = data.assign_team.team_name;
           this.ticketParams.assign_team = data.assign_team.team_id;
+          //this.avatar = '#2979ff';
+          this.avatar = data.assign_team.color;
         }else{
           this.assign = data.assign_agent.name;
           this.ticketParams.assign_team = data.assign_team.team_id;
           this.ticketParams.assign_agent = data.assign_agent.id;
+          //this.avatar = '#4F4F4F';
+          this.avatar = data.assign_agent.color;
         }
       }
     })
     contactModal.present();
  	}
+  openPopoverStatus(){
+    let popoverStatus = this.popoverCtrl.create(PopoverStatus,{data:this.ticketParams.status},{cssClass:"custom-status",enableBackdropDismiss:true})
+    popoverStatus.onDidDismiss(data=>{
+      if(data!=null && typeof data!=undefined){
+        this.ticketParams.status = data.status.value;
+        this.status = data.status;
+      }
+    })
+    popoverStatus.present();
+  }
+  openPopoverPriority(){
+    let popoverPriority = this.popoverCtrl.create(PopoverPriority,{data:this.ticketParams.priority},{cssClass:"custom-priority",enableBackdropDismiss:true})
+    popoverPriority.onDidDismiss(data=>{
+      if(data!=null && typeof data!=undefined){
+       this.ticketParams.priority = data.priority.id;
+       this.priority = data.priority;
+      }
+    })
+    popoverPriority.present();
+  }
   openPopoverCategory(){
     let categoryPopover = this.popoverCtrl.create(PopoverCategory,{data:[]},{cssClass:"custom-popup",enableBackdropDismiss:false});
     categoryPopover.onDidDismiss(data=>{
@@ -143,7 +171,7 @@ export class TicketAddPage {
   createTicket(){
     this.ticketParams.category=this.ticketParams.category.slice(0,this.ticketParams.category.length-1);
     let loader = this.loadingCtrl.create({
-      content: "Please wait...",
+      content: "Vui lòng chờ...",
     });
     console.log(this.ticketParams);
     var formData = new FormData();
@@ -177,7 +205,7 @@ export class TicketAddPage {
               {
                 text: 'OK',
                 handler: data=>{
-                  //console.log(res.data.ticket);
+
                   seft.navCtrl.push(TicketDetailPage,{data:res.data.ticket});
                 }
               }

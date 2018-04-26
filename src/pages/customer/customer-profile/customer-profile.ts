@@ -28,6 +28,7 @@ export class CustomerProfilePage {
   };
   modelUpdate:any={};
   customerId:number;
+  customerName:any;
   constructor(
       public navCtrl: NavController, 
       public navParams: NavParams, 
@@ -46,6 +47,7 @@ export class CustomerProfilePage {
     this.loading = true;
     this._customerService.getCustomerProfile(this.navParams.get('id')).subscribe(res=>{
       this.customerProfile = res;
+      //this.customerName = this.customerProfile.customer;
       this.modelEdit.customer = res.customer;
       this.modelEdit.address = res.address;
       this.modelEdit.phone = res.phone;

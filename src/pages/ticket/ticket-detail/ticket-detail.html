@@ -1,7 +1,7 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>Ticket Detail</ion-title>
-		<ion-buttons end><button ion-button [disabled]="countChange<=0" (click)="actionTicket()"><ion-icon color="light" name="paper-plane"></ion-icon><ion-badge *ngIf="countChange>0" id="send-badge">{{countChange}}</ion-badge></button></ion-buttons>
+		<ion-title>#{{ticketInfo.ticket_id}}</ion-title>
+		<ion-buttons end><button ion-button [disabled]="countChange<=0" (click)="actionTicket()"><ion-icon color="light" name="paper-plane"></ion-icon><ion-badge class="badge-count" *ngIf="countChange>0" id="send-badge">{{countChange}}</ion-badge></button></ion-buttons>
 	    <ion-buttons end><button ion-button><ion-icon color="light" (click)="openActionSheet()" name="more"></ion-icon></button></ion-buttons>
 	    <!-- <button ion-button menuToggle>
 	      <ion-icon name="menu"></ion-icon>
@@ -48,38 +48,38 @@
    	<ion-card class="ticket-info">
   		<ion-grid no-padding>
 	 		<ion-list>
-	  			<ion-item>
-	  				<ion-label>Mức độ ưu tiên</ion-label>
-			    	<ion-select (ionChange)="changePriority()" interface="popover" [(ngModel)]="ticketInfo.priority">
-			      		<ion-option *ngFor="let item of priority" [value]="item.id">{{item.name}}</ion-option>
-			    	</ion-select>
-	  			</ion-item>
-	  			<ion-item>
-			  		<ion-label>Trạng thái</ion-label>
-				    <ion-select (ionChange)="changeStatus()" interface="popover" color="secondary" [(ngModel)]="ticketInfo.status">
-				      <ion-option *ngFor="let item of status" [value]="item.value">{{item.name}}</ion-option>
-				    </ion-select>
-			  	</ion-item>
-			  	<ion-item text-center>
-		  			<img class="more-icon" src="../assets/imgs/more.png" />
-		  		</ion-item>
+	 			<ion-item (click)="changeStatus()">
+					<ion-row class="item-inner" style="border:0!important;padding-right:0px;" no-padding>
+						<ion-col no-padding col-6>Trạng thái</ion-col>
+						<ion-col no-padding text-right col-6><p><ion-badge color="{{statusDefault.value}}" >{{statusDefault.alias}}</ion-badge><span style="padding-left:5px;font-size:1.5rem">{{statusDefault.name}}</span></p></ion-col>
+						<!-- <img src="../assets/imgs/caret-down.png" style="width:25px"> -->
+					</ion-row>
+				</ion-item>
+	 			<ion-item (click)="changePriority()">
+					<ion-row class="item-inner" style="border:0!important;padding-right:0px;" no-padding>
+						<ion-col no-padding col-6>Mức độ ưu tiên</ion-col>
+						<ion-col no-padding text-right col-6><p><ion-badge [ngStyle]="{'background-color':priorityDefault.color}" >{{priorityDefault.name}}</ion-badge></p></ion-col>
+						<!-- <img src="../assets/imgs/caret-down.png" style="width:25px"> -->
+					</ion-row>
+				</ion-item>
 	  		</ion-list>
   		</ion-grid>
   	</ion-card>
  	<ion-grid class="ticket-info" *ngIf="ticketDetail.length>0">
-	  	<ion-list no-margin style="overflow-y: scroll;max-height: 90%;">
+	  	<ion-list no-margin >
 	  		<div id="detail" style="background-color:#FFF6D9!important" *ngFor=" let detail of ticketDetail, let i = index " (click)="showMore(detail,i)">
 			  	<ion-item *ngIf="detail.create_name!=null" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
 			  		<ion-avatar item-start [ngStyle]="{'background':'#'+detail.date}" class="box-avatar">{{detail.create_name | charAt}}</ion-avatar>
 				      <h2>{{detail.create_name}}</h2>
-				      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
+				      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}<ion-badge *ngIf="detail.private" class="private-note" float-right>Note</ion-badge></p>
 			  	</ion-item>
 			  	<ion-item *ngIf="detail.create_name==null" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
 			  		<ion-avatar item-start class="box-avatar">SYS</ion-avatar>
 				      <h2>System</h2>
 				      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
 			  	</ion-item>
-		  		<ion-grid [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private ? '0.55px solid #EFDAA3':'0.55px solid #CCC'}" padding-left padding-right>
+		  		<ion-grid [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private && ticketDetail.length!=i ? '0.55px solid #EFDAA3':'0.px solid #CCC'}" padding-left padding-right>
+		  		<!-- <ion-grid [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private ? '0.55px solid #EFDAA3':'0.55px solid #CCC'}" padding-left padding-right> -->
 		  			<ion-row>
 		  				<ion-col col-12 *ngIf="detail.compactContent==''" [innerHTML]="detail.content|safeHtml"></ion-col>
 		  				<ion-col col-12 *ngIf="detail.showMore==true &&detail.compactContent!=''" [innerHTML]="detail.content|safeHtml"></ion-col>

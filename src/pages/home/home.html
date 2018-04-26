@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon class="menu-icon" name="menu"><ion-badge class="badge-count">{{countNotify}}</ion-badge></ion-icon>
     </button>
     
       <ion-row no-padding color="light">
@@ -58,6 +58,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 </ion-content>
+
 
 
 

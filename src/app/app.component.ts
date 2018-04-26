@@ -1,16 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, AlertController, Events } from 'ionic-angular';
+import { Nav, Platform, AlertController, /*Events*/ } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from './../pages/home/home';
 import { SettingPage } from './../pages/setting/setting';
 import { CustomerPage } from './../pages/customer/customer';
+import { NotificationsPage } from './../pages/notifications/notifications';
 //import { ListPage } from './../pages/list/list';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
 import { AuthService } from './services/authentication/auth.service';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+//import { NotificationsService } from './services/notifications.service';
 //import { User } from './models/user';
 
 @Component({
@@ -22,57 +23,35 @@ export class MyApp {
   rootPage: any = LoginPage;
   loggedInUser = {};
   logged = false;
-  pages: Array<{title: string, component: any, icon: string}>;
-
+  pages: Array<{title: string, component: any, icon: string, badge:any}>;
+  countNotify:any;
   constructor(
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen, 
     private _auth: AuthService,
     private alertCtrl: AlertController,
-    public events : Events,
-    private push: Push,
+    //public events : Events,
+    //private _nofityService: NotificationsService
     ) {
     this.initializeApp();
-    this.pushSetup();
-
+    // events.subscribe('updateNotify',(total)=>{
+    //   this.countNotify = total;
+    // });
     // used for an example of ngFor and navigation
     this.pages = [
       //{ title: 'Home', component: HomePage, icon: 'home' },
       //{ title: 'List', component: ListPage, icon: 'notifications-outline'},
-      { title: 'Add Ticket', component: TicketAddPage, icon:'create'},
-      { title: 'Customer', component: CustomerPage, icon:'people'},
-      { title: 'Settings', component: SettingPage, icon:'settings'},
+      { title: 'Notifications', component: NotificationsPage, icon:'notifications-outline', badge:'33'},
+      { title: 'Add Ticket', component: TicketAddPage, icon:'create', badge:''},
+      { title: 'Customer', component: CustomerPage, icon:'people', badge:''},
+      { title: 'Settings', component: SettingPage, icon:'settings', badge:''},
     ];
 
   }
   ngOnInit(){
     
   }
-   pushSetup(){
-    const options: PushOptions = {
-       android: {
-         senderID:'518123301176'
-       },
-       ios: {
-           alert: 'true',
-           badge: true,
-           sound: 'false'
-       },
-       windows: {},
-       browser: {
-           pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-       }
-    };
-    const pushObject: PushObject = this.push.init(options);
-
-
-    pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
-
-    pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
-
-    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-  } 
   initializeApp() {
     this.platform.ready().then(() => {
       if(this._auth.isUserLoggedIn()){
@@ -80,6 +59,9 @@ export class MyApp {
         //this.nav.setRoot(HomePage);
         this.loggedInUser = this._auth.getLoggedInUser();
         this.rootPage = HomePage;
+        // this._nofityService.initListNotifications().subscribe(res=>{
+        //   this.countNotify =res.total;
+        // })
       }else{
         this.logged = false;
         this.loggedInUser = {};

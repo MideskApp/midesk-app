@@ -72,6 +72,25 @@ page-ticket-add{
 			margin:11px 4px 11px 0!important;
 		}
 	}
+	// .chip-assign{
+	// 	ion-chip{
+	// 		margin:0;
+	// 		height: 27px;
+	// 		line-height: 27px;
+	// 		font-size: 13px;
+	// 		color:#FFF;
+	// 		ion-avatar{
+	// 			width:27px;
+	// 			height: 27px;
+	// 			min-width: 27px;
+	// 			min-height: 27px;
+	// 		}
+	// 		.button{
+	// 			width:27px!important;
+	// 			height: 27px!important;
+	// 		}
+	// 	}
+	// }
 	.chip-assign{
 		ion-chip{
 			margin:0;
@@ -82,6 +101,9 @@ page-ticket-add{
 			ion-avatar{
 				width:27px;
 				height: 27px;
+				line-height: 27px;
+				font-size:16px;
+				text-align: center;
 				min-width: 27px;
 				min-height: 27px;
 			}
@@ -98,4 +120,17 @@ page-ticket-add{
 	.note .select-icon{
 		width:15px!important;
 	}
+	.list-md{
+		margin:0!important;
+		.label-md{
+			margin: 14px 0px 14px 0px!important;
+		}
+	}
+	ion-badge{
+		border-radius:2px!important;
+		//margin:0 0 15px 7px!important;
+		padding:2px 5px!important;
+		color:white!important;
+	}
+	
 }

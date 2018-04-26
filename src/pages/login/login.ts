@@ -1,10 +1,10 @@
 import { Component  } from '@angular/core';
-import { AlertController, Events, MenuController, Platform } from 'ionic-angular';
+import { AlertController, MenuController } from 'ionic-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from './../../app/services/authentication/auth.service';
 import { UserService } from './../../app/services/user.service';
-import { LocalNotifications } from '@ionic-native/local-notifications';
+//import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { App } from 'ionic-angular';
 //import { HomePage } from '../home/home';
 
@@ -27,11 +27,8 @@ export class LoginPage {
   	private _authService: AuthService,
     private _userService: UserService,
     private alertCtrl: AlertController,
-    public events: Events,
     private menuCtrl: MenuController,
-    private localNotifications: LocalNotifications,
-    private platform: Platform
-    //private platform: Platform,
+    //private localNotifications: LocalNotifications,
   ){
   	//app._setDisableScroll(true);
     
@@ -72,15 +69,7 @@ export class LoginPage {
                     //var seft = this;
                     setTimeout(function(){
                       window.location.reload();
-                      //.then(data=>{
-                        //seft.navCtrl.getActive().component;
-                        
-                      //});
                     },3000);
-                    
-
-                    //this.navCtrl.setRoot(this.navCtrl.getActive().component);
-                    //this._authService.getRedirectPage();
                 } else {
                     if(typeof res.error != 'undefined'){
                         this.invalidCredentialMsg = res.error.errors.info;
@@ -110,7 +99,7 @@ export class LoginPage {
   }
   presentLoading() {
     let loader = this.loadingCtrl.create({
-      content: "Please wait...",
+      content: "Vui lòng chờ...",
     });
     loader.present();
   }

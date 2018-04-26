@@ -6,8 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-import { Push } from '@ionic-native/push';
-import { FCM} from '@ionic-native/fcm';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 // import { File } from '@ionic-native/file';
 
@@ -20,6 +18,7 @@ import { CustomerService } from './services/customer.service';
 import { TicketService } from './services/ticket.service';
 import { AuthService } from './services/authentication/auth.service';
 import { AuthRequestOptions } from './services/authentication/auth-request.service';
+import { NotificationsService } from './services/notifications.service';
 
 import { MyApp } from './app.component';
 import { HomePage } from './../pages/home/home';
@@ -31,14 +30,18 @@ import { CustomerProfilePage } from './../pages/customer/customer-profile/custom
 import { SettingPage } from './../pages/setting/setting';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { CustomerAddPage } from './../pages/customer/customer-add/customer-add';
-import { ModalAssign } from './../pages/ticket/ticket-add/modal-assign/modal-assign';
-import { ModalRequester } from './../pages/ticket/ticket-add/modal-requester/modal-requester';
-import { ModalProperties } from './../pages/ticket/ticket-add/modal-properties/modal-properties';
+import { NotificationsPage } from './../pages/notifications/notifications';
 
-import { ModalSearchComponent } from './components/modal-search/modal-search.component';
-import { PopoverSort } from './components/popover/popover-sort';
-import { PopoverChannel } from './components/popover/popover-channel';
-import { PopoverCategory } from './../pages/ticket/ticket-add/popover-category/popover-category';
+import { ModalAssign } from './components/modal/modal-assign/modal-assign';
+import { ModalRequester } from './components/modal/modal-requester/modal-requester';
+import { ModalProperties } from './components/modal/modal-properties/modal-properties';
+
+import { ModalSearchTicket } from './components/modal/modal-search-ticket/modal-search.component';
+import { PopoverSort } from './components/popover/popover-sort/popover-sort';
+import { PopoverChannel } from './components/popover/popover-channel/popover-channel';
+import { PopoverCategory } from './components/popover/popover-category/popover-category';
+import { PopoverStatus } from './components/popover/popover-status/popover-status';
+import { PopoverPriority } from './components/popover/popover-priority/popover-priority';
 
 import { GetFirstCharacter } from './pipes/get-first-character.pipe';
 import { ConvertLengthTitle } from './pipes/convert-length-title.pipe';
@@ -58,10 +61,11 @@ import { GetLastSixCharacter} from './pipes/get-last-six-character.pipe';
     LoginPage,
     TicketAddPage,
     TicketDetailPage,
+    NotificationsPage,
     ModalAssign,
     ModalRequester,
     ModalProperties,
-    ModalSearchComponent,
+    ModalSearchTicket,
     GetFirstCharacter,
     ConvertLengthTitle,
     SafeHtmlPipe,
@@ -69,7 +73,9 @@ import { GetLastSixCharacter} from './pipes/get-last-six-character.pipe';
     GetLastSixCharacter,
     PopoverSort,
     PopoverChannel,
-    PopoverCategory
+    PopoverCategory,
+    PopoverStatus,
+    PopoverPriority
   ],
   imports: [
     BrowserModule,
@@ -97,13 +103,16 @@ import { GetLastSixCharacter} from './pipes/get-last-six-character.pipe';
     LoginPage,
     TicketAddPage,
     TicketDetailPage,
+    NotificationsPage,
     ModalAssign,
     ModalRequester,
     ModalProperties,
-    ModalSearchComponent,
+    ModalSearchTicket,
     PopoverSort,
     PopoverChannel,
-    PopoverCategory
+    PopoverCategory,
+    PopoverStatus,
+    PopoverPriority
     //GetFirstCharacter
   ],
   providers: [
@@ -113,11 +122,10 @@ import { GetLastSixCharacter} from './pipes/get-last-six-character.pipe';
     TicketService,
     CustomerService,
     AuthService,
+    NotificationsService,
     StatusBar,
     SplashScreen,
     LocalNotifications,
-    Push,
-    FCM,
     //Keyboard,
     //FileTransfer,
     //FileUploadOptions,

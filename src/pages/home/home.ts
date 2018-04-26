@@ -1,17 +1,16 @@
 import { Component, ViewChild, Injectable } from '@angular/core';
-import { NavController, Select, Platform, ModalController, PopoverController, AlertController } from 'ionic-angular';
+import { NavController, Select, Platform, ModalController, PopoverController, /*Events*/ } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 //import { LoginPage } from'./../login/login';
 import { AuthService } from './../../app/services/authentication/auth.service';
 import { TicketService } from './../../app/services/ticket.service';
 import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
-import { ModalSearchComponent } from './../../app/components/modal-search/modal-search.component';
-import { PopoverSort } from './../../app/components/popover/popover-sort';
-import { PopoverChannel } from './../../app/components/popover/popover-channel';
+//import { NotificationsService } from './../../app/services/notifications.service';
+import { ModalSearchTicket } from './../../app/components/modal/modal-search-ticket/modal-search.component';
+import { PopoverSort } from './../../app/components/popover/popover-sort/popover-sort';
+import { PopoverChannel } from './../../app/components/popover/popover-channel/popover-channel';
 
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
-import { FCM} from '@ionic-native/fcm';
 
 @Component({
   selector: 'page-home',
@@ -53,6 +52,7 @@ export class HomePage {
     sortBy:[],
     channel:'all',
   };
+  countNotify:any;
   constructor(
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
@@ -61,94 +61,26 @@ export class HomePage {
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
-    private _authService: AuthService, 
-    private push: Push,
-    private fcm: FCM,
-    private alertCtrl: AlertController
+    private _authService: AuthService,
+    //private _notifyCtrl: NotificationsService,
+    //public events: Events,
     ) {
     // this.navCtrl.setRoot(this.navCtrl.getActive().component);
+    // this._notifyCtrl.initListNotifications().subscribe(res=>{
+    //   this.countNotify = res.total;
+    // })
+    // events.subscribe('updateNotify',(total)=>{
+    //   this.countNotify = total;
+    // })
   }
-  // ionViewDidLoad() {
-  //   this.platform.ready().then(() => {
-  //     this.initListTicket();
-  //     this.statusBar.styleDefault();
-  //     this.splashScreen.hide();
-  //   });
-  async onNotification(){
-    try{
-      await this.platform.ready();
-      this.fcm.subscribeToTopic('all');
-         this.fcm.onNotification().subscribe(data=>{
-          if(data.wasTapped){
-            console.log("Received in background");
-          } else {
-            console.log("Received in foreground");
-            this.alertCtrl.create({
-              message: data.message
-            }).present();
-          };
-        })
-    }
-    catch(e){
-      console.error(e);
-    }
-  }
-  // }
   ionViewWillLoad(){
     this.initListTicket();
-    // this._ticketService.getPriority().subscribe(res=>{
-    //   this.priority = res;
-    // })
     this.priority = this._authService.getPriority();
-    console.log(this._authService.getPriority());
     var aaaa = this._authService.getLoggedInUserTeam();
     if(aaaa.length>0){
       this.arrayFilter.push({ id:'filter2',name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' });
-    }
-    this.pushSetup();
-    
+    } 
   }
-  pushSetup(){
-    const options: PushOptions = {
-       android: {
-         senderID:'518123301176'
-       },
-       ios: {
-           alert: 'true',
-           badge: true,
-           sound: 'false'
-       },
-       windows: {},
-       browser: {
-           pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-       }
-    };
-    const pushObject: PushObject = this.push.init(options);
-
-
-    pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
-
-    pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
-
-    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-  }
-  ionViewDidLoad() {
-  }
-  // async onNotification(){
-  //   try{
-  //     await this.platform.ready();
-  //     this.fcm.subscribeToTopic('all');
-  //     this.fcm.onNotification(function(data){
-
-  //     })
-  //     // this.fcm.getToken().then(token => {
-  //     //   alert(token);
-  //     // });
-  //   }
-  //   catch(e){
-  //     console.error(e);
-  //   }
-  // }  
   initListTicket(){
     this.modelTicket.dataLoading = true;
     this._ticketService.getListTicket(this.modelTicket).subscribe(res=>{
@@ -159,7 +91,6 @@ export class HomePage {
     });
   }
   doRefresh(refresher) {
-    //console.log('Begin async operation', refresher);
       this.modelTicket.dataPage = 1;
       this.modelTicket.dataTotal = 0;
       this.initListTicket();
@@ -176,7 +107,7 @@ export class HomePage {
   	})
   }
   openModal(){
-    let contactModal = this.modalCtrl.create(ModalSearchComponent);
+    let contactModal = this.modalCtrl.create(ModalSearchTicket);
     contactModal.present();
   }
   doSort(){
@@ -195,7 +126,7 @@ export class HomePage {
   }
   openPopoverSort(myEvent) {
     let data = {priority:this.priority,status:this.status}
-    let popover = this.popoverCtrl.create(PopoverSort,data,{ enableBackdropDismiss: true });
+    let popover = this.popoverCtrl.create(PopoverSort,data,{cssClass:"custom-sort",enableBackdropDismiss: true });
     popover.present({
       ev: myEvent
     });
@@ -213,7 +144,7 @@ export class HomePage {
   }
   openPopoverChannel(myEvent){
     let data = this.modelTicket.channel;
-    let popover = this.popoverCtrl.create(PopoverChannel,{data:data},{ enableBackdropDismiss: true });
+    let popover = this.popoverCtrl.create(PopoverChannel,{data:data},{cssClass:"custom-channel",enableBackdropDismiss: true });
     popover.present({
       ev: myEvent
     });

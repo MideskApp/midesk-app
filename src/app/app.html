@@ -23,6 +23,7 @@
             <ion-row>
               <ion-col col-2><ion-icon name={{p.icon}}></ion-icon></ion-col>
               <ion-col col-8>{{p.title}}</ion-col>
+              <ion-col col-2 *ngIf="p.title=='Notifications'"><ion-badge style="background: #EEAD0E">{{countNotify}}</ion-badge></ion-col>
             </ion-row>
          </ion-grid>
       </button>

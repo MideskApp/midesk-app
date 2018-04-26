@@ -60,8 +60,8 @@
 	  				<ion-icon *ngIf="ticketParams.assign_agent !=='' || ticketParams.assign_team !==''" style="margin:0 -5px 10px 5px" name="close-circle" color="light" (click)="clearAssign()"></ion-icon> -->
 	  			</button>
 	  			<ion-chip float-right *ngIf="assign!==''" (click)="openModalAssign()">
-				  <ion-avatar>
-				    <img src="../assets/imgs/group.png">
+				  <ion-avatar class="box-assign" [ngStyle]="{'background':avatar}">
+				    {{ assign|charAt }}
 				  </ion-avatar>
 				  <ion-label>{{assign |convertLength}}</ion-label>
 				  <button ion-button clear color="light" (click)="clearAssign()">
@@ -100,16 +100,24 @@
   </ion-grid>
   <ion-grid no-padding>
   <ion-list>
-  	<ion-item>
+  	<ion-item (click)="openPopoverStatus()">
+		<ion-row class="item-inner" style="border:0!important" no-padding>
+			<ion-col no-padding col-6>Trạng thái</ion-col>
+			<ion-col no-padding text-right col-6><p><ion-badge color="{{status.value}}">{{status.alias}}</ion-badge><span style="padding-left:5px;font-size:1.5rem">{{status.name}}</span></p></ion-col>
+			<!-- <img src="../assets/imgs/caret-down.png" style="width:25px"> -->
+		</ion-row>
+	</ion-item>
+	<ion-item (click)="openPopoverPriority()">
+		<ion-row class="item-inner" style="border:0!important" no-padding>
+			<ion-col no-padding col-6>Mức độ ưu tiên</ion-col>
+			<ion-col no-padding text-right col-6><p><ion-badge [ngStyle]="{'background-color':priority.color}" >{{priority.name}}</ion-badge></p></ion-col>
+			<!-- <img src="../assets/imgs/caret-down.png" style="width:25px"> -->
+		</ion-row>
+	</ion-item>
+  	<!-- <ion-item>
   		<ion-label>Mức độ ưu tiên</ion-label>
-		    <!-- <ion-select interface="popover" [(ngModel)]="ticketParams.priority">
-		      <ion-option value="1">Khẩn cấp</ion-option>
-		      <ion-option value="2">Cao</ion-option>
-		      <ion-option value="3">Trung bình</ion-option>
-		      <ion-option value="4">Thấp</ion-option>
-		    </ion-select> -->
 	    	<ion-select  interface="popover" [(ngModel)]="ticketParams.priority">
-	      		<ion-option *ngFor="let item of priority" [value]="item.id">{{item.name}}</ion-option>
+	      		<ion-option *ngFor="let item of priority" [value]="item.id">{{item.name}}<ion-icon name="paper-plane"></ion-icon></ion-option>
 	    	</ion-select>
   	</ion-item>
   	<ion-item>
@@ -120,7 +128,8 @@
 	      <ion-option value="pending">Pending</ion-option>
 	      <ion-option value="solved">Solved</ion-option>
 	    </ion-select>
-  	</ion-item>
+  	</ion-item> -->
+	
 <!--   	<ion-item class="custom-category" (click)="openPopoverCategory()" >
   		<ion-row>
   			<ion-col col-4 no-padding>Chủ đề</ion-col>
