@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { NavParams, ViewController } from 'ionic-angular';
-import { TicketService } from './../../../../app/services/ticket.service';
+import { TicketService } from './../../../services/ticket.service';
 
 
 @Component({

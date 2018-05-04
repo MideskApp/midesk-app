@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CustomerService } from './../../../app/services/customer.service';
+import { CustomerService } from '../../../services/customer.service';
 
 /**
  * Generated class for the CustomerAddPage page.

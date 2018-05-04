@@ -1,18 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavParams, NavController, ModalController, Select, ToastController, LoadingController, PopoverController  } from 'ionic-angular';
-import { TicketService } from './../../../app/services/ticket.service';
-import { ModalAssign } from'./../../../app/components/modal/modal-assign/modal-assign';
-import { SettingService } from './../../../app/common/setting.service';
-import { AuthService} from './../../../app/services/authentication/auth.service';
-import { PopoverPriority } from './../../../app/components/popover/popover-priority/popover-priority';
-import { PopoverStatus } from './../../../app/components/popover/popover-status/popover-status';
-//import { ModalRequester } from './../../ticket/ticket-add/modal-requester/modal-requester';
-//import { PopoverCategory } from './../../ticket/ticket-add/popover-category/popover-category';
-//import { UserService } from './../../../app/services/user.service';
-//import { GetFirstCharacter } from './../../../app/pipes/get-first-character.pipe';
-//import { ConvertLengthTitle } from './../../../app/pipes/convert-length-title.pipe';
-//import { SafeHtmlPipe } from './../../../app/pipes/safe-html.pipe';
-//import * as $ from 'jquery';
+import { TicketService } from './../../../services/ticket.service';
+import { ModalAssign } from'./../../../components/modal/modal-assign/modal-assign';
+import { SettingService } from './../../../common/setting.service';
+import { AuthService} from './../../../services/authentication/auth.service';
+import { PopoverPriority } from './../../../components/popover/popover-priority/popover-priority';
+import { PopoverStatus } from './../../../components/popover/popover-status/popover-status';
 
 @Component({
   selector: 'page-ticket-detail',

@@ -2,19 +2,16 @@ import { Component} from '@angular/core';
 import { NavController, NavParams, ModalController, PopoverController,ToastController, LoadingController, AlertController  } from 'ionic-angular';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 // import { File } from '@ionic-native/file';
-import { AuthService } from './../../../app/services/authentication/auth.service';
-import { TicketService } from './../../../app/services/ticket.service';
-import { ModalAssign } from'./../../../app/components/modal/modal-assign/modal-assign';
-import { ModalRequester } from './../../../app/components/modal/modal-requester/modal-requester';
-import { ModalProperties } from './../../../app/components/modal/modal-properties/modal-properties';
-import { PopoverCategory } from './../../../app/components/popover/popover-category/popover-category';
-import { PopoverStatus } from './../../../app/components/popover/popover-status/popover-status';
-import { PopoverPriority } from './../../../app/components/popover/popover-priority/popover-priority';
+import { AuthService } from './../../../services/authentication/auth.service';
+import { TicketService } from './../../../services/ticket.service';
+import { ModalAssign } from'./../../../components/modal/modal-assign/modal-assign';
+import { ModalRequester } from './../../../components/modal/modal-requester/modal-requester';
+import { ModalProperties } from './../../../components/modal/modal-properties/modal-properties';
+import { PopoverCategory } from './../../../components/popover/popover-category/popover-category';
+import { PopoverStatus } from './../../../components/popover/popover-status/popover-status';
+import { PopoverPriority } from './../../../components/popover/popover-priority/popover-priority';
 import { TicketDetailPage} from './../ticket-detail/ticket-detail';
 
-//import { UserService } from './../../../app/services/user.service';
-//import { GetFirstCharacter } from './../../../app/pipes/get-first-character.pipe';
-//import { ConvertLengthTitle } from './../../../app/pipes/convert-length-title.pipe';
 
 @Component({
   selector: 'page-ticket-add',
@@ -61,12 +58,7 @@ export class TicketAddPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private _authService: AuthService
-    //private _userService: UserService,
   	){
-    //  this._userService.getListRequester().subscribe(res=>{
-    //       this.requesters = res.data;
-    // });
-    //const fileTransfer: FileTransferObject = this.transfer.create();
   }
   ionViewWillLoad(){
     this.priority = this._authService.getPriority();

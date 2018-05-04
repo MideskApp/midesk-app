@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SettingService {
-	//public _baseAPIUrl = "http://localhost:8000/api/v1/";
-    //public _baseUrl= "http://localhost:8000";
-    public _baseAPIUrl = "https://webapp-api.midesk.vn/api/v1/";
-    public _baseUrl= "https://webapp-api.midesk.vn/";
+	public _baseAPIUrl = "http://localhost:8000/api/v1/";
+    public _baseUrl= "http://localhost:8000";
+    //public _baseAPIUrl = "https://webapp-api.midesk.vn/api/v1/";
+    //public _baseUrl= "https://webapp-api.midesk.vn/";
     //Authentication
     public _api_auth_login = this._baseAPIUrl + "login";
     public _api_auth_logout = this._baseAPIUrl + "logout";

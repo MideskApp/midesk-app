@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
-import { CustomerService } from './../../../app/services/customer.service';
-import { TicketService } from './../../../app/services/ticket.service';
+import { CustomerService } from './../../../services/customer.service';
+import { TicketService } from './../../../services/ticket.service';
 import { TicketDetailPage } from './../../ticket/ticket-detail/ticket-detail';
 import { TicketAddPage } from './../../ticket/ticket-add/ticket-add';
 /**

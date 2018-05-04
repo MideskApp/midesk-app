@@ -7,12 +7,9 @@ import { HomePage } from './../pages/home/home';
 import { SettingPage } from './../pages/setting/setting';
 import { CustomerPage } from './../pages/customer/customer';
 import { NotificationsPage } from './../pages/notifications/notifications';
-//import { ListPage } from './../pages/list/list';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
-import { AuthService } from './services/authentication/auth.service';
-//import { NotificationsService } from './services/notifications.service';
-//import { User } from './models/user';
+import { AuthService } from '../services/authentication/auth.service';
 
 @Component({
   templateUrl: 'app.html',
@@ -29,15 +26,23 @@ export class MyApp {
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen, 
-    private _auth: AuthService,
+    private _authService: AuthService,
     private alertCtrl: AlertController,
-    //public events : Events,
-    //private _nofityService: NotificationsService
     ) {
+    // const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007/?group=' + 37 };
+    //   SocketIoModule.forRoot(config);
+    //   _socket.connect();
+    //   _socket.on('connect',function(data){
+    //     _socket.emit('room', {
+    //       'room' : _authService.getLoggedInUser().groupid, 
+    //       'fullname' : _authService.getLoggedInUser().firstname+' '+_authService.getLoggedInUser().lastname, 
+    //       'accountid' : _authService.getLoggedInUser().id, 
+    //       'array_agent' : _authService.getLoggedInListAgent(), 
+    //       'array_team' : _authService.getLoggedInListTeam(), 
+    //       'exten' : (_authService.getLoggedInExtension()?_authService.getLoggedInExtension():'9999999') 
+    //     });
+    //   });
     this.initializeApp();
-    // events.subscribe('updateNotify',(total)=>{
-    //   this.countNotify = total;
-    // });
     // used for an example of ngFor and navigation
     this.pages = [
       //{ title: 'Home', component: HomePage, icon: 'home' },
@@ -54,48 +59,18 @@ export class MyApp {
   }
   initializeApp() {
     this.platform.ready().then(() => {
-      if(this._auth.isUserLoggedIn()){
-        this.logged = true;
-        //this.nav.setRoot(HomePage);
-        this.loggedInUser = this._auth.getLoggedInUser();
+      if(this._authService.isUserLoggedIn()){
+        this.loggedInUser = this._authService.getLoggedInUser();
         this.rootPage = HomePage;
-        // this._nofityService.initListNotifications().subscribe(res=>{
-        //   this.countNotify =res.total;
-        // })
       }else{
-        this.logged = false;
         this.loggedInUser = {};
-        //this.nav.setRoot(LoginPage);
         this.rootPage = LoginPage;
       } 
-      console.log(this.nav)
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      // if(this.platform.is('android')){
-      //   this.fcm.subscribeToTopic('all');
-      //   this.fcm.getToken().then(token=>{
-      //     alert(token);
-      //   })
-      //   this.fcm.onNotification().subscribe(data=>{
-      //     if(data.wasTapped){
-      //       console.log("Received in background");
-      //     } else {
-      //       console.log("Received in foreground");
-      //       this.alertCtrl.create({
-      //         message: data.message
-      //       }).present();
-      //     };
-      //   })
-      //   this.fcm.onTokenRefresh().subscribe(token=>{
-      //     alert(token);
-      //   });
-      // }
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
 
   }
-
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
@@ -119,9 +94,7 @@ export class MyApp {
         {
           text: 'Đồng ý',
           handler: data => {
-            this._auth.logoutUser();
-            // this.nav.setRoot(LoginPage);
-            // this.rootPage = LoginPage;
+            this._authService.logoutUser();
             window.location.reload();
           }
         }

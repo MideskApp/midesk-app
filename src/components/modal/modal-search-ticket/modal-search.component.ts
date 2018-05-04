@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
-import { TicketService } from './../../../app/services/ticket.service';
+import { TicketService } from './../../../services/ticket.service';
 
 /**
  * Generated class for the ModalRequesterPage page.
@@ -12,7 +12,7 @@ import { TicketService } from './../../../app/services/ticket.service';
   selector: 'app-modal-search',
   templateUrl: 'modal-search.html',
 })
-export class ModalSearchComponent {
+export class ModalSearchTicket {
   status:any=[
       { id : 1, name : 'Mở mới', value : 'new', color : '#C8C800', alias: 'n'  },
       { id : 2, name : 'Đang mở', value : 'open', color : '#C80000', alias: 'o' },

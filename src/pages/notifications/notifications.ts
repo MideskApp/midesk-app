@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, /*Events*/ } from 'ionic-angular';
-import { NotificationsService } from './../../app/services/notifications.service';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NotificationsService } from './../../services/notifications.service';
 import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
 
 /**
@@ -20,12 +20,7 @@ export class NotificationsPage {
   	public navParams: NavParams, 
   	private _notifyService: NotificationsService,
     private loadingCtrl: LoadingController,
-    //public events: Events
   	) {
-    // events.subscribe('updateNotify',(total)=>{
-    //   this.initListNotifications();
-    // })
-    // this.initListNotifications();
   }
   modelNotify={
   	dataItems:[],

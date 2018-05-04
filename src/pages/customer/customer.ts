@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { CustomerService } from './../../app/services/customer.service';
+import { CustomerService } from './../../services/customer.service';
 import { CustomerProfilePage } from'./customer-profile/customer-profile';
 import { CustomerAddPage } from'./customer-add/customer-add';
 

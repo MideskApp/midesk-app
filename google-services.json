@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:518123301176:android:89ce96813617ebfa",
+        "mobilesdk_app_id": "1:518123301176:android:1f8b62403f791b4f",
         "android_client_info": {
-          "package_name": "com.pwh.push"
+          "package_name": "com.midesk.android"
         }
       },
       "oauth_client": [

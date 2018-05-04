@@ -2,14 +2,12 @@ import { Component, ViewChild, Injectable } from '@angular/core';
 import { NavController, Select, Platform, ModalController, PopoverController, /*Events*/ } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-//import { LoginPage } from'./../login/login';
-import { AuthService } from './../../app/services/authentication/auth.service';
-import { TicketService } from './../../app/services/ticket.service';
+import { AuthService } from './../../services/authentication/auth.service';
+import { TicketService } from './../../services/ticket.service';
 import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
-//import { NotificationsService } from './../../app/services/notifications.service';
-import { ModalSearchTicket } from './../../app/components/modal/modal-search-ticket/modal-search.component';
-import { PopoverSort } from './../../app/components/popover/popover-sort/popover-sort';
-import { PopoverChannel } from './../../app/components/popover/popover-channel/popover-channel';
+import { ModalSearchTicket } from './../../components/modal/modal-search-ticket/modal-search.component';
+import { PopoverSort } from './../../components/popover/popover-sort/popover-sort';
+import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 
 
 @Component({
@@ -61,23 +59,14 @@ export class HomePage {
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
-    private _authService: AuthService,
-    //private _notifyCtrl: NotificationsService,
-    //public events: Events,
+    private _authService: AuthService
     ) {
-    // this.navCtrl.setRoot(this.navCtrl.getActive().component);
-    // this._notifyCtrl.initListNotifications().subscribe(res=>{
-    //   this.countNotify = res.total;
-    // })
-    // events.subscribe('updateNotify',(total)=>{
-    //   this.countNotify = total;
-    // })
   }
   ionViewWillLoad(){
     this.initListTicket();
     this.priority = this._authService.getPriority();
-    var aaaa = this._authService.getLoggedInUserTeam();
-    if(aaaa.length>0){
+    var aaaa = this._authService.getLoggedInListTeam();
+    if(aaaa!=''){
       this.arrayFilter.push({ id:'filter2',name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' });
     } 
   }
