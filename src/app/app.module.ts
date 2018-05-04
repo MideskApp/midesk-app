@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { FCM } from '@ionic-native/fcm';
 
 import { CookieService } from 'angular2-cookie/core';
 
@@ -114,6 +115,7 @@ import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
     StatusBar,
     SplashScreen,
     LocalNotifications,
+    FCM,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: RequestOptions,

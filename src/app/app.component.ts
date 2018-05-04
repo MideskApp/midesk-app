@@ -1,3 +1,5 @@
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { FCM } from '@ionic-native/fcm';
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, AlertController, /*Events*/ } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -28,6 +30,8 @@ export class MyApp {
     public splashScreen: SplashScreen, 
     private _authService: AuthService,
     private alertCtrl: AlertController,
+    _fcm: FCM,
+    _localNotification: LocalNotifications
     ) {
     // const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007/?group=' + 37 };
     //   SocketIoModule.forRoot(config);
@@ -42,6 +46,14 @@ export class MyApp {
     //       'exten' : (_authService.getLoggedInExtension()?_authService.getLoggedInExtension():'9999999') 
     //     });
     //   });
+    _fcm.subscribeToTopic('all');
+    _fcm.onNotification().subscribe(data=>{
+      _localNotification.schedule({
+        id:1,
+        title:data.title,
+        text:data.message
+      })
+    })
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
