@@ -2,7 +2,7 @@ import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail'
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, AlertController, NavController } from 'ionic-angular';
+import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -31,7 +31,6 @@ export class MyApp {
     public splashScreen: SplashScreen, 
     private _authService: AuthService,
     private alertCtrl: AlertController,
-    private navCtrl: NavController,
     _fcm: FCM,
     _localNotification: LocalNotifications
     ) {
@@ -57,7 +56,7 @@ export class MyApp {
         smallIcon: 'res://notification',
       })
       if(data.wasTapped){
-        this.navCtrl.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
+        this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
       }
     })
     this.initializeApp();
