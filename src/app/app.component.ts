@@ -53,8 +53,8 @@ export class MyApp {
       _localNotification.schedule({
         id:1,
         title:data.title,
-        text:data.message,
-        smallIcon: 'res://notification',
+        text:data.message
+        //smallIcon: 'res://notification',
       })
       if(data.wasTapped){
         navCtrl.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
