@@ -51,7 +51,8 @@ export class MyApp {
       _localNotification.schedule({
         id:1,
         title:data.title,
-        text:data.message
+        text:data.message,
+        icon:'notifications-outline'
       })
     })
     this.initializeApp();
