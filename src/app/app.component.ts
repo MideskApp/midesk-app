@@ -1,4 +1,4 @@
-import { TicketDetailPage } from './../../tmp/src/pages/ticket/ticket-detail/ticket-detail';
+import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
 import { Component, ViewChild } from '@angular/core';
