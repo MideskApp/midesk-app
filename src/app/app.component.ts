@@ -56,9 +56,9 @@ export class MyApp {
         text:data.message
         //smallIcon: 'res://notification',
       })
-      if(data.wasTapped){
-        navCtrl.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
-      }
+      // if(data.wasTapped){
+      //   navCtrl.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
+      // }
     })
     this.initializeApp();
     // used for an example of ngFor and navigation
