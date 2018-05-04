@@ -4,27 +4,6 @@
 		<ion-buttons end>
 			<button [disabled]="ticketParams.title==''||ticketParams.priority==''||ticketParams.status==''||ticketParams.requester==''"(click)="createTicket()" ion-button><ion-icon name="paper-plane" style="width:25px" color="light"></ion-icon></button>
 		</ion-buttons>
-		<!-- <ion-row>
-			<ion-col col-2 class="header-title">
-				<ion-buttons>
-					<button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-				</ion-buttons>
-			</ion-col>
-			<ion-col col-7 class="header-title"><span>Add Ticket</span></ion-col>
-			<ion-col col-3 class="header-title">
-				<ion-buttons end>
-					<button [disabled]="ticketParams.title==''||ticketParams.priority==''||ticketParams.status==''||ticketParams.requester==''" style="background:transparent" (click)="createTicket()"><ion-icon name="paper-plane" style="width:25px" color="light"></ion-icon></button>
-				</ion-buttons>
-			</ion-col>
-		</ion-row> -->
-		<!-- <ion-buttons>
-			<button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-		</ion-buttons>
-		<ion-buttons padding-horizital><ion-title>Add Ticket</ion-title>
-		</ion-buttons>
-		<ion-buttons end>
-			<button style="background:transparent" (click)="createTicket()"><ion-icon name="send" style="font-size:2em" color="light"></ion-icon></button>
-		</ion-buttons> -->
 	</ion-navbar>	
 </ion-header>
 
@@ -139,7 +118,7 @@
   	</ion-item> -->
   	
   	<ion-item text-center>
-  		<img (click)="openModalProperties()" class="more-icon" src="../assets/imgs/more.png" />
+  		<img (click)="openModalProperties()" class="more-icon" src="assets/imgs/more.png" />
   	</ion-item>
   </ion-list>
   </ion-grid>
