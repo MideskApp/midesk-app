@@ -1,3 +1,4 @@
+import { NotificationsService } from './../services/notifications.service';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
@@ -31,6 +32,7 @@ export class MyApp {
     public splashScreen: SplashScreen, 
     private _authService: AuthService,
     private alertCtrl: AlertController,
+    private _notifyService:NotificationsService,
     _fcm: FCM,
     _localNotification: LocalNotifications
     ) {
@@ -47,18 +49,21 @@ export class MyApp {
     //       'exten' : (_authService.getLoggedInExtension()?_authService.getLoggedInExtension():'9999999') 
     //     });
     //   });
-    _fcm.subscribeToTopic('all');
-    _fcm.onNotification().subscribe(data=>{
-      _localNotification.schedule({
-        id:1,
-        title:data.title,
-        text:data.message,
-        smallIcon: 'res://notification',
-      })
-      if(data.wasTapped){
-        this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
-      }
-    })
+    // _fcm.subscribeToTopic('all');
+    // _fcm.onNotification().subscribe(data=>{
+    //   _localNotification.schedule({
+    //     id:1,
+    //     title:data.title,
+    //     text:data.message,
+    //     smallIcon: 'res://notification',
+    //   })
+    //   if(data.wasTapped){
+    //     this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
+    //   }
+    //   else{
+    //     this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
+    //   }
+    // })
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
@@ -78,6 +83,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       if(this._authService.isUserLoggedIn()){
         this.loggedInUser = this._authService.getLoggedInUser();
+        this._notifyService.initListNotifications(0).subscribe(res=>{ this.countNotify = res.total;});
         this.rootPage = HomePage;
       }else{
         this.loggedInUser = {};

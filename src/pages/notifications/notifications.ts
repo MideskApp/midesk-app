@@ -67,6 +67,7 @@ export class NotificationsPage {
   	})
   }
   deleteViewNotify(index,i){
+    console.log(this.modelNotify.dataItems.indexOf(index));
     let loader = this.loadingCtrl.create({
       spinner:'dots',
     })
@@ -74,8 +75,9 @@ export class NotificationsPage {
   	this._notifyService.deleteViewNotifications(index.id).subscribe(res=>{
   		if(res.code==200){
   			//this.presentToast(res.message,'success-toast');
-        this.modelNotify.dataItems[i].del = 1;
-      //this.initListNotifications();
+        //this.modelNotify.dataItems[i].del = 1;
+        this.modelNotify.dataItems.splice(this.modelNotify.dataItems.indexOf(index),1);
+        //this.initListNotifications();
       //this.events.publish('updateNotify',this.modelNotify.dataTotal);
       loader.dismiss();
   		}
@@ -91,9 +93,9 @@ export class NotificationsPage {
 
   }
   doRefresh(refresher){
-    // this.modelNotify.dataPage=1;
-    // this.initListNotifications();
-    // refresher.complete();
+    this.modelNotify.dataPage=1;
+    this.initListNotifications();
+    refresher.complete();
   }
   // presentToast(mess,css) {
   //   let toast = this.toastCtrl.create({

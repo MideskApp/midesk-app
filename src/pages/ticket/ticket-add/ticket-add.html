@@ -33,10 +33,6 @@
 	  	<ion-col col-6 class="chip-assign">
 	  			<button *ngIf="assign==''" no-margin float-right style="padding:0 0.5em!important" ion-button class="assign-button">
 	  				<span (click)="openModalAssign()">Người xử lý</span>
-	  				<!-- <span *ngIf=" ticketParams.assign_agent ==='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">{{assignTeam |convertLength}}</span>
-	  				<span *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">{{assignName |convertLength}}</span>
-	  				<span *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team ==='' " (click)="openModalAssign()">{{assignName |convertLength}}</span>
-	  				<ion-icon *ngIf="ticketParams.assign_agent !=='' || ticketParams.assign_team !==''" style="margin:0 -5px 10px 5px" name="close-circle" color="light" (click)="clearAssign()"></ion-icon> -->
 	  			</button>
 	  			<ion-chip float-right *ngIf="assign!==''" (click)="openModalAssign()">
 				  <ion-avatar class="box-assign" [ngStyle]="{'background':avatar}">
@@ -47,33 +43,6 @@
 					<ion-icon name="close-circle"  ></ion-icon>
 				  </button>
 				</ion-chip>
-	  			<!-- <ion-chip float-right *ngIf=" ticketParams.assign_agent ==='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">
-				  <ion-avatar>
-				    <img src="../assets/imgs/group.png">
-				  </ion-avatar>
-				  <ion-label>{{assignTeam |convertLength}}</ion-label>
-				  <button ion-button clear color="light" (click)="clearAssign()">
-					<ion-icon name="close-circle"  ></ion-icon>
-				  </button>
-				</ion-chip>
-				<ion-chip float-right *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team !=='' " (click)="openModalAssign()">
-				   <ion-avatar class="box-avatar">
-				    {{assignName | charAt}}
-				  </ion-avatar>
-				  <ion-label>{{assignName |convertLength}}</ion-label>
-				  <button ion-button clear color="light"(click)="clearAssign()">
-					<ion-icon name="close-circle"></ion-icon>
-				  </button>
-				</ion-chip>
-				<ion-chip float-right *ngIf=" ticketParams.assign_agent !=='' && ticketParams.assign_team ==='' " (click)="openModalAssign()">
-				   <ion-avatar>
-				    {{assignName | charAt}}
-				  </ion-avatar>
-				  <ion-label>{{assignName |convertLength}}</ion-label>
-				  <button ion-button clear color="light" (click)="clearAssign()">
-					<ion-icon name="close-circle"></ion-icon>
-				  </button>
-				</ion-chip>			 -->
 	  	</ion-col>
   	</ion-row>
   </ion-grid>
@@ -93,30 +62,6 @@
 			<!-- <img src="../assets/imgs/caret-down.png" style="width:25px"> -->
 		</ion-row>
 	</ion-item>
-  	<!-- <ion-item>
-  		<ion-label>Mức độ ưu tiên</ion-label>
-	    	<ion-select  interface="popover" [(ngModel)]="ticketParams.priority">
-	      		<ion-option *ngFor="let item of priority" [value]="item.id">{{item.name}}<ion-icon name="paper-plane"></ion-icon></ion-option>
-	    	</ion-select>
-  	</ion-item>
-  	<ion-item>
-  		<ion-label>Trạng thái</ion-label>
-	    <ion-select interface="popover" color="secondary" [(ngModel)]="ticketParams.status">
-	      <ion-option value="new">New<ion-icon name="user"></ion-icon></ion-option>
-	      <ion-option value="open">Open</ion-option>
-	      <ion-option value="pending">Pending</ion-option>
-	      <ion-option value="solved">Solved</ion-option>
-	    </ion-select>
-  	</ion-item> -->
-	
-<!--   	<ion-item class="custom-category" (click)="openPopoverCategory()" >
-  		<ion-row>
-  			<ion-col col-4 no-padding>Chủ đề</ion-col>
-  			<ion-col col-7 text-right padding-right><p>{{categoryName|convertLength}}</p></ion-col>
-  			<ion-col col-1 no-padding text-right><ion-buttons end><img src="../assets/imgs/caret-down.png" style="width:25px"></ion-buttons></ion-col> 
-  		</ion-row>
-  	</ion-item> -->
-  	
   	<ion-item text-center>
   		<img (click)="openModalProperties()" class="more-icon" src="assets/imgs/more.png" />
   	</ion-item>

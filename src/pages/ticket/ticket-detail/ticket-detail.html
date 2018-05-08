@@ -36,7 +36,7 @@
 	  		</button>
 	  		<ion-chip *ngIf="assign!==''" float-right>
 			  <ion-avatar class="box-assign" [ngStyle]="{'background':avatar}">{{assign| charAt}}</ion-avatar>
-			  <ion-label>{{assign|convertLength}}</ion-label>
+			  <ion-label (click)="openModalAssign()">{{assign|convertLength}}</ion-label>
 			  <button ion-button clear color="light">
 			    <ion-icon *ngIf="reChoose"  (click)="reChooseAssign()" name="close-circle"></ion-icon>
 			    <ion-icon *ngIf="!reChoose" (click)="openModalAssign()" name="swap"></ion-icon>

@@ -9,6 +9,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
 
 import { CookieService } from 'angular2-cookie/core';
+import { SocketIoModule } from 'ng-socket-io';
 
 import { SettingService } from '../common/setting.service';
 import { UserService } from '../services/user.service';
@@ -17,6 +18,7 @@ import { TicketService } from '../services/ticket.service';
 import { AuthService } from '../services/authentication/auth.service';
 import { AuthRequestOptions } from '../services/authentication/auth-request.service';
 import { NotificationsService } from '../services/notifications.service';
+//import { SocketService } from './../common/socket.service';
 
 import { MyApp } from './app.component';
 import { HomePage } from './../pages/home/home';
@@ -76,6 +78,7 @@ import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    SocketIoModule,
   ],
   exports:[
     GetFirstCharacter,
@@ -116,6 +119,7 @@ import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
     SplashScreen,
     LocalNotifications,
     FCM,
+    //SocketService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: RequestOptions,

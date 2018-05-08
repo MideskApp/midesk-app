@@ -85,6 +85,36 @@ export class TicketService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    countTicketNotSolved(){
+        return this._http.get(this._settingGlobal._api_count_ticket_not_solved)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    countTicketNotSolvedInTeam(){
+        return this._http.get(this._settingGlobal._api_count_ticket_not_solved_in_team)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    countTicketNotAssign(){
+        return this._http.get(this._settingGlobal._api_count_ticket_not_assign)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    countTicketIsPending(){
+        return this._http.get(this._settingGlobal._api_count_ticket_is_pending)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    countTicketIsSolved(){
+        return this._http.get(this._settingGlobal._api_count_ticket_is_solved)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    countTicketIsCreateby(){
+        return this._http.get(this._settingGlobal._api_count_ticket_is_createby)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     private handleError = (error: any) => {
         return Observable.of([]);
     }

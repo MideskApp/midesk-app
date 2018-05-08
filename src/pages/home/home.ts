@@ -1,3 +1,4 @@
+import { NotificationsService } from './../../services/notifications.service';
 import { Component, ViewChild, Injectable } from '@angular/core';
 import { NavController, Select, Platform, ModalController, PopoverController, /*Events*/ } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -22,13 +23,21 @@ export class HomePage {
       { id: 'desc', name: 'Mới nhất', value: 'desc' },
       { id: 'asc', name: 'Cũ nhất', value: 'asc' },
   ];
+  // arrayFilter:any=[
+  //     { id:'filter1', name:'Yêu cầu tạo bởi bạn', value:'yêu cầu được tạo bởi bạn' },
+  //     { id:'filter3',name:'Yêu cầu chưa phân công', value: 'yêu cầu chưa phân công' },
+  //     { id:'filter4', name:'Yêu cầu đang chờ xử lý', value: 'yêu cầu đang chờ xử lý' },
+  //     { id:'filter5', name:'Yêu cầu đã xử lý', value: 'yêu cầu đã xử lý' },
+  //     { id:'filter6', name:'Yêu cầu chưa giải quyết', value: 'yêu cầu chưa giải quyết' }
+  // ];
   arrayFilter:any=[
-      { id:'filter1', name:'Yêu cầu tạo bởi bạn', value:'yêu cầu được tạo bởi bạn' },
-      { id:'filter3',name:'Yêu cầu chưa phân công', value: 'yêu cầu chưa phân công' },
-      { id:'filter4', name:'Yêu cầu đang chờ xử lý', value: 'yêu cầu đang chờ xử lý' },
-      { id:'filter5', name:'Yêu cầu đã xử lý', value: 'yêu cầu đã xử lý' },
-      { id:'filter6', name:'Yêu cầu chưa giải quyết', value: 'yêu cầu chưa giải quyết' }
-  ];
+    { id:'filter1', name:'Yêu cầu chưa giải quyết của bạn', value: 'yêu cầu chưa giải quyết của bạn' },
+    { id:'filter2', name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' },
+    { id:'filter3', name:'Yêu cầu chưa phân công', value: 'yêu cầu chưa phân công' },
+    { id:'filter4', name:'Yêu cầu đang chờ xử lý', value: 'yêu cầu đang chờ xử lý' },
+    { id:'filter5', name:'Yêu cầu đã xử lý', value: 'yêu cầu đã xử lý' },
+    { id:'filter6', name:'Yêu cầu tạo bởi bạn', value: 'yêu cầu tạo bởi bạn' }
+];
   status:any=[
       { id : 1, name : 'Mở mới', value : 'new', color : '#C8C800', alias: 'n', checked: false  },
       { id : 2, name : 'Đang mở', value : 'open', color : '#C80000', alias: 'o', checked: false },
@@ -37,7 +46,7 @@ export class HomePage {
   ];
   priority=[];
   filterTicket:any={
-  	filterBy:'yêu cầu được tạo bởi bạn',
+  	filterBy:'yêu cầu chưa giải quyết của bạn',
   	sortBy:'desc'
   };
   modelTicket:any={
@@ -46,10 +55,14 @@ export class HomePage {
     dataLoading:false,
     dataTotal:0,
     loadMore:false,
-    filterBy:'yêu cầu được tạo bởi bạn',
+    filterBy:'yêu cầu chưa giải quyết của bạn',
     sortBy:[],
     channel:'all',
   };
+  filterOption = {
+    cssClass: 'my-class'
+  } 
+  countList:any=[];
   countNotify:any;
   constructor(
     public navCtrl: NavController,
@@ -59,16 +72,26 @@ export class HomePage {
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _notifyService: NotificationsService
     ) {
+      this._notifyService.initListNotifications(0).subscribe(res=>{ this.countNotify = res.total;});
+      this._ticketService.countTicketNotSolved().subscribe(res=>{ this.countList['filter1'] =  res });
+      this._ticketService.countTicketNotSolvedInTeam().subscribe(res=>{ this.countList['filter2'] = res });
+      if(this._authService.getLoggedInUser().level=='agent') this.countList['filter3'] = 0;
+      else this._ticketService.countTicketNotAssign().subscribe(res=>{ this.countList['filter3'] = res });
+      this._ticketService.countTicketIsPending().subscribe(res=>{ this.countList['filter4'] = res });
+      this._ticketService.countTicketIsSolved().subscribe(res=>{ this.countList['filter5'] = res });
+      this._ticketService.countTicketIsCreateby().subscribe(res=>{ this.countList['filter6'] = res });
   }
   ionViewWillLoad(){
     this.initListTicket();
     this.priority = this._authService.getPriority();
-    var aaaa = this._authService.getLoggedInListTeam();
-    if(aaaa!=''){
-      this.arrayFilter.push({ id:'filter2',name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' });
-    } 
+    
+    // var aaaa = this._authService.getLoggedInListTeam();
+    // if(aaaa!=''){
+    //   this.arrayFilter.push({ id:'filter2',name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' });
+    // } 
   }
   initListTicket(){
     this.modelTicket.dataLoading = true;

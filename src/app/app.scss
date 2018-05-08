@@ -84,7 +84,7 @@
 	font-size:2rem;
 }
 .popover-content{
-	width:320px!important;
+	width:330px!important;
 }
 .custom-popup .popover-content,.custom-sort .popover-content,.custom-channel .popover-content,.custom-status .popover-content,.custom-priority .popover-content{
 	width:200px!important;
@@ -100,5 +100,13 @@
 	left:40%!important;
 	// top:206px!important;
 	// left:148px!important;
+}
+.my-class{
+	.item-md .radio-md{
+		margin:0!important;
+		.radio-icon{
+			display: none!important;
+		}
+	}
 }
 //
