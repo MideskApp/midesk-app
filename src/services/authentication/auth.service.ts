@@ -7,6 +7,8 @@ import 'rxjs/add/operator/catch';
 //import { SettingService } from './../../common/setting.service';
 import { CookieService } from 'angular2-cookie/core';
 import { User } from './../../models/user';
+import { Observable } from 'rxjs/Observable';
+import * as io from 'socket.io-client';
 
 //import { SocketIoModule, SocketIoConfig, Socket } from 'ng-socket-io';
 
@@ -15,6 +17,7 @@ export const TOKEN_NAME: string = 'jwt_token';
 @Injectable()
 export class AuthService {
     private isloggedIn: boolean = false;
+    private socket: SocketIOClient.Socket;
     private loggedInUser: any; //User
     constructor(
         public _cookieService: CookieService,
@@ -49,6 +52,21 @@ export class AuthService {
             this._cookieService.putObject('curgroup',{ extension: this.loggedInUser.extension ,list_team: this.loggedInUser.list_team, list_agent: this.loggedInUser.list_agent });
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
+            let groupidd = "room_"+this.getLoggedInUser().groupid;
+            this.socket = io('https://michat.mitek.vn:3007/?group=' + groupidd);
+            
+            this.socket.on('connect',data=>{
+                
+                this.socket.emit('room', {
+                    'room' : groupidd, 
+                    'fullname' : this.getLoggedInUser().firstname+' '+this.getLoggedInUser().lastname, 
+                    'accountid' : this.getLoggedInUser().id, 
+                    'array_agent' : this.getLoggedInListAgent(), 
+                    'array_team' : this.getLoggedInListTeam(), 
+                    'exten' : (this.getLoggedInExtension()?this.getLoggedInExtension():'9999999') 
+                });
+                console.log(data);
+            });
             //this.connectSocket();
         } else {
             console.log('Empty token ---');

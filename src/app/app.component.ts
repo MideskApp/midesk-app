@@ -14,13 +14,14 @@ import { NotificationsPage } from './../pages/notifications/notifications';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
 import { AuthService } from '../services/authentication/auth.service';
+import * as io from 'socket.io-client';
 
 @Component({
   templateUrl: 'app.html',
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-
+  private socket: SocketIOClient.Socket;
   rootPage: any = LoginPage;
   loggedInUser = {};
   logged = false;
@@ -36,6 +37,9 @@ export class MyApp {
     _fcm: FCM,
     _localNotification: LocalNotifications
     ) {
+      // this.socket.on('connect',data=>{
+      //   console.log('Socket connected');
+      // })
     // const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007/?group=' + 37 };
     //   SocketIoModule.forRoot(config);
     //   _socket.connect();

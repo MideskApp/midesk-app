@@ -18,7 +18,7 @@ import { TicketService } from '../services/ticket.service';
 import { AuthService } from '../services/authentication/auth.service';
 import { AuthRequestOptions } from '../services/authentication/auth-request.service';
 import { NotificationsService } from '../services/notifications.service';
-//import { SocketService } from './../common/socket.service';
+import { SocketService } from './../common/socket.service';
 
 import { MyApp } from './app.component';
 import { HomePage } from './../pages/home/home';
@@ -45,7 +45,7 @@ import { PopoverPriority } from '../components/popover/popover-priority/popover-
 import { GetFirstCharacter } from '../pipes/get-first-character.pipe';
 import { ConvertLengthTitle } from '../pipes/convert-length-title.pipe';
 import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
-
+import * as io from 'socket.io-client';
 
 @NgModule({
   declarations: [
@@ -119,7 +119,7 @@ import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
     SplashScreen,
     LocalNotifications,
     FCM,
-    //SocketService,
+    SocketService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: RequestOptions,
