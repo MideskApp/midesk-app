@@ -58,7 +58,7 @@ export class MyApp {
         text:data.message,
         smallIcon: 'res://notification',
       })
-      _localNotification.on('click',data=>{
+      _localNotification.on('schedule',data=>{
         alert(data);
       })
       // if(data.wasTapped){
