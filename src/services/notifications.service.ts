@@ -27,6 +27,11 @@ export class NotificationsService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    countNewNotifications(){
+        return this._http.get(this._settingGlobal._api_notifications_countNewNotify)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     private extractData(res: Response) {
         let body = res.json();
         return body || {};

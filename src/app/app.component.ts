@@ -69,7 +69,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       if(this._authService.isUserLoggedIn()){
         this.loggedInUser = this._authService.getLoggedInUser();
-        this._notifyService.initListNotifications(0).subscribe(res=>{ this.countNotify = res.total;});
+        this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
         this.rootPage = HomePage;
       }else{
         this.loggedInUser = {};

@@ -79,7 +79,7 @@ export class HomePage {
       // this.socket.on('connect',data=>{
       //   console.log('connected socket :',data);
       // });
-      this._notifyService.initListNotifications(0).subscribe(res=>{ this.countNotify = res.total;});
+      this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
       this._ticketService.countTicketNotSolved().subscribe(res=>{ this.countList['filter1'] =  res });
       this._ticketService.countTicketNotSolvedInTeam().subscribe(res=>{ this.countList['filter2'] = res });
       if(this._authService.getLoggedInUser().level=='agent') this.countList['filter3'] = 0;
