@@ -10,7 +10,6 @@ import { ModalSearchTicket } from './../../components/modal/modal-search-ticket/
 import { PopoverSort } from './../../components/popover/popover-sort/popover-sort';
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -31,12 +30,12 @@ export class HomePage {
   //     { id:'filter6', name:'Yêu cầu chưa giải quyết', value: 'yêu cầu chưa giải quyết' }
   // ];
   arrayFilter:any=[
-    { id:'filter1', name:'Yêu cầu chưa giải quyết của bạn', value: 'yêu cầu chưa giải quyết của bạn' },
-    { id:'filter2', name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' },
-    { id:'filter3', name:'Yêu cầu chưa phân công', value: 'yêu cầu chưa phân công' },
-    { id:'filter4', name:'Yêu cầu đang chờ xử lý', value: 'yêu cầu đang chờ xử lý' },
-    { id:'filter5', name:'Yêu cầu đã xử lý', value: 'yêu cầu đã xử lý' },
-    { id:'filter6', name:'Yêu cầu tạo bởi bạn', value: 'yêu cầu tạo bởi bạn' }
+    { id:'filter1', name:'Phiếu chưa giải quyết của bạn', value: 'yêu cầu chưa giải quyết của bạn' },
+    { id:'filter2', name:'Phiếu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' },
+    { id:'filter3', name:'Phiếu chưa phân công', value: 'yêu cầu chưa phân công' },
+    { id:'filter4', name:'Phiếu đang chờ xử lý', value: 'yêu cầu đang chờ xử lý' },
+    { id:'filter5', name:'Phiếu đã xử lý', value: 'yêu cầu đã xử lý' },
+    { id:'filter6', name:'Phiếu tạo bởi bạn', value: 'yêu cầu tạo bởi bạn' }
 ];
   status:any=[
       { id : 1, name : 'Mở mới', value : 'new', color : '#C8C800', alias: 'n', checked: false  },
@@ -75,6 +74,9 @@ export class HomePage {
     private _authService: AuthService,
     private _notifyService: NotificationsService
     ) {
+      // this.socket.on('connect',data=>{
+      //   console.log('connected socket :',data);
+      // });
       this._notifyService.initListNotifications(0).subscribe(res=>{ this.countNotify = res.total;});
       this._ticketService.countTicketNotSolved().subscribe(res=>{ this.countList['filter1'] =  res });
       this._ticketService.countTicketNotSolvedInTeam().subscribe(res=>{ this.countList['filter2'] = res });
@@ -87,7 +89,6 @@ export class HomePage {
   ionViewWillLoad(){
     this.initListTicket();
     this.priority = this._authService.getPriority();
-    
     // var aaaa = this._authService.getLoggedInListTeam();
     // if(aaaa!=''){
     //   this.arrayFilter.push({ id:'filter2',name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' });

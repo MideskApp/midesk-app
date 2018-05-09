@@ -2,6 +2,7 @@ import { NotificationsService } from './../services/notifications.service';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
+import { Socket } from 'ng-socket-io';
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -14,14 +15,12 @@ import { NotificationsPage } from './../pages/notifications/notifications';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
 import { AuthService } from '../services/authentication/auth.service';
-import * as io from 'socket.io-client';
 
 @Component({
   templateUrl: 'app.html',
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  private socket: SocketIOClient.Socket;
   rootPage: any = LoginPage;
   loggedInUser = {};
   logged = false;
@@ -34,40 +33,41 @@ export class MyApp {
     private _authService: AuthService,
     private alertCtrl: AlertController,
     private _notifyService:NotificationsService,
+    private _socket: Socket,
     _fcm: FCM,
     _localNotification: LocalNotifications
     ) {
-      // this.socket.on('connect',data=>{
-      //   console.log('Socket connected');
-      // })
-    // const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007/?group=' + 37 };
-    //   SocketIoModule.forRoot(config);
-    //   _socket.connect();
-    //   _socket.on('connect',function(data){
-    //     _socket.emit('room', {
-    //       'room' : _authService.getLoggedInUser().groupid, 
-    //       'fullname' : _authService.getLoggedInUser().firstname+' '+_authService.getLoggedInUser().lastname, 
-    //       'accountid' : _authService.getLoggedInUser().id, 
-    //       'array_agent' : _authService.getLoggedInListAgent(), 
-    //       'array_team' : _authService.getLoggedInListTeam(), 
-    //       'exten' : (_authService.getLoggedInExtension()?_authService.getLoggedInExtension():'9999999') 
-    //     });
-    //   });
-    // _fcm.subscribeToTopic('all');
-    // _fcm.onNotification().subscribe(data=>{
-    //   _localNotification.schedule({
-    //     id:1,
-    //     title:data.title,
-    //     text:data.message,
-    //     smallIcon: 'res://notification',
-    //   })
-    //   if(data.wasTapped){
-    //     this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
-    //   }
-    //   else{
-    //     this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
-    //   }
-    // })
+      // if(_authService.isUserLoggedIn()){
+      //   _socket.connect();
+      //   _socket.on('connect',function(data){
+      //   _socket.emit('room', {
+      //     'room' : _authService.getLoggedInUser().groupid, 
+      //     'fullname' : _authService.getLoggedInUser().firstname+' '+_authService.getLoggedInUser().lastname, 
+      //     'accountid' : _authService.getLoggedInUser().id, 
+      //     'array_agent' : _authService.getLoggedInListAgent(), 
+      //     'array_team' : _authService.getLoggedInListTeam(), 
+      //     'exten' : (_authService.getLoggedInExtension()?_authService.getLoggedInExtension():'9999999') 
+      //   });
+      // }); 
+      // }
+    _fcm.subscribeToTopic('all');
+    _fcm.onNotification().subscribe(data=>{
+      _localNotification.schedule({
+        id:1,
+        title:data.title,
+        text:data.message,
+        smallIcon: 'res://notification',
+      })
+      _localNotification.on('click',data=>{
+        alert(data);
+      })
+      // if(data.wasTapped){
+      //   this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
+      // }
+      // else{
+      //   this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
+      // }
+    })
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
