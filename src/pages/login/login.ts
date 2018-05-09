@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from './../../services/authentication/auth.service';
 import { UserService } from './../../services/user.service';
+import { SocketService } from '../../common/socket.service';
 //import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { App } from 'ionic-angular';
 //import { HomePage } from '../home/home';
@@ -28,6 +29,7 @@ export class LoginPage {
     private _userService: UserService,
     private alertCtrl: AlertController,
     private menuCtrl: MenuController,
+    private _socketService: SocketService
     //private localNotifications: LocalNotifications,
   ){
   	//app._setDisableScroll(true);
@@ -64,6 +66,9 @@ export class LoginPage {
             res => {
                 this.submitLoading = false;
                 if (this._authService.setUserAuthenticated(res)) {
+                    let room=(JSON.parse(res.success.room));
+                    this._socketService.connect(room);
+                    //this._socketService.emitData('room',room);
                     //this.events.publish('logged');
                     this.presentLoading();
                     //var seft = this;

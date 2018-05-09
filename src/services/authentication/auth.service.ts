@@ -15,7 +15,6 @@ export const TOKEN_NAME: string = 'jwt_token';
 @Injectable()
 export class AuthService {
     private isloggedIn: boolean = false;
-    private socket: SocketIOClient.Socket;
     private loggedInUser: any; //User
     constructor(
         public _cookieService: CookieService,
@@ -67,24 +66,24 @@ export class AuthService {
         }
         return this.loggedInUser;
     }
-    getLoggedInListTeam(){
-        if (this._cookieService.getObject('curgroup')) {
-            this.loggedInUser = this._cookieService.getObject('curgroup')['list_team'];
-        }
-        return this.loggedInUser;
-    }
-    getLoggedInListAgent(){
-        if (this._cookieService.getObject('curgroup')) {
-            this.loggedInUser = this._cookieService.getObject('curgroup')['list_agent'];
-        }
-        return this.loggedInUser;
-    }
-    getLoggedInExtension(){
-        if (this._cookieService.getObject('curgroup')) {
-            this.loggedInUser = this._cookieService.getObject('curgroup')['extension'];
-        }
-        return this.loggedInUser;
-    }
+    // getLoggedInListTeam(){
+    //     if (this._cookieService.getObject('curgroup')) {
+    //         this.loggedInUser = this._cookieService.getObject('curgroup')['list_team'];
+    //     }
+    //     return this.loggedInUser;
+    // }
+    // getLoggedInListAgent(){
+    //     if (this._cookieService.getObject('curgroup')) {
+    //         this.loggedInUser = this._cookieService.getObject('curgroup')['list_agent'];
+    //     }
+    //     return this.loggedInUser;
+    // }
+    // getLoggedInExtension(){
+    //     if (this._cookieService.getObject('curgroup')) {
+    //         this.loggedInUser = this._cookieService.getObject('curgroup')['extension'];
+    //     }
+    //     return this.loggedInUser;
+    // }
     // getLoggedInUserTeam() {
     //     if (this._cookieService.getObject('curgroup')) {
     //         this.loggedInUser = this._cookieService.getObject('curgroup')['team'];

@@ -9,6 +9,7 @@ import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
 import { ModalSearchTicket } from './../../components/modal/modal-search-ticket/modal-search.component';
 import { PopoverSort } from './../../components/popover/popover-sort/popover-sort';
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
+import { SocketService } from '../../common/socket.service';
 
 @Component({
   selector: 'page-home',
@@ -72,7 +73,8 @@ export class HomePage {
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
     private _authService: AuthService,
-    private _notifyService: NotificationsService
+    private _notifyService: NotificationsService,
+    private _socketService: SocketService
     ) {
       // this.socket.on('connect',data=>{
       //   console.log('connected socket :',data);
@@ -85,6 +87,9 @@ export class HomePage {
       this._ticketService.countTicketIsPending().subscribe(res=>{ this.countList['filter4'] = res });
       this._ticketService.countTicketIsSolved().subscribe(res=>{ this.countList['filter5'] = res });
       this._ticketService.countTicketIsCreateby().subscribe(res=>{ this.countList['filter6'] = res });
+      this._socketService.listEvent('NEW NOTIFI',false).subscribe(res=>{
+        alert('Ban co 1 thong bao moi');
+      });
   }
   ionViewWillLoad(){
     this.initListTicket();

@@ -37,37 +37,19 @@ export class MyApp {
     _fcm: FCM,
     _localNotification: LocalNotifications
     ) {
-      // if(_authService.isUserLoggedIn()){
-      //   _socket.connect();
-      //   _socket.on('connect',function(data){
-      //   _socket.emit('room', {
-      //     'room' : _authService.getLoggedInUser().groupid, 
-      //     'fullname' : _authService.getLoggedInUser().firstname+' '+_authService.getLoggedInUser().lastname, 
-      //     'accountid' : _authService.getLoggedInUser().id, 
-      //     'array_agent' : _authService.getLoggedInListAgent(), 
-      //     'array_team' : _authService.getLoggedInListTeam(), 
-      //     'exten' : (_authService.getLoggedInExtension()?_authService.getLoggedInExtension():'9999999') 
-      //   });
-      // }); 
-      // }
-    _fcm.subscribeToTopic('all');
-    _fcm.onNotification().subscribe(data=>{
-      _localNotification.schedule({
-        id:1,
-        title:data.title,
-        text:data.message,
-        smallIcon: 'res://notification',
-      })
-      _localNotification.on('schedule',data=>{
-        alert(data);
-      })
-      // if(data.wasTapped){
-      //   this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
-      // }
-      // else{
-      //   this.nav.push(TicketDetailPage,JSON.stringify({id:data.ticket_id}));
-      // }
-    })
+      
+    // _fcm.subscribeToTopic('all');
+    // _fcm.onNotification().subscribe(data=>{
+    //   _localNotification.schedule({
+    //     id:1,
+    //     title:data.title,
+    //     text:data.message,
+    //     smallIcon: 'res://notification',
+    //   })
+    //   _localNotification.on('schedule',data=>{
+    //     alert(data);
+    //   })
+    // })
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
@@ -107,6 +89,7 @@ export class MyApp {
   }
   logOut(){
     this.confirmLogout();
+    this._socket.disconnect();
   }
   confirmLogout(){
     let prompt = this.alertCtrl.create({
