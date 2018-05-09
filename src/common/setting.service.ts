@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SettingService {
-	//public _baseAPIUrl = "http://localhost:8000/api/v1/";
-    //public _baseUrl= "http://localhost:8000";
+	// public _baseAPIUrl = "http://localhost:8000/api/v1/";
+    // public _baseUrl= "http://localhost:8000";
     public _baseAPIUrl = "https://webapp-api.midesk.vn/api/v1/";
     public _baseUrl= "https://webapp-api.midesk.vn/";
     //Authentication
@@ -44,6 +44,7 @@ export class SettingService {
     public _api_notifications_getList = this._baseAPIUrl + 'getListNotification/';
     public _api_notifications_updateView = this._baseAPIUrl + 'updateViewNotify/';
     public _api_notifications_deleteView = this._baseAPIUrl + 'deleteViewNotify/';
+    public _api_notifications_countNewNotify = this._baseAPIUrl + 'countNewNotifications';
     //fcm notifications
     public _api_notification = 'https://fcm.googleapis.com/fcm/send';
 }
