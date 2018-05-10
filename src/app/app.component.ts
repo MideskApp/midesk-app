@@ -41,18 +41,14 @@ export class MyApp {
     _socket.on('NEW NOTIFI',data=>{
       this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
     }) 
-    // _fcm.subscribeToTopic('all');
-    // _fcm.onNotification().subscribe(data=>{
-    //   _localNotification.schedule({
-    //     id:1,
-    //     title:data.title,
-    //     text:data.message,
-    //     smallIcon: 'res://notification',
-    //   })
-    //   _localNotification.on('schedule',data=>{
-    //     alert(data);
-    //   })
-    // })
+    _fcm.subscribeToTopic('all');
+    _fcm.onNotification().subscribe(data=>{
+      _localNotification.schedule({
+        id:1,
+        text:data.title,
+        data:data.data,
+      })
+    })
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [

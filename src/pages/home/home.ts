@@ -87,6 +87,22 @@ export class HomePage {
     },2000);
     _socket.on('NEW NOTIFI',data=>{
       console.log(data);
+      let del_agent = data[0]['del_agent'];
+      let view = data[0]['view'];
+      let userId = _authService.getLoggedInUser().id;
+      let title = data[0]['title'];
+      var regex = /(<([^>]+)>)/ig
+      title = title.replace(regex, "");
+      if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
+        let body:any={
+          title: title,
+          data:JSON.parse(data[0]['custom']),
+        }
+        this.pushNotifications(body);
+      }
+      else{
+        console.log('NOT');
+      }
       this.loadCountTicket();
     })
   }
@@ -171,7 +187,6 @@ export class HomePage {
         this.modelTicket.dataTotal=0;
         this.initListTicket();
       }
-      //
       console.log(data);
       //
     });
@@ -191,22 +206,19 @@ export class HomePage {
       }
     });
   }
-  testNotification(){
+  pushNotifications(data:any={}){
     let body ={
       "notification":{
-      "title":"New Notification has arrived",
-      "body":"Notification Body",
+      "title":"Bạn có thông báo mới!",
+      "body":data.title,
       "sound":"default",
       "click_action":"FCM_PLUGIN_ACTIVITY",
       "icon":"fcm_push_icon"
       },
-      "data":{
-        "param1":"value1",
-        "param2":"value2"
-      },
+      "data":data.data,
       "to":"/topics/all",
       "priority":"high",
-      "restricted_package_name":""
+      //"restricted_package_name":""
     }
     this._ticketService.pushNotifications(body).subscribe();
   }
