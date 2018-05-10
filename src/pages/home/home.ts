@@ -10,6 +10,8 @@ import { ModalSearchTicket } from './../../components/modal/modal-search-ticket/
 import { PopoverSort } from './../../components/popover/popover-sort/popover-sort';
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 import { SocketService } from '../../common/socket.service';
+import { Socket } from 'ng-socket-io';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'page-home',
@@ -64,6 +66,7 @@ export class HomePage {
   } 
   countList:any=[];
   countNotify:any;
+  room:any={}
   constructor(
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
@@ -74,30 +77,43 @@ export class HomePage {
     private modalCtrl: ModalController,
     private _authService: AuthService,
     private _notifyService: NotificationsService,
-    private _socketService: SocketService
+    private _socketService: SocketService,
+    private _socket: Socket
     ) {
-      // this.socket.on('connect',data=>{
-      //   console.log('connected socket :',data);
-      // });
-      this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-      this._ticketService.countTicketNotSolved().subscribe(res=>{ this.countList['filter1'] =  res });
-      this._ticketService.countTicketNotSolvedInTeam().subscribe(res=>{ this.countList['filter2'] = res });
-      if(this._authService.getLoggedInUser().level=='agent') this.countList['filter3'] = 0;
-      else this._ticketService.countTicketNotAssign().subscribe(res=>{ this.countList['filter3'] = res });
-      this._ticketService.countTicketIsPending().subscribe(res=>{ this.countList['filter4'] = res });
-      this._ticketService.countTicketIsSolved().subscribe(res=>{ this.countList['filter5'] = res });
-      this._ticketService.countTicketIsCreateby().subscribe(res=>{ this.countList['filter6'] = res });
-      this._socketService.listEvent('NEW NOTIFI',false).subscribe(res=>{
-        alert('Ban co 1 thong bao moi');
-      });
+    this.room=JSON.parse(_authService.getLoggedInRoom());
+    let self = this;
+    setTimeout(function(){
+      self.test();
+    },2000);
+    _socket.on('NEW NOTIFI',data=>{
+      console.log(data);
+      this.loadCountTicket();
+    })
   }
-  ionViewWillLoad(){
+  test(){
+    //this.room= JSON.parse(this._authService.getLoggedInRoom());
+    this._socket.connect();
+    this._socket.emit('room',this.room);
+    
+  }
+  test2(){
+    this._socket.disconnect();
+  }
+  ionViewDidLoad(){
     this.initListTicket();
     this.priority = this._authService.getPriority();
-    // var aaaa = this._authService.getLoggedInListTeam();
-    // if(aaaa!=''){
-    //   this.arrayFilter.push({ id:'filter2',name:'Yêu cầu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' });
-    // } 
+    this.loadCountTicket();
+  }
+  loadCountTicket(){
+    this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
+      this._ticketService.countTicket().subscribe(res=>{
+        this.countList['filter1'] = res.filter1;
+        this.countList['filter2'] = res.filter2;
+        this.countList['filter3'] = res.filter3;
+        this.countList['filter4'] = res.filter4;
+        this.countList['filter5'] = res.filter5;
+        this.countList['filter6'] = res.filter6;
+    })
   }
   initListTicket(){
     this.modelTicket.dataLoading = true;

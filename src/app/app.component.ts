@@ -4,7 +4,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
 import { Socket } from 'ng-socket-io';
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, AlertController } from 'ionic-angular';
+import { Nav, Platform, AlertController, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -34,10 +34,13 @@ export class MyApp {
     private alertCtrl: AlertController,
     private _notifyService:NotificationsService,
     private _socket: Socket,
+    private loadingCtrl: LoadingController,
     _fcm: FCM,
     _localNotification: LocalNotifications
     ) {
-      
+    _socket.on('NEW NOTIFI',data=>{
+      this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
+    }) 
     // _fcm.subscribeToTopic('all');
     // _fcm.onNotification().subscribe(data=>{
     //   _localNotification.schedule({
@@ -69,6 +72,12 @@ export class MyApp {
     this.platform.ready().then(() => {
       if(this._authService.isUserLoggedIn()){
         this.loggedInUser = this._authService.getLoggedInUser();
+        let room = this._authService.getLoggedInRoom();
+        // this._socket.connect();
+        // this._socket.emit('room',room);
+        // this._socket.on('NEW NOTIFI',data=>{
+        //   console.log(data);
+        // })
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
         this.rootPage = HomePage;
       }else{
@@ -78,7 +87,6 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-
   }
   openPage(page) {
     // Reset the content nav to have just this page
@@ -90,6 +98,11 @@ export class MyApp {
   logOut(){
     this.confirmLogout();
     this._socket.disconnect();
+  }
+  presentLoading() {
+    let loader = this.loadingCtrl.create({
+    });
+    loader.present();
   }
   confirmLogout(){
     let prompt = this.alertCtrl.create({
@@ -104,6 +117,7 @@ export class MyApp {
         {
           text: 'Đồng ý',
           handler: data => {
+            this.presentLoading();
             this._authService.logoutUser();
             window.location.reload();
           }

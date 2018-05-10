@@ -66,15 +66,10 @@ export class LoginPage {
             res => {
                 this.submitLoading = false;
                 if (this._authService.setUserAuthenticated(res)) {
-                    let room=(JSON.parse(res.success.room));
-                    this._socketService.connect(room);
-                    //this._socketService.emitData('room',room);
-                    //this.events.publish('logged');
                     this.presentLoading();
-                    //var seft = this;
-                    setTimeout(function(){
+                    
                       window.location.reload();
-                    },3000);
+                    
                 } else {
                     if(typeof res.error != 'undefined'){
                         this.invalidCredentialMsg = res.error.errors.info;

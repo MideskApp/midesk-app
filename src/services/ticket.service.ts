@@ -115,6 +115,11 @@ export class TicketService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    countTicket(){
+        return this._http.get(this._settingGlobal._api_count_ticket)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     private handleError = (error: any) => {
         return Observable.of([]);
     }

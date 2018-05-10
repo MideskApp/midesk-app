@@ -10,7 +10,7 @@ import { FCM } from '@ionic-native/fcm';
 
 import { CookieService } from 'angular2-cookie/core';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {} };
+
 
 import { SettingService } from '../common/setting.service';
 import { UserService } from '../services/user.service';
@@ -46,7 +46,7 @@ import { PopoverPriority } from '../components/popover/popover-priority/popover-
 import { GetFirstCharacter } from '../pipes/get-first-character.pipe';
 import { ConvertLengthTitle } from '../pipes/convert-length-title.pipe';
 import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
-
+const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {} };
 
 @NgModule({
   declarations: [
