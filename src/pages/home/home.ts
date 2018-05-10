@@ -207,14 +207,15 @@ export class HomePage {
     });
   }
   pushNotifications(data:any={}){
+    alert(data.title);
     let body ={
       "notification":{
-      "title":"Bạn có thông báo mới!",
-      "body":data.title,
-      "sound":"default",
-      "click_action":"FCM_PLUGIN_ACTIVITY",
-      "icon":"fcm_push_icon"
-      },
+        "title":"Bạn có thông báo mới!",
+        "body":data.title,
+        "sound":"default",
+        "click_action":"FCM_PLUGIN_ACTIVITY",
+        "icon":"fcm_push_icon"
+        },
       "data":data.data,
       "to":"/topics/all",
       "priority":"high",
