@@ -27,12 +27,7 @@ export class SettingService {
     public _api_create_ticket = this._baseAPIUrl + 'createTicket';
     public _api_action_ticket = this._baseAPIUrl + 'actionTicket';
     public _api_ticket_customer = this._baseAPIUrl + 'getTicketByCustomer/';
-    public _api_count_ticket_not_solved = this._baseAPIUrl + 'countTicketNotSolved';
-    public _api_count_ticket_not_solved_in_team = this._baseAPIUrl + 'countTicketNotSolvedInTeam';
-    public _api_count_ticket_not_assign = this._baseAPIUrl + 'countTicketNotAssign';
-    public _api_count_ticket_is_pending = this._baseAPIUrl + 'countTicketIsPending';
-    public _api_count_ticket_is_solved = this._baseAPIUrl + 'countTicketIsSolved';
-    public _api_count_ticket_is_createby = this._baseAPIUrl + 'countTicketIsCreateBy';
+    public _api_count_ticket = this._baseAPIUrl + 'countTicket';
     //--
     //customer service
     public _api_customer_getList = this._baseAPIUrl + 'getListCustomer/';
