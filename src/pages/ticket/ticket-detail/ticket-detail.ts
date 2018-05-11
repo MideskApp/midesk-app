@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavParams, NavController, ModalController, Select, ToastController, LoadingController, PopoverController  } from 'ionic-angular';
+import { NavParams, NavController, ModalController, Select, ToastController, LoadingController, PopoverController, AlertController  } from 'ionic-angular';
 import { TicketService } from './../../../services/ticket.service';
 import { ModalAssign } from'./../../../components/modal/modal-assign/modal-assign';
 import { SettingService } from './../../../common/setting.service';
@@ -71,7 +71,8 @@ export class TicketDetailPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private _authService: AuthService,
-    private popoverCtrl: PopoverController
+    private popoverCtrl: PopoverController,
+    private alertCtrl: AlertController,
   	){
     this.urlFile = this._settingService._baseUrl+'/public/upload/';
     let loader = this.loadingCtrl.create({
@@ -87,37 +88,52 @@ export class TicketDetailPage {
     let navData = (this.navParamsCtrl.get('data'));
     this._ticketService.getTicketDetail(navData).subscribe(res=>{
       console.log(res.success);
-      this.ticketInfo = res.success;
-      this.ticketDefault.priority = res.success.priority;
-      this.ticketDefault.status = res.success.status;
-      this.ticketDefault.agent_name = res.success.agent_name;
-      this.ticketDefault.team_name = res.success.team_name;
-      this.ticketDefault.assign_agent = res.success.assign_agent;
-      this.ticketDefault.assign_team = res.success.assign_team;
-      if(typeof this.ticketInfo.agent_name !='undefined'){
-        this.assign = this.ticketInfo.agent_name;
-        this.avatar = '#4F4F4F';
-      }
-      else if(typeof this.ticketInfo.team_name != 'undefined'){
-        this.assign = this.ticketInfo.team_name;
-        this.avatar = '#2979ff';
-      }
-      if(this.ticketInfo.request != null){
-        this.requesterName = this.ticketInfo.request;
-      }
-      for(let i=0;i<this.status.length;i++){
-        if(this.ticketDefault.status==this.status[i].value){
-          this.statusDefault = this.status[i];
-          break;
+      if(res.code == 200){
+        this.ticketInfo = res.success;
+        this.ticketDefault.priority = res.success.priority;
+        this.ticketDefault.status = res.success.status;
+        this.ticketDefault.agent_name = res.success.agent_name;
+        this.ticketDefault.team_name = res.success.team_name;
+        this.ticketDefault.assign_agent = res.success.assign_agent;
+        this.ticketDefault.assign_team = res.success.assign_team;
+        if(typeof this.ticketInfo.agent_name !='undefined'){
+          this.assign = this.ticketInfo.agent_name;
+          this.avatar = '#4F4F4F';
         }
-      }
-      for(let i=0;i<this.priority.length;i++){
-        if(this.ticketDefault.priority==this.priority[i].id){
-          this.priorityDefault = this.priority[i];
-          break;
+        else if(typeof this.ticketInfo.team_name != 'undefined'){
+          this.assign = this.ticketInfo.team_name;
+          this.avatar = '#2979ff';
         }
-      }
-      this.ticketDetail = res.detail;
+        if(this.ticketInfo.request != null){
+          this.requesterName = this.ticketInfo.request;
+        }
+        for(let i=0;i<this.status.length;i++){
+          if(this.ticketDefault.status==this.status[i].value){
+            this.statusDefault = this.status[i];
+            break;
+          }
+        }
+        for(let i=0;i<this.priority.length;i++){
+          if(this.ticketDefault.priority==this.priority[i].id){
+            this.priorityDefault = this.priority[i];
+            break;
+          }
+        }
+        this.ticketDetail = res.detail;
+        }
+        else{
+          let alert = this.alertCtrl.create({
+            subTitle:'Không tìm thấy phiếu',
+            buttons:[{
+              text:'Quay lại',
+              handler: data=>{
+                this.navCtrl.pop();
+              }
+            }],
+            enableBackdropDismiss:false
+          })
+          alert.present();
+        }
     });
   }
   openModalAssign() {
