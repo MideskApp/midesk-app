@@ -40,13 +40,31 @@ export class MyApp {
     ) {
     _socket.on('NEW NOTIFI',data=>{
       this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
+      let del_agent = data[0]['del_agent'];
+      let view = data[0]['view'];
+      let userId = _authService.getLoggedInUser().id;
+      let title = data[0]['title'];
+      var regex = /(<([^>]+)>)/ig
+      title = title.replace(regex, "");
+      let custom = JSON.parse(data[0]['custom']);
+      if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
+        _localNotification.schedule({
+          id:1,
+          title:'Bạn có thông báo mới!',
+          text:title,
+          data:custom
+        })
+      }
+      else{
+        console.log('NOT');
+      }
     }) 
     _fcm.subscribeToTopic('all');
     _fcm.onNotification().subscribe(data=>{
       _localNotification.schedule({
-        id:1,
-        text:data.title,
-        data:data.data,
+        id:2,
+        title:'Thông báo từ firebase',
+        text:'....',
       })
     })
     this.initializeApp();
@@ -93,7 +111,6 @@ export class MyApp {
   }
   logOut(){
     this.confirmLogout();
-    this._socket.disconnect();
   }
   presentLoading() {
     let loader = this.loadingCtrl.create({
@@ -114,6 +131,7 @@ export class MyApp {
           text: 'Đồng ý',
           handler: data => {
             this.presentLoading();
+            this._socket.disconnect();
             this._authService.logoutUser();
             window.location.reload();
           }
