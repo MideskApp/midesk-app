@@ -119,8 +119,23 @@ page-ticket-detail{
 		padding:2px 5px!important;
 		color:white!important;
 	}
-	.private-note{
+	.private-notee{
 		background: #F4A460;
 	}
-
+	.status-pending{
+		color: #15BDE9;
+		font-weight: 500;
+	}
+	.status_new {
+		color: #C8C800;
+		font-weight: 500;
+	}
+	.status_solved, .status_closed {
+		color: #ccc;
+		font-weight: 500;
+	}
+	.status_open {
+		color: #C80000;
+		font-weight: 500;
+	}
 }
