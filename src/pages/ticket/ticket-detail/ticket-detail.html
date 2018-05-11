@@ -1,8 +1,8 @@
 <ion-header>
 	<ion-navbar>
 		<ion-title>#{{ticketInfo.ticket_id}}</ion-title>
-		<ion-buttons end><button ion-button [disabled]="countChange<=0" (click)="actionTicket()"><ion-icon color="light" name="paper-plane"></ion-icon><ion-badge class="badge-count" *ngIf="countChange>0" id="send-badge">{{countChange}}</ion-badge></button></ion-buttons>
-	    <ion-buttons end><button ion-button><ion-icon color="light" (click)="openActionSheet()" name="more"></ion-icon></button></ion-buttons>
+		<ion-buttons class="padding-button" end><button ion-button [disabled]="countChange<=0" (click)="actionTicket()"><ion-icon class="send-icon" color="light" name="paper-plane"></ion-icon><ion-badge class="badge-count" *ngIf="countChange>0" id="send-badge">{{countChange}}</ion-badge></button></ion-buttons>
+	    <ion-buttons class="padding-button" end><button ion-button><ion-icon class="send-icon" color="light" (click)="openActionSheet()" name="more"></ion-icon></button></ion-buttons>
 	    <!-- <button ion-button menuToggle>
 	      <ion-icon name="menu"></ion-icon>
 	    </button>
@@ -16,7 +16,7 @@
 		<ion-spinner text-center name="crescent"></ion-spinner>
 	</div>
 	<div *ngIf="!loading">
-	<ion-grid style="background-color: #2cd094;opacity:0.9">
+	<ion-grid style="background-color: #2cd094;opacity:0.8">
   	<ion-row no-padding>
 	  	<ion-col col-12>
 	  	<ion-item class="ticket-title bg-transparent no-border" no-padding>
@@ -70,15 +70,15 @@
 	  		<div id="detail" style="background-color:#FFF6D9!important" *ngFor=" let detail of ticketDetail, let i = index " (click)="showMore(detail,i)">
 			  	<ion-item *ngIf="detail.create_name!=null" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
 			  		<ion-avatar item-start [ngStyle]="{'background':'#'+detail.date}" class="box-avatar">{{detail.create_name | charAt}}</ion-avatar>
-				      <h2>{{detail.create_name}}</h2>
-				      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}<ion-badge *ngIf="detail.private" class="private-note" float-right>Note</ion-badge></p>
+				      <h2 class="create-by">{{detail.create_name}}</h2>
+				      <p class="create-time">{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}<ion-badge *ngIf="detail.private" class="private-notee" float-right>Note</ion-badge></p>
 			  	</ion-item>
 			  	<ion-item *ngIf="detail.create_name==null" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
 			  		<ion-avatar item-start class="box-avatar">SYS</ion-avatar>
-				      <h2>System</h2>
-				      <p>{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
+				      <h2 class="create-by">System</h2>
+				      <p class="create-time">{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
 			  	</ion-item>
-		  		<ion-grid [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private && ticketDetail.length!=i ? '0.55px solid #EFDAA3':'0.px solid #CCC'}" padding-left padding-right>
+		  		<ion-grid class="content-detail" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private && ticketDetail.length!=i ? '0.55px solid #EFDAA3':'0.px solid #CCC'}" padding-left padding-right>
 		  		<!-- <ion-grid [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private ? '0.55px solid #EFDAA3':'0.55px solid #CCC'}" padding-left padding-right> -->
 		  			<ion-row>
 		  				<ion-col col-12 *ngIf="detail.compactContent==''" [innerHTML]="detail.content|safeHtml"></ion-col>
@@ -114,6 +114,7 @@
 		</ion-row>
 	</ion-grid>
 </ion-footer>
+
 
 <ion-select  interface="action-sheet" #actionSheet >
       <ion-option>Delete</ion-option>

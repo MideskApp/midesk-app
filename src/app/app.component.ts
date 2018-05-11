@@ -86,7 +86,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       if(this._authService.isUserLoggedIn()){
         this.loggedInUser = this._authService.getLoggedInUser();
-        let room = this._authService.getLoggedInRoom();
+        //let room = this._authService.getLoggedInRoom();
         // this._socket.connect();
         // this._socket.emit('room',room);
         // this._socket.on('NEW NOTIFI',data=>{

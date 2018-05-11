@@ -122,7 +122,11 @@ page-ticket-detail{
 	.private-notee{
 		background: #F4A460;
 	}
-	.status-pending{
+	.private-note {
+		color: #444444;
+		font-weight: 500;
+	}
+	.status_pending{
 		color: #15BDE9;
 		font-weight: 500;
 	}
@@ -138,4 +142,27 @@ page-ticket-detail{
 		color: #C80000;
 		font-weight: 500;
 	}
+	.send-icon{
+		font-size:2rem;
+	}
+	.padding-button{
+		padding-right:5px;
+	}
+	.item-md{
+		.create-by{
+			margin: 2px 0;
+			font-size: 1.4rem;
+			font-weight: bold;
+		}
+		.create-time{
+			font-size: 1.4rem;
+		}
+	}
+	.content-detail{
+		padding:0 8px 0 16px!important;
+		ion-col{
+			padding:0 0 5px 5px;
+		}
+	}
+	
 }
