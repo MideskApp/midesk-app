@@ -83,9 +83,9 @@ export class HomePage {
     private _socket: Socket,
     private _fcm: FCM
     ) {
-    _fcm.getToken().then(token=>{
-      this.deviceToken = token;
-    })
+    // _fcm.getToken().then(token=>{
+    //   this.deviceToken = token;
+    // })
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
     setTimeout(function(){
