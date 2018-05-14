@@ -83,36 +83,16 @@ export class HomePage {
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
     setTimeout(function(){
-      self.test();
+      self.connectSocket();
     },2000);
-    _socket.on('NEW NOTIFI',data=>{
-      // console.log(data);
-      // let del_agent = data[0]['del_agent'];
-      // let view = data[0]['view'];
-      // let userId = _authService.getLoggedInUser().id;
-      // let title = data[0]['title'];
-      // var regex = /(<([^>]+)>)/ig
-      // title = title.replace(regex, "");
-      // if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
-      //   let body:any={
-      //     title: title,
-      //     data:JSON.parse(data[0]['custom']),
-      //   }
-      //   this.pushNotifications(body);
-      // }
-      // else{
-      //   console.log('NOT');
-      // }
-      this.loadCountTicket();
-    })
+    this.listenEventNewNotifi();
   }
-  test(){
+  connectSocket(){
     //this.room= JSON.parse(this._authService.getLoggedInRoom());
     this._socket.connect();
     this._socket.emit('room',this.room);
-    
   }
-  test2(){
+  disconnectSocket(){
     this._socket.disconnect();
   }
   ionViewDidLoad(){
@@ -206,6 +186,28 @@ export class HomePage {
       }
     });
   }
+  listenEventNewNotifi(){
+    this._socket.on('NEW NOTIFI',data=>{
+      console.log(data);
+      let del_agent = data[0]['del_agent'];
+      let view = data[0]['view'];
+      let userId = this._authService.getLoggedInUser().id;
+      let title = data[0]['title'];
+      var regex = /(<([^>]+)>)/ig
+      title = title.replace(regex, "");
+      if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
+        let body:any={
+          title: title,
+          data:JSON.parse(data[0]['custom']),
+        }
+        //this.pushNotifications(body);
+      }
+      else{
+        console.log('NOT');
+      }
+      this.loadCountTicket();
+    })
+  }
   // pushNotifications(data:any={}){
   //   alert(data.title);
   //   let body ={
@@ -218,6 +220,7 @@ export class HomePage {
   //       },
   //     "data":data.data,
   //     "to":"/topics/all",
+  //     "to":"518123301176"
   //     "priority":"high",
   //     //"restricted_package_name":""
   //   }
