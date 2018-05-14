@@ -26,6 +26,7 @@ export class MyApp {
   logged = false;
   pages: Array<{title: string, component: any, icon: string, badge:any}>;
   countNotify:any;
+  token:any;
   constructor(
     public platform: Platform, 
     public statusBar: StatusBar, 
@@ -60,11 +61,7 @@ export class MyApp {
     //   }
     // })
     _fcm.subscribeToTopic('all');
-    _fcm.getToken().then(token=>{
-      alert(token);
-    })
     _fcm.onNotification().subscribe(data=>{
-      alert(1);
       _localNotification.schedule({
         id:2,
         title:data.title,
@@ -90,7 +87,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       if(this._authService.isUserLoggedIn()){
         this.loggedInUser = this._authService.getLoggedInUser();
-        //let room = this._authService.getLoggedInRoom();
+        // let room = this._authService.getLoggedInRoom();
         // this._socket.connect();
         // this._socket.emit('room',room);
         // this._socket.on('NEW NOTIFI',data=>{

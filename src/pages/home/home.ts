@@ -68,6 +68,7 @@ export class HomePage {
   countList:any=[];
   countNotify:any;
   room:any={};
+  deviceToken:any;
   constructor(
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
@@ -80,7 +81,11 @@ export class HomePage {
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
     private _socket: Socket,
+    private _fcm: FCM
     ) {
+    _fcm.getToken().then(token=>{
+      this.deviceToken = token;
+    })
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
     setTimeout(function(){
@@ -210,6 +215,7 @@ export class HomePage {
     })
   }
   pushNotifications(data:any={}){
+    this.deviceToken = this._fcm.getToken
     let body ={
       "notification":{
         "title":"Bạn có thông báo mới!",
@@ -219,7 +225,8 @@ export class HomePage {
         "icon":"fcm_push_icon"
         },
       "data":data.data,
-      "to":"/topics/all",
+      //"to":"/topics/all",
+      "to":this.deviceToken,
       "priority":"high",
       "restricted_package_name":""
     }
