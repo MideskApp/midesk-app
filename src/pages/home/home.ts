@@ -215,20 +215,21 @@ export class HomePage {
     })
   }
   pushNotifications(data:any={}){
-    this.deviceToken = this._fcm.getToken
-    let body ={
-      "notification":{
-        "title":"Bạn có thông báo mới!",
-        "body":data.title,
-        "sound":"default",
-        "click_action":"FCM_PLUGIN_ACTIVITY",
-        "icon":"fcm_push_icon"
-        },
-      "data":data.data,
-      "to":"/topics/all",
-      "priority":"high",
-      "restricted_package_name":""
-    }
-    this._ticketService.pushNotifications(body).subscribe();
+    this._fcm.getToken().then(token=>{
+      let body ={
+        "notification":{
+          "title":"Bạn có thông báo mới!",
+          "body":data.title,
+          "sound":"default",
+          "click_action":"FCM_PLUGIN_ACTIVITY",
+          "icon":"fcm_push_icon"
+          },
+        "data":data.data,
+        "to":token,
+        "priority":"high",
+        "restricted_package_name":""
+      }
+      this._ticketService.pushNotifications(body).subscribe();
+    })
   }
 }
