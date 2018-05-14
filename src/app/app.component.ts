@@ -59,15 +59,16 @@ export class MyApp {
     //     console.log('NOT');
     //   }
     // })
-    _socket.on('NEW NOTIFI',data=>{
-      _fcm.subscribeToTopic('all');
-      _fcm.onNotification().subscribe(data=>{
-        alert(1);
-        _localNotification.schedule({
-          id:2,
-          title:data.title,
-          text:data.body,
-        })
+    _fcm.subscribeToTopic('all');
+    _fcm.getToken().then(token=>{
+      alert(token);
+    })
+    _fcm.onNotification().subscribe(data=>{
+      alert(1);
+      _localNotification.schedule({
+        id:2,
+        title:data.title,
+        text:data.body,
       })
     })
     this.initializeApp();
