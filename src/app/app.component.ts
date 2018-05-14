@@ -61,11 +61,12 @@ export class MyApp {
     // }) 
     _fcm.subscribeToTopic('all');
     _fcm.onNotification().subscribe(data=>{
-      // _localNotification.schedule({
-      //   id:2,
-      //   title:'Thông báo từ firebase',
-      //   text:'....',
-      // })
+      alert(1);
+      _localNotification.schedule({
+        id:2,
+        title:data.title,
+        text:data.body,
+      })
     })
     this.initializeApp();
     // used for an example of ngFor and navigation
