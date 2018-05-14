@@ -68,7 +68,6 @@ export class HomePage {
   countList:any=[];
   countNotify:any;
   room:any={};
-  token:any;
   constructor(
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
@@ -81,7 +80,6 @@ export class HomePage {
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
     private _socket: Socket,
-    private _fcm: FCM,
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
@@ -89,17 +87,11 @@ export class HomePage {
       self.connectSocket();
     },2000);
     this.listenEventNewNotifi();
-    
   }
   connectSocket(){
     //this.room= JSON.parse(this._authService.getLoggedInRoom());
     this._socket.connect();
     this._socket.emit('room',this.room);
-  }
-  test(){
-    this._fcm.getToken().then(token=>{
-      this.token = token;
-    })
   }
   disconnectSocket(){
     this._socket.disconnect();

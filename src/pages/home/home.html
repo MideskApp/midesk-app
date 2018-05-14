@@ -24,10 +24,6 @@
   <ion-spinner padding margin class="loading-search" *ngIf="modelTicket.dataLoading"  name="crescent"></ion-spinner>
   <ion-list no-padding class="list-ticket">
   <div *ngIf="modelTicket.dataItems.length>0">
-  <ion-card>
-    <ion-input type="button" (click)="test()">Get token</ion-input>
-    <p>{{token}}</p>
-  </ion-card>
   <ion-card *ngFor="let item of modelTicket.dataItems" (click)="clickTicket(item)">
     <ion-item >
       <ion-avatar item-start [ngStyle]="{'background-color':'#'+item.date}" class="box-avatar" *ngIf="item.request!==null">{{item.request | charAt}}
