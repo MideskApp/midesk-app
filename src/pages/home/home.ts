@@ -200,7 +200,7 @@ export class HomePage {
           title: title,
           data:JSON.parse(data[0]['custom']),
         }
-        //this.pushNotifications(body);
+        this.pushNotifications(body);
       }
       else{
         console.log('NOT');
@@ -208,22 +208,20 @@ export class HomePage {
       this.loadCountTicket();
     })
   }
-  // pushNotifications(data:any={}){
-  //   alert(data.title);
-  //   let body ={
-  //     "notification":{
-  //       "title":"Bạn có thông báo mới!",
-  //       "body":data.title,
-  //       "sound":"default",
-  //       "click_action":"FCM_PLUGIN_ACTIVITY",
-  //       "icon":"fcm_push_icon"
-  //       },
-  //     "data":data.data,
-  //     "to":"/topics/all",
-  //     "to":"518123301176"
-  //     "priority":"high",
-  //     //"restricted_package_name":""
-  //   }
-  //   this._ticketService.pushNotifications(body).subscribe();
-  // }
+  pushNotifications(data:any={}){
+    let body ={
+      "notification":{
+        "title":"Bạn có thông báo mới!",
+        "body":data.title,
+        "sound":"default",
+        "click_action":"FCM_PLUGIN_ACTIVITY",
+        "icon":"fcm_push_icon"
+        },
+      "data":data.data,
+      "to":"/topics/all",
+      "priority":"high",
+      "restricted_package_name":""
+    }
+    this._ticketService.pushNotifications(body).subscribe();
+  }
 }
