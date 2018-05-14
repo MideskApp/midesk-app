@@ -215,14 +215,14 @@ export class HomePage {
     })
   }
   pushNotifications(data:any={}){
-    this._fcm.getToken().then(token=>{
       let body ={
         "notification":{
           "title":"Bạn có thông báo mới!",
           "body":data.title,
           "sound":"default",
           "click_action":"FCM_PLUGIN_ACTIVITY",
-          "icon":"fcm_push_icon"
+          "icon":"fcm_push_icon",
+          "forceStart": "1"
           },
         "data":data.data,
         "to":"/topics/all",
@@ -230,6 +230,5 @@ export class HomePage {
         "restricted_package_name":""
       }
       this._ticketService.pushNotifications(body).subscribe();
-    })
   }
 }

@@ -8,10 +8,11 @@ import { AuthService } from './authentication/auth.service';
 //Import RxJs required methods
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { FCM } from '@ionic-native/fcm';
 
 @Injectable()
 export class TicketService {
-    constructor(private _http: Http, private _settingGlobal: SettingService, private _authService: AuthService) {
+    constructor(private _http: Http, private _settingGlobal: SettingService, private _authService: AuthService, private _fcm: FCM) {
     }
     getListTicket(data: any={}){
         return this._http.post(this._settingGlobal._api_ticket_getList,data)
@@ -78,8 +79,13 @@ export class TicketService {
     }
     pushNotifications(data:any){
         let headers = new Headers();
+        let deviceToken:any;
+        this._fcm.getToken().then(token=>{
+            deviceToken = token;
+        })
         headers.append('Content-Type','application/json');
         headers.append('Authorization','key=AAAAeKKOKTg:APA91bHa9BgAUJKKI_72iAsyzy8iVXRceq2JWg_u6QOcxSgSpB9gm32lx7qcdX2c2WNPXcxYQceAh-iDnvJwHoNu0vOtCgKoqV6rG72hBTdfpNRTbcVbOEAePHPGsmzoc8ZRLhYSQFvF');
+        //headers.append('Authorization','key='+deviceToken);
         let options = new RequestOptions({ headers : headers });
         return this._http.post(this._settingGlobal._api_notification,data,options)
             .map(this.extractData)
