@@ -12,6 +12,7 @@ import { PopoverChannel } from './../../components/popover/popover-channel/popov
 import { SocketService } from '../../common/socket.service';
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
+import { FCM } from '@ionic-native/fcm';
 
 @Component({
   selector: 'page-home',
@@ -66,7 +67,8 @@ export class HomePage {
   } 
   countList:any=[];
   countNotify:any;
-  room:any={}
+  room:any={};
+  token:any;
   constructor(
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
@@ -78,7 +80,8 @@ export class HomePage {
     private _authService: AuthService,
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
-    private _socket: Socket
+    private _socket: Socket,
+    private _fcm: FCM,
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
@@ -86,11 +89,17 @@ export class HomePage {
       self.connectSocket();
     },2000);
     this.listenEventNewNotifi();
+    
   }
   connectSocket(){
     //this.room= JSON.parse(this._authService.getLoggedInRoom());
     this._socket.connect();
     this._socket.emit('room',this.room);
+  }
+  test(){
+    this._fcm.getToken().then(token=>{
+      this.token = token;
+    })
   }
   disconnectSocket(){
     this._socket.disconnect();

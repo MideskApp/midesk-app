@@ -20,8 +20,14 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content no-padding>
+<ion-content no-padding></ion-content>
   <ion-spinner padding margin class="loading-search" *ngIf="modelTicket.dataLoading"  name="crescent"></ion-spinner>
+  <ion-card>
+      <ion-item>
+          <ion-input (click)="test()">Test</ion-input>
+          <ion-input type="text" [(ngModel)]="token"></ion-input>
+        </ion-item>
+  </ion-card>
   <ion-list no-padding class="list-ticket">
   <div *ngIf="modelTicket.dataItems.length>0">
   <ion-card *ngFor="let item of modelTicket.dataItems" (click)="clickTicket(item)">
