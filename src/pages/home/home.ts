@@ -225,7 +225,7 @@ export class HomePage {
           "icon":"fcm_push_icon"
           },
         "data":data.data,
-        "to":token,
+        "to":"/topics/all",
         "priority":"high",
         "restricted_package_name":""
       }
