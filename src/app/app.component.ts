@@ -136,7 +136,7 @@ export class MyApp {
   listenEventNewNotifi(){
     this._socketService.listenEvent('NEW NOTIFI').subscribe(data=>{
       this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-      this.pushNotifications();
+      //this.pushNotifications();
     });
   }
   pushNotifications(){
