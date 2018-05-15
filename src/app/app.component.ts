@@ -1,3 +1,4 @@
+import { TicketService } from './../services/ticket.service';
 import { NotificationsService } from './../services/notifications.service';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { LocalNotifications } from '@ionic-native/local-notifications';
@@ -36,8 +37,9 @@ export class MyApp {
     private _notifyService:NotificationsService,
     private _socket: Socket,
     private loadingCtrl: LoadingController,
-    _fcm: FCM,
-    _localNotification: LocalNotifications
+    private _ticketService: TicketService,
+    private _fcm: FCM,
+    private _localNotification: LocalNotifications
     ) {
     // _socket.on('NEW NOTIFI',data=>{
     //   this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
@@ -60,6 +62,7 @@ export class MyApp {
     //     console.log('NOT');
     //   }
     // })
+    this.listenEventNewNotifi();
     _fcm.subscribeToTopic('all');
     _fcm.onNotification().subscribe(data=>{
       _localNotification.schedule({
@@ -141,4 +144,39 @@ export class MyApp {
     });
     prompt.present();
   }
+  listenEventNewNotifi(){
+    this._socket.on('NEW NOTIFI',data=>{
+      let del_agent = data[0]['del_agent'];
+      let view = data[0]['view'];
+      let userId = this._authService.getLoggedInUser().id;
+      let title = data[0]['title'];
+      var regex = /(<([^>]+)>)/ig
+      title = title.replace(regex, "");
+      if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
+        let body:any={
+          // title: title,
+          // data:JSON.parse(data[0]['custom']),
+          "notification":{
+            "title":"Bạn có thông báo mới!",
+            "body":title,
+            "sound":"default",
+            "click_action":"FCM_PLUGIN_ACTIVITY",
+            "icon":"fcm_push_icon",
+            "forceStart": "1"
+            },
+          "data":JSON.parse(data[0]['custom']),
+          "to":"/topics/all",
+          "priority":"high",
+          "restricted_package_name":""
+        }
+        this.pushNotifications(body);
+      }
+      else{
+        console.log('NOT');
+      }
+    })
+  }
+  pushNotifications(data:any={}){
+    this._ticketService.pushNotifications(data).subscribe();
+}
 }
