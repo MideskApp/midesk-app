@@ -62,14 +62,24 @@ export class MyApp {
     //     console.log('NOT');
     //   }
     // })
-    this.listenEventNewNotifi();
-    _fcm.subscribeToTopic('all');
+    _socket.on('NEW NOTIFI',data=>{
+      this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
+      console.log(JSON.parse(data[0]['custom']));
+    });
+    // this.listenEventNewNotifi();
+    // _fcm.subscribeToTopic('all');
     _fcm.onNotification().subscribe(data=>{
-      _localNotification.schedule({
-        id:2,
-        title:data.title,
-        text:data.body,
-      })
+      // _localNotification.schedule({
+      //   id:2,
+      //   title:data.title,
+      //   text:data.body,
+      // })
+      if(data.wasTapped){
+        alert('receive in background');
+      }
+      else{
+        alert('receive in foreground');
+      }
     })
     this.initializeApp();
     // used for an example of ngFor and navigation
@@ -146,6 +156,7 @@ export class MyApp {
   }
   listenEventNewNotifi(){
     this._socket.on('NEW NOTIFI',data=>{
+      this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
       let del_agent = data[0]['del_agent'];
       let view = data[0]['view'];
       let userId = this._authService.getLoggedInUser().id;
@@ -169,6 +180,7 @@ export class MyApp {
           "priority":"high",
           "restricted_package_name":""
         }
+        console.log(body);
         this.pushNotifications(body);
       }
       else{
