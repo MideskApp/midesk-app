@@ -49,7 +49,6 @@ export class MyApp {
     // });
     this.listenEventNewNotifi();
     this.receiveNotification();
-    this.handleNotification();
     // _fcm.subscribeToTopic('all');
     // _fcm.onNotification().subscribe(data=>{
     //   // _localNotification.schedule({
@@ -181,7 +180,7 @@ export class MyApp {
     this._fcm.subscribeToTopic('all');
     this._fcm.onNotification().subscribe(res=>{
       if(res.wasTapped){
-        this.initLocalNotification();
+        this.handleNotification();
       }else{
         this.initLocalNotification();
       }
