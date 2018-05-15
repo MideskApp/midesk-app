@@ -7,6 +7,7 @@ import 'rxjs/add/operator/catch';
 //import { SettingService } from './../../common/setting.service';
 import { CookieService } from 'angular2-cookie/core';
 import { User } from './../../models/user';
+import { FCM } from '@ionic-native/fcm';
 
 //import { SocketIoModule, SocketIoConfig, Socket } from 'ng-socket-io';
 
@@ -14,13 +15,18 @@ export const TOKEN_NAME: string = 'jwt_token';
 
 @Injectable()
 export class AuthService {
+    fcm_token:string;
     private isloggedIn: boolean = false;
     private loggedInUser: any; //User
     constructor(
         public _cookieService: CookieService,
+        private _fcm: FCM
         //private _socket: Socket   
         //public _settingGlobal: SettingService
         ) {
+        _fcm.getToken().then(token=>{
+            this.fcm_token = token;
+        })
     }
 
     getToken(): string {
@@ -34,6 +40,8 @@ export class AuthService {
             //this._cookieService.putObject('curgroup',{ extension: this.loggedInUser.extension ,list_team: this.loggedInUser.list_team, list_agent: this.loggedInUser.list_agent });
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.putObject('room',{room: this.loggedInUser.room});
+            alert(this.fcm_token);
+            this._cookieService.put('fcm_token',this.fcm_token);
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
         } else {
             console.log('Empty token ---');
