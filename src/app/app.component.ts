@@ -164,7 +164,12 @@ export class MyApp {
   receiveNotification(){
     this._fcm.subscribeToTopic('all');
     this._fcm.onNotification().subscribe(res=>{
-      alert(1);
+      if(res.wasTapped){  
+        alert(res);
+      }
+      else{
+        alert(1);
+      }
     })
   }
 }
