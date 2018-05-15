@@ -161,13 +161,21 @@ export class MyApp {
     }
     this._notifyService.sendNotification(body).subscribe();
   }
+  initLocalNotification(){
+    this._localNotification.schedule({
+      id:2,
+      title:'Thông Báo',
+      text:'Test Phiếu',
+      led:'66CC00'
+    })
+  }
   receiveNotification(){
     this._fcm.subscribeToTopic('all');
     this._fcm.onNotification().subscribe(res=>{
       if(res.wasTapped){
-
+        this.initLocalNotification();
       }else{
-        
+        this.initLocalNotification();
       }
     })
   }
