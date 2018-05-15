@@ -49,6 +49,7 @@ export class MyApp {
     // });
     this.listenEventNewNotifi();
     this.receiveNotification();
+    this.handleNotification();
     // _fcm.subscribeToTopic('all');
     // _fcm.onNotification().subscribe(data=>{
     //   // _localNotification.schedule({
@@ -167,6 +168,13 @@ export class MyApp {
       title:'Thông Báo',
       text:'Test Phiếu',
       led:'66CC00'
+    })
+  }
+  handleNotification(){
+    this._localNotification.on('schedule',data=>{
+      if(data.id==2){
+        alert('Oke');
+      }
     })
   }
   receiveNotification(){
