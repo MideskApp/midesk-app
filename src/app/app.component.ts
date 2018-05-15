@@ -65,7 +65,7 @@ export class MyApp {
     // _fcm.onTokenRefresh().subscribe(token=>{
     //   this._cookieService.put('fcm_token',token);
     // })
-    this.listenEventNewNotifi();
+   
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [

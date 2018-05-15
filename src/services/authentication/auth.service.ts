@@ -24,9 +24,9 @@ export class AuthService {
         //private _socket: Socket   
         //public _settingGlobal: SettingService
         ) {
-        _fcm.getToken().then(token=>{
-            this.fcm_token = token;
-        })
+        // _fcm.getToken().then(token=>{
+        //     this.fcm_token = token;
+        // })
     }
 
     getToken(): string {

@@ -29,7 +29,6 @@ export class LoginPage {
     private _userService: UserService,
     private alertCtrl: AlertController,
     private menuCtrl: MenuController,
-    private _socketService: SocketService
     //private localNotifications: LocalNotifications,
   ){
   	//app._setDisableScroll(true);
@@ -67,9 +66,7 @@ export class LoginPage {
                 this.submitLoading = false;
                 if (this._authService.setUserAuthenticated(res)) {
                     this.presentLoading();
-                    
                       window.location.reload();
-                    
                 } else {
                     if(typeof res.error != 'undefined'){
                         this.invalidCredentialMsg = res.error.errors.info;
