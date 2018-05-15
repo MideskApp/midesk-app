@@ -47,7 +47,7 @@ export class MyApp {
     //   this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
     //   console.log(JSON.parse(data[0]['custom']));
     // });
-    // this.listenEventNewNotifi();
+    this.listenEventNewNotifi();
     // _fcm.subscribeToTopic('all');
     // _fcm.onNotification().subscribe(data=>{
     //   // _localNotification.schedule({
@@ -62,9 +62,9 @@ export class MyApp {
     //     alert('receive in foreground');
     //   }
     // })
-    _fcm.onTokenRefresh().subscribe(token=>{
-      this._cookieService.put('fcm_token',token);
-    })
+    // _fcm.onTokenRefresh().subscribe(token=>{
+    //   this._cookieService.put('fcm_token',token);
+    // })
     this.listenEventNewNotifi();
     this.initializeApp();
     // used for an example of ngFor and navigation
@@ -154,10 +154,16 @@ export class MyApp {
         "param1":"param1",
         "param2":"param2",
       },
-      "to":"topic/all",
+      "to":this.token,
       "priority":"high",
       "restricted_package_name":""
     }
     this._notifyService.sendNotification(body).subscribe();
+  }
+  receiveNotification(){
+    this._fcm.subscribeToTopic('all');
+    this._fcm.onNotification().subscribe(res=>{
+      alert(1);
+    })
   }
 }
