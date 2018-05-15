@@ -10,18 +10,20 @@ export class SocketService {
     public connect(data:any={}) {
         // ionViewWillLeave() {
         this._socket.connect();
-        this.listEvent('connect', false).subscribe(message => {
-            console.log('Socket connected: ', message);
-            this.statusConnect = true;
-            this._socket.emit('room',data);
-        });
+        this._socket.emit('room',data);
     }
-
     public disconnect() {
         // ionViewWillLeave() {
         this._socket.disconnect();
     }
-
+    public listenEvent(eventName){
+        let observable = new Observable(observer=>{
+            this._socket.on(eventName,(data)=>{
+                observer.next(data);
+            });
+        })
+        return observable;
+    }
     public emitData(name, data : any = {}) {
         this._socket.emit(name, data);
     }

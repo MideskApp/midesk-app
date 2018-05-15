@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { SettingService } from './../common/setting.service';
+import { AuthService } from './authentication/auth.service';
+//import { Case } from './../models/case';
+
+//Import RxJs required methods
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-
-import { SettingService } from './../common/setting.service';
+import { FCM } from '@ionic-native/fcm';
 
 @Injectable()
 export class NotificationsService {
@@ -29,6 +33,15 @@ export class NotificationsService {
     }
     countNewNotifications(){
         return this._http.get(this._settingGlobal._api_notifications_countNewNotify)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    sendNotification(data:any){
+        let headers = new Headers();
+        headers.append('Content-Type','application/json');
+        headers.append('Authorization','key=AAAAeKKOKTg:APA91bHa9BgAUJKKI_72iAsyzy8iVXRceq2JWg_u6QOcxSgSpB9gm32lx7qcdX2c2WNPXcxYQceAh-iDnvJwHoNu0vOtCgKoqV6rG72hBTdfpNRTbcVbOEAePHPGsmzoc8ZRLhYSQFvF');
+        let options = new RequestOptions({ headers : headers });
+        return this._http.post(this._settingGlobal._api_fcm_notification,data,options)
             .map(this.extractData)
             .catch(this.handleError);
     }

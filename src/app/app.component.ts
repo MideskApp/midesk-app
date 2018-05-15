@@ -1,9 +1,10 @@
+import { CookieService } from 'angular2-cookie/core';
+import { SocketService } from './../common/socket.service';
 import { TicketService } from './../services/ticket.service';
 import { NotificationsService } from './../services/notifications.service';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
-import { Socket } from 'ng-socket-io';
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, AlertController, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -35,52 +36,36 @@ export class MyApp {
     private _authService: AuthService,
     private alertCtrl: AlertController,
     private _notifyService:NotificationsService,
-    private _socket: Socket,
     private loadingCtrl: LoadingController,
+    private _cookieService: CookieService,
     private _ticketService: TicketService,
     private _fcm: FCM,
-    private _localNotification: LocalNotifications
+    private _localNotification: LocalNotifications,
+    private _socketService: SocketService
     ) {
     // _socket.on('NEW NOTIFI',data=>{
     //   this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-    //   let del_agent = data[0]['del_agent'];
-    //   let view = data[0]['view'];
-    //   let userId = _authService.getLoggedInUser().id;
-    //   let title = data[0]['title'];
-    //   var regex = /(<([^>]+)>)/ig
-    //   title = title.replace(regex, "");
-    //   let custom = JSON.parse(data[0]['custom']);
-    //   if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
-    //     _localNotification.schedule({
-    //       id:1,
-    //       title:'Bạn có thông báo mới!',
-    //       text:title,
-    //       data:custom
-    //     })
-    //   }
-    //   else{
-    //     console.log('NOT');
-    //   }
-    // })
-    _socket.on('NEW NOTIFI',data=>{
-      this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-      console.log(JSON.parse(data[0]['custom']));
-    });
+    //   console.log(JSON.parse(data[0]['custom']));
+    // });
     // this.listenEventNewNotifi();
     // _fcm.subscribeToTopic('all');
-    _fcm.onNotification().subscribe(data=>{
-      // _localNotification.schedule({
-      //   id:2,
-      //   title:data.title,
-      //   text:data.body,
-      // })
-      if(data.wasTapped){
-        alert('receive in background');
-      }
-      else{
-        alert('receive in foreground');
-      }
+    // _fcm.onNotification().subscribe(data=>{
+    //   // _localNotification.schedule({
+    //   //   id:2,
+    //   //   title:data.title,
+    //   //   text:data.body,
+    //   // })
+    //   if(data.wasTapped){
+    //     alert('receive in background');
+    //   }
+    //   else{
+    //     alert('receive in foreground');
+    //   }
+    // })
+    _fcm.onTokenRefresh().subscribe(token=>{
+      this._cookieService.put('fcm_token',token);
     })
+    this.listenEventNewNotifi();
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
@@ -100,12 +85,6 @@ export class MyApp {
     this.platform.ready().then(() => {
       if(this._authService.isUserLoggedIn()){
         this.loggedInUser = this._authService.getLoggedInUser();
-        // let room = this._authService.getLoggedInRoom();
-        // this._socket.connect();
-        // this._socket.emit('room',room);
-        // this._socket.on('NEW NOTIFI',data=>{
-        //   console.log(data);
-        // })
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
         this.rootPage = HomePage;
       }else{
@@ -145,7 +124,7 @@ export class MyApp {
           text: 'Đồng ý',
           handler: data => {
             this.presentLoading();
-            this._socket.disconnect();
+            this._socketService.disconnect();
             this._authService.logoutUser();
             window.location.reload();
           }
@@ -155,40 +134,30 @@ export class MyApp {
     prompt.present();
   }
   listenEventNewNotifi(){
-    this._socket.on('NEW NOTIFI',data=>{
+    this._socketService.listenEvent('NEW NOTIFI').subscribe(data=>{
       this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-      let del_agent = data[0]['del_agent'];
-      let view = data[0]['view'];
-      let userId = this._authService.getLoggedInUser().id;
-      let title = data[0]['title'];
-      var regex = /(<([^>]+)>)/ig
-      title = title.replace(regex, "");
-      if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
-        let body:any={
-          // title: title,
-          // data:JSON.parse(data[0]['custom']),
-          "notification":{
-            "title":"Bạn có thông báo mới!",
-            "body":title,
-            "sound":"default",
-            "click_action":"FCM_PLUGIN_ACTIVITY",
-            "icon":"fcm_push_icon",
-            "forceStart": "1"
-            },
-          "data":JSON.parse(data[0]['custom']),
-          "to":"/topics/all",
-          "priority":"high",
-          "restricted_package_name":""
-        }
-        console.log(body);
-        this.pushNotifications(body);
-      }
-      else{
-        console.log('NOT');
-      }
-    })
+      this.pushNotifications();
+    });
   }
-  pushNotifications(data:any={}){
-    this._ticketService.pushNotifications(data).subscribe();
-}
+  pushNotifications(){
+    this.token = this._authService.getFCMToken();
+    let body={
+      "notification":{
+        "title":"Bạn có thông báo mới!",
+        "body":'Test',
+        "sound":"default",
+        "click_action":"FCM_PLUGIN_ACTIVITY",
+        "icon":"fcm_push_icon",
+        "forceStart": "1"
+        },
+      "data":{
+        "param1":"param1",
+        "param2":"param2",
+      },
+      "to":this.token,
+      "priority":"high",
+      "restricted_package_name":""
+    }
+    this._notifyService.sendNotification(body).subscribe();
+  }
 }

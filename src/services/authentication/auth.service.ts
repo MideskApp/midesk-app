@@ -40,7 +40,6 @@ export class AuthService {
             //this._cookieService.putObject('curgroup',{ extension: this.loggedInUser.extension ,list_team: this.loggedInUser.list_team, list_agent: this.loggedInUser.list_agent });
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.putObject('room',{room: this.loggedInUser.room});
-            alert(this.fcm_token);
             this._cookieService.put('fcm_token',this.fcm_token);
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
         } else {
@@ -80,6 +79,9 @@ export class AuthService {
             this.loggedInUser = this._cookieService.getObject('room')['room'];
         }
         return this.loggedInUser;
+    }
+    getFCMToken():string{
+        return this._cookieService.get('fcm_token');
     }
     // getLoggedInListTeam(){
     //     if (this._cookieService.getObject('curgroup')) {

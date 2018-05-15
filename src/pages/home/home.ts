@@ -10,7 +10,6 @@ import { ModalSearchTicket } from './../../components/modal/modal-search-ticket/
 import { PopoverSort } from './../../components/popover/popover-sort/popover-sort';
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 import { SocketService } from '../../common/socket.service';
-import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
 import { FCM } from '@ionic-native/fcm';
 
@@ -80,24 +79,23 @@ export class HomePage {
     private _authService: AuthService,
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
-    private _socket: Socket,
     private _fcm: FCM
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
     setTimeout(function(){
-      self.connectSocket();
+      self._socketService.connect(self.room);
     },2000);
     this.listenEventNewNotifi();
   }
-  connectSocket(){
-    //this.room= JSON.parse(this._authService.getLoggedInRoom());
-    this._socket.connect();
-    this._socket.emit('room',this.room);
-  }
-  disconnectSocket(){
-    this._socket.disconnect();
-  }
+  // connectSocket(){
+  //   //this.room= JSON.parse(this._authService.getLoggedInRoom());
+  //   this._socket.connect();
+  //   this._socket.emit('room',this.room);
+  // }
+  // disconnectSocket(){
+  //   this._socket.disconnect();
+  // }
   ionViewDidLoad(){
     this.initListTicket();
     this.priority = this._authService.getPriority();
@@ -190,38 +188,42 @@ export class HomePage {
     });
   }
   listenEventNewNotifi(){
-    this._socket.on('NEW NOTIFI',data=>{
-      console.log(data);
-      // let del_agent = data[0]['del_agent'];
-      // let view = data[0]['view'];
-      // let userId = this._authService.getLoggedInUser().id;
-      // let title = data[0]['title'];
-      // var regex = /(<([^>]+)>)/ig
-      // title = title.replace(regex, "");
-      // if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
-      //   let body:any={
-      //     // title: title,
-      //     // data:JSON.parse(data[0]['custom']),
-      //     "notification":{
-      //       "title":"Bạn có thông báo mới!",
-      //       "body":title,
-      //       "sound":"default",
-      //       "click_action":"FCM_PLUGIN_ACTIVITY",
-      //       "icon":"fcm_push_icon",
-      //       "forceStart": "1"
-      //       },
-      //     "data":JSON.parse(data[0]['custom']),
-      //     "to":"/topics/all",
-      //     "priority":"high",
-      //     "restricted_package_name":""
-      //   }
-      //   this.pushNotifications(body);
-      // }
-      // else{
-      //   console.log('NOT');
-      // }
+    this._socketService.listenEvent('NEW NOTIFI').subscribe(res=>{
       this.loadCountTicket();
-    })
+      
+    });
+    // this._socket.on('NEW NOTIFI',data=>{
+    //   console.log(data);
+    //   let del_agent = data[0]['del_agent'];
+    //   let view = data[0]['view'];
+    //   let userId = this._authService.getLoggedInUser().id;
+    //   let title = data[0]['title'];
+    //   var regex = /(<([^>]+)>)/ig
+    //   title = title.replace(regex, "");
+    //   if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
+    //     let body:any={
+    //       // title: title,
+    //       // data:JSON.parse(data[0]['custom']),
+    //       "notification":{
+    //         "title":"Bạn có thông báo mới!",
+    //         "body":title,
+    //         "sound":"default",
+    //         "click_action":"FCM_PLUGIN_ACTIVITY",
+    //         "icon":"fcm_push_icon",
+    //         "forceStart": "1"
+    //         },
+    //       "data":JSON.parse(data[0]['custom']),
+    //       "to":"/topics/all",
+    //       "priority":"high",
+    //       "restricted_package_name":""
+    //     }
+    //     this.pushNotifications(body);
+    //   }
+    //   else{
+    //     console.log('NOT');
+    //   }
+    //   this.loadCountTicket();
+    // })
   }
   pushNotifications(data:any={}){
       // let body ={
@@ -238,6 +240,5 @@ export class HomePage {
       //   "priority":"high",
       //   "restricted_package_name":""
       // }
-      this._ticketService.pushNotifications(data).subscribe();
   }
 }

@@ -44,6 +44,7 @@ import { PopoverStatus } from '../components/popover/popover-status/popover-stat
 import { PopoverPriority } from '../components/popover/popover-priority/popover-priority';
 
 import { GetFirstCharacter } from '../pipes/get-first-character.pipe';
+import { GetFirstLastCharacter} from '../pipes/get-first-last-character.pipe';
 import { ConvertLengthTitle } from '../pipes/convert-length-title.pipe';
 import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
 const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {} };
@@ -65,6 +66,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     ModalProperties,
     ModalSearchTicket,
     GetFirstCharacter,
+    GetFirstLastCharacter,
     ConvertLengthTitle,
     SafeHtmlPipe,
     PopoverSort,
@@ -85,6 +87,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     GetFirstCharacter,
     ConvertLengthTitle,
     SafeHtmlPipe,
+    GetFirstLastCharacter,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
