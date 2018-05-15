@@ -154,7 +154,7 @@ export class MyApp {
         "param1":"param1",
         "param2":"param2",
       },
-      "to":this.token,
+      "to":"topic/all",
       "priority":"high",
       "restricted_package_name":""
     }
