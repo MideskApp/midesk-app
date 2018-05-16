@@ -8,11 +8,10 @@ import { AuthService } from './authentication/auth.service';
 //Import RxJs required methods
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { FCM } from '@ionic-native/fcm';
 
 @Injectable()
 export class TicketService {
-    constructor(private _http: Http, private _settingGlobal: SettingService, private _authService: AuthService, private _fcm: FCM) {
+    constructor(private _http: Http, private _settingGlobal: SettingService, private _authService: AuthService) {
     }
     getListTicket(data: any={}){
         return this._http.post(this._settingGlobal._api_ticket_getList,data)

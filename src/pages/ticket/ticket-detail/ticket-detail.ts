@@ -76,7 +76,7 @@ export class TicketDetailPage {
   	){
     this.urlFile = this._settingService._baseUrl+'/public/upload/';
     let loader = this.loadingCtrl.create({
-      duration:250
+      duration:100
     });
     loader.present();
   }

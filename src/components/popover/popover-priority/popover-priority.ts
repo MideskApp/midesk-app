@@ -36,7 +36,7 @@ export class PopoverPriority {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
-    private _authService: AuthService, 
+    _authService: AuthService, 
     private viewCtrl: ViewController
     ) {
   	this.priority = _authService.getPriority();

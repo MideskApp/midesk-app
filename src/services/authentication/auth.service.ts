@@ -20,7 +20,7 @@ export class AuthService {
     private loggedInUser: any; //User
     constructor(
         public _cookieService: CookieService,
-        private _fcm: FCM
+        _fcm: FCM
         //private _socket: Socket   
         //public _settingGlobal: SettingService
         ) {

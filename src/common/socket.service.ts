@@ -1,11 +1,10 @@
-import { AuthService } from './../services/authentication/auth.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Socket } from 'ng-socket-io';
 
 @Injectable()
 export class SocketService {
-    constructor(private _socket : Socket,private _authService: AuthService) {}
+    constructor(private _socket : Socket) {}
     public statusConnect = false;
     public connect(data:any={}) {
         // ionViewWillLeave() {

@@ -79,7 +79,6 @@ export class HomePage {
     private _authService: AuthService,
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
-    private _fcm: FCM
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
