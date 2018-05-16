@@ -48,7 +48,7 @@ export class MyApp {
     //   console.log(JSON.parse(data[0]['custom']));
     // });
     this.listenEventNewNotifi();
-    this.receiveNotification();
+    //this.receiveNotification();
     // _fcm.subscribeToTopic('all');
     // _fcm.onNotification().subscribe(data=>{
     //   // _localNotification.schedule({
@@ -141,19 +141,22 @@ export class MyApp {
     });
   }
   pushNotifications(data){
-    this.token = this._authService.getFCMToken();
-    let del_agent = data[0]['del_agent'];
-    let view = data[0]['view'];
+    console.log(data);
     let userId = this._authService.getLoggedInUser().id;
-    let title = data[0]['title'];
-    var regex = /(<([^>]+)>)/ig;
-    let custom = JSON.parse(data[0]['custom']);
-    title = title.replace(regex, "");
-    let array = {
-      title: title,
-      ticket_id:custom.ticket_id,
-    }
-    if(del_agent != userId && view != userId){ 
+    if(data[0]['del_agent'] != userId && data[0]['view'] != userId){
+      this.token = this._authService.getFCMToken();
+      let team = JSON.parse(this._authService.getLoggedInRoom()).array_team;
+      let userLevel = this._authService.getLoggedInUser().level;
+      team = team.split(',');
+      let title = data[0]['title'];
+      var regex = /(<([^>]+)>)/ig;
+      let custom = JSON.parse(data[0]['custom']);
+      title = title.replace(regex, "");
+      let array = {
+        title: title,
+        id:custom.id,
+        ticket_id: custom.ticket_id
+      }
       let body={
         "notification":{
           "title":"Bạn có thông báo mới!",
@@ -167,8 +170,14 @@ export class MyApp {
         "to":this.token,
         "priority":"high",
         "restricted_package_name":""
+      } 
+      if(userLevel=='agent'){
+        if(userId == data[0]['id_user'] || team.indexOf(data[0]['id_team'],0)!=-1){
+          this._notifyService.sendNotification(body).subscribe();
+        }
+      }else{
+        this._notifyService.sendNotification(body).subscribe();
       }
-      this._notifyService.sendNotification(body).subscribe();
     }
   }
   initLocalNotification(data){
@@ -181,21 +190,21 @@ export class MyApp {
     //   data:data.data,
     // })
   }
-  handleNotification(){
-    this._localNotification.on('schedule',data=>{
-      if(data.id==2){
+  // handleNotification(){
+  //   this._localNotification.on('schedule',data=>{
+  //     if(data.id==2){
         
-      }
-    })
-  }
+  //     }
+  //   })
+  // }
   receiveNotification(){
-    this._fcm.subscribeToTopic('all');
+    //this._fcm.subscribeToTopic('all');
     this._fcm.onNotification().subscribe(res=>{
-      if(res.wasTapped){
-        // this.handleNotification();
-      }else{
-        this.initLocalNotification(res);
-      }
+      // if(res.wasTapped){
+      // }else{
+      //   this.initLocalNotification(res);
+      // }
+      alert(res.data);
     })
   }
 }
