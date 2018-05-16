@@ -137,42 +137,54 @@ export class MyApp {
   listenEventNewNotifi(){
     this._socketService.listenEvent('NEW NOTIFI').subscribe(data=>{
       this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-      this.pushNotifications();
+      this.pushNotifications(data);
     });
   }
-  pushNotifications(){
+  pushNotifications(data){
     this.token = this._authService.getFCMToken();
-    let body={
-      "notification":{
-        "title":"Bạn có thông báo mới!",
-        "body":'Test',
-        "sound":"default",
-        "click_action":"FCM_PLUGIN_ACTIVITY",
-        "icon":"fcm_push_icon",
-        "forceStart": "1"
-        },
-      "data":{
-        "param1":"param1",
-        "param2":"param2",
-      },
-      "to":this.token,
-      "priority":"high",
-      "restricted_package_name":""
+    let del_agent = data[0]['del_agent'];
+    let view = data[0]['view'];
+    let userId = this._authService.getLoggedInUser().id;
+    let title = data[0]['title'];
+    var regex = /(<([^>]+)>)/ig;
+    let custom = JSON.parse(data[0]['custom']);
+    title = title.replace(regex, "");
+    let array = {
+      title: title,
+      ticket_id:custom.ticket_id,
     }
-    this._notifyService.sendNotification(body).subscribe();
+    if(del_agent != userId && view != userId){ 
+      let body={
+        "notification":{
+          "title":"Bạn có thông báo mới!",
+          "body":title,
+          "sound":"default",
+          "click_action":"FCM_PLUGIN_ACTIVITY",
+          "icon":"fcm_push_icon",
+          "forceStart": "1"
+        },
+        "data":array,
+        "to":this.token,
+        "priority":"high",
+        "restricted_package_name":""
+      }
+      this._notifyService.sendNotification(body).subscribe();
+    }
   }
-  initLocalNotification(){
-    this._localNotification.schedule({
-      id:2,
-      title:'Thông Báo',
-      text:'Test Phiếu',
-      led:'66CC00'
-    })
+  initLocalNotification(data){
+    alert(data.data.title);
+    // this._localNotification.schedule({
+    //   id:2,
+    //   title:'Bạn có thông báo mới!',
+    //   text:'Test Phiếu',
+    //   led:'66CC00',
+    //   data:data.data,
+    // })
   }
   handleNotification(){
     this._localNotification.on('schedule',data=>{
       if(data.id==2){
-        alert('Oke');
+        
       }
     })
   }
@@ -180,9 +192,9 @@ export class MyApp {
     this._fcm.subscribeToTopic('all');
     this._fcm.onNotification().subscribe(res=>{
       if(res.wasTapped){
-        this.handleNotification();
+        // this.handleNotification();
       }else{
-        this.initLocalNotification();
+        this.initLocalNotification(res);
       }
     })
   }
