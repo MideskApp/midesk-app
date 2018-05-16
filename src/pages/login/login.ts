@@ -4,7 +4,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from './../../services/authentication/auth.service';
 import { UserService } from './../../services/user.service';
-import { SocketService } from '../../common/socket.service';
 //import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { App } from 'ionic-angular';
 //import { HomePage } from '../home/home';

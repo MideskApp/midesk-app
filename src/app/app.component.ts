@@ -1,6 +1,4 @@
-import { CookieService } from 'angular2-cookie/core';
 import { SocketService } from './../common/socket.service';
-import { TicketService } from './../services/ticket.service';
 import { NotificationsService } from './../services/notifications.service';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { LocalNotifications } from '@ionic-native/local-notifications';
@@ -37,8 +35,6 @@ export class MyApp {
     private alertCtrl: AlertController,
     private _notifyService:NotificationsService,
     private loadingCtrl: LoadingController,
-    private _cookieService: CookieService,
-    private _ticketService: TicketService,
     private _fcm: FCM,
     private _localNotification: LocalNotifications,
     private _socketService: SocketService
@@ -48,7 +44,7 @@ export class MyApp {
     //   console.log(JSON.parse(data[0]['custom']));
     // });
     this.listenEventNewNotifi();
-    //this.receiveNotification();
+    this.receiveNotification();
     // _fcm.subscribeToTopic('all');
     // _fcm.onNotification().subscribe(data=>{
     //   // _localNotification.schedule({
@@ -189,7 +185,7 @@ export class MyApp {
       data:{
         id:data.id,
         ticket_id:data.ticket_id
-      },
+      }
     })
   }
   // handleNotification(){

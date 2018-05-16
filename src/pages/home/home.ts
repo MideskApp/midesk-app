@@ -10,8 +10,6 @@ import { ModalSearchTicket } from './../../components/modal/modal-search-ticket/
 import { PopoverSort } from './../../components/popover/popover-sort/popover-sort';
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 import { SocketService } from '../../common/socket.service';
-import { Observable } from 'rxjs/Observable';
-import { FCM } from '@ionic-native/fcm';
 
 @Component({
   selector: 'page-home',
