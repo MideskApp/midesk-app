@@ -75,10 +75,10 @@ export class TicketDetailPage {
     private alertCtrl: AlertController,
   	){
     this.urlFile = this._settingService._baseUrl+'/public/upload/';
-    // let loader = this.loadingCtrl.create({
-    //   duration:500
-    // });
-    // loader.present();
+    let loader = this.loadingCtrl.create({
+      duration:250
+    });
+    loader.present();
   }
   ionViewWillLoad() {
     this.priority = this._authService.getPriority();
