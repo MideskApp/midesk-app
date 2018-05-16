@@ -181,14 +181,16 @@ export class MyApp {
     }
   }
   initLocalNotification(data){
-    alert(data.data.title);
-    // this._localNotification.schedule({
-    //   id:2,
-    //   title:'Bạn có thông báo mới!',
-    //   text:'Test Phiếu',
-    //   led:'66CC00',
-    //   data:data.data,
-    // })
+    this._localNotification.schedule({
+      id:2,
+      title:'Bạn có thông báo mới!',
+      text:data.title,
+      led:'66CC00',
+      data:{
+        id:data.id,
+        ticket_id:data.ticket_id
+      },
+    })
   }
   // handleNotification(){
   //   this._localNotification.on('schedule',data=>{
@@ -200,11 +202,7 @@ export class MyApp {
   receiveNotification(){
     //this._fcm.subscribeToTopic('all');
     this._fcm.onNotification().subscribe(res=>{
-      // if(res.wasTapped){
-      // }else{
-      //   this.initLocalNotification(res);
-      // }
-      alert(res.data);
+      this.initLocalNotification(res);
     })
   }
 }
