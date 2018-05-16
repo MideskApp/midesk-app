@@ -151,7 +151,8 @@ export class MyApp {
       let array = {
         title: title,
         id:custom.id,
-        ticket_id: custom.ticket_id
+        ticket_id: custom.ticket_id,
+        notify_id: data[0]['id']
       }
       let body={
         "notification":{
@@ -184,7 +185,8 @@ export class MyApp {
       led:'66CC00',
       data:{
         id:data.id,
-        ticket_id:data.ticket_id
+        ticket_id:data.ticket_id,
+        notify_id:data.notify_id
       }
     })
   }
