@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavParams, NavController, ModalController, Select, ToastController, LoadingController, PopoverController, AlertController  } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavParams, NavController, ModalController, Select, ToastController, LoadingController, PopoverController, AlertController, ActionSheetController  } from 'ionic-angular';
 import { TicketService } from './../../../services/ticket.service';
 import { ModalAssign } from'./../../../components/modal/modal-assign/modal-assign';
 import { SettingService } from './../../../common/setting.service';
@@ -12,7 +12,6 @@ import { PopoverStatus } from './../../../components/popover/popover-status/popo
   templateUrl: 'ticket-detail.html'
 })
 export class TicketDetailPage {
-  @ViewChild('actionSheet') actionSheet: Select;
 	status:any=[
       { id : 1, name : 'Mở mới', value : 'new', color : '#C8C800', alias: 'n', checked: false  },
       { id : 2, name : 'Đang mở', value : 'open', color : '#C80000', alias: 'o', checked: false },
@@ -73,6 +72,7 @@ export class TicketDetailPage {
     private _authService: AuthService,
     private popoverCtrl: PopoverController,
     private alertCtrl: AlertController,
+    private actsheetCtrl: ActionSheetController
   	){
     this.urlFile = this._settingService._baseUrl+'/public/upload/';
     let loader = this.loadingCtrl.create({
@@ -183,7 +183,33 @@ export class TicketDetailPage {
      }
    }  
    openActionSheet(){
-     this.actionSheet.open();
+     let action = this.actsheetCtrl.create({
+      buttons: [
+        {
+          text: 'Xóa phiếu',
+          role: 'destructive',
+          handler: () => {
+            console.log('Destructive clicked');
+            this.presentAlert();
+          }
+        },
+        {
+          text: 'Phục hồi phiếu',
+          handler: () => {
+            console.log('Archive clicked');
+            this.presentAlert();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+     });
+     action.present();
    }
    changePriority(){
     let popoverPriority = this.popoverCtrl.create(PopoverPriority,{data:this.ticketInfo.priority},{cssClass:"custom-priority",enableBackdropDismiss:true})
@@ -280,6 +306,24 @@ export class TicketDetailPage {
       console.log('Dismissed toast');
     });
     toast.present();
+  }
+  presentAlert(){
+    let alert = this.alertCtrl.create({
+      message:'Tính năng đang phát triển',
+      // buttons: [
+      //   {
+      //     text: 'Hủy',
+      //     handler: data => {
+      //     }
+      //   },
+      //   {
+      //     text: 'Đồng ý',
+      //     handler: data => {
+      //     }
+      //   }
+      // ]
+    })
+    alert.present();
   }  
 }
 

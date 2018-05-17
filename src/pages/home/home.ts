@@ -31,12 +31,13 @@ export class HomePage {
   //     { id:'filter6', name:'Yêu cầu chưa giải quyết', value: 'yêu cầu chưa giải quyết' }
   // ];
   arrayFilter:any=[
-    { id:'filter1', name:'Phiếu chưa giải quyết của bạn', value: 'yêu cầu chưa giải quyết của bạn' },
+    { id:'filter1', name:'Phiếu chưa xử lý của bạn', value: 'yêu cầu chưa giải quyết của bạn' },
     { id:'filter2', name:'Phiếu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' },
     { id:'filter3', name:'Phiếu chưa phân công', value: 'yêu cầu chưa phân công' },
     { id:'filter4', name:'Phiếu đang chờ xử lý', value: 'yêu cầu đang chờ xử lý' },
     { id:'filter5', name:'Phiếu đã xử lý', value: 'yêu cầu đã xử lý' },
-    { id:'filter6', name:'Phiếu tạo bởi bạn', value: 'yêu cầu tạo bởi bạn' }
+    { id:'filter6', name:'Phiếu tạo bởi bạn', value: 'yêu cầu tạo bởi bạn' },
+    { id:'filter7', name:'Phiếu đã xóa', value: 'yêu cầu đã xóa'}
 ];
   status:any=[
       { id : 1, name : 'Mở mới', value : 'new', color : '#C8C800', alias: 'n', checked: false  },
@@ -78,6 +79,7 @@ export class HomePage {
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
     ) {
+      
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
     setTimeout(function(){
@@ -93,10 +95,13 @@ export class HomePage {
   // disconnectSocket(){
   //   this._socket.disconnect();
   // }
+  ionViewWillLoad(){
+    this.loadCountTicket();
+  }
   ionViewDidLoad(){
     this.initListTicket();
     this.priority = this._authService.getPriority();
-    this.loadCountTicket();
+    
   }
   loadCountTicket(){
     this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
@@ -107,6 +112,7 @@ export class HomePage {
         this.countList['filter4'] = res.filter4;
         this.countList['filter5'] = res.filter5;
         this.countList['filter6'] = res.filter6;
+        this.countList['filter7'] = res.filter7;
     })
   }
   initListTicket(){
@@ -187,55 +193,6 @@ export class HomePage {
   listenEventNewNotifi(){
     this._socketService.listenEvent('NEW NOTIFI').subscribe(res=>{
       this.loadCountTicket();
-      
     });
-    // this._socket.on('NEW NOTIFI',data=>{
-    //   console.log(data);
-    //   let del_agent = data[0]['del_agent'];
-    //   let view = data[0]['view'];
-    //   let userId = this._authService.getLoggedInUser().id;
-    //   let title = data[0]['title'];
-    //   var regex = /(<([^>]+)>)/ig
-    //   title = title.replace(regex, "");
-    //   if(del_agent != userId && view != userId){ //thong bao tu nguoi khac tao
-    //     let body:any={
-    //       // title: title,
-    //       // data:JSON.parse(data[0]['custom']),
-    //       "notification":{
-    //         "title":"Bạn có thông báo mới!",
-    //         "body":title,
-    //         "sound":"default",
-    //         "click_action":"FCM_PLUGIN_ACTIVITY",
-    //         "icon":"fcm_push_icon",
-    //         "forceStart": "1"
-    //         },
-    //       "data":JSON.parse(data[0]['custom']),
-    //       "to":"/topics/all",
-    //       "priority":"high",
-    //       "restricted_package_name":""
-    //     }
-    //     this.pushNotifications(body);
-    //   }
-    //   else{
-    //     console.log('NOT');
-    //   }
-    //   this.loadCountTicket();
-    // })
-  }
-  pushNotifications(data:any={}){
-      // let body ={
-      //   "notification":{
-      //     "title":"Bạn có thông báo mới!",
-      //     "body":data.title,
-      //     "sound":"default",
-      //     "click_action":"FCM_PLUGIN_ACTIVITY",
-      //     "icon":"fcm_push_icon",
-      //     "forceStart": "1"
-      //     },
-      //   "data":data.data,
-      //   "to":"/topics/all",
-      //   "priority":"high",
-      //   "restricted_package_name":""
-      // }
   }
 }
