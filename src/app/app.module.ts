@@ -47,6 +47,7 @@ import { GetFirstCharacter } from '../pipes/get-first-character.pipe';
 import { GetFirstLastCharacter} from '../pipes/get-first-last-character.pipe';
 import { ConvertLengthTitle } from '../pipes/convert-length-title.pipe';
 import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
+import { ConvertTime } from '../pipes/convert-time.pipe';
 const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {} };
 
 @NgModule({
@@ -68,12 +69,13 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     GetFirstCharacter,
     GetFirstLastCharacter,
     ConvertLengthTitle,
+    ConvertTime,
     SafeHtmlPipe,
     PopoverSort,
     PopoverChannel,
     PopoverCategory,
     PopoverStatus,
-    PopoverPriority
+    PopoverPriority,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +90,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     ConvertLengthTitle,
     SafeHtmlPipe,
     GetFirstLastCharacter,
+    ConvertTime,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -71,12 +71,12 @@
 			  	<ion-item *ngIf="detail.create_name!=null" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
 			  		<ion-avatar item-start [ngStyle]="{'background':'#'+detail.date}" class="box-avatar">{{detail.create_name | charAt}}</ion-avatar>
 				      <h2 class="create-by">{{detail.create_name}}</h2>
-				      <p class="create-time">{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}<ion-badge *ngIf="detail.private" class="private-notee" float-right>Note</ion-badge></p>
+				      <p class="create-time">{{detail.datecreate | toTime}}<ion-badge *ngIf="detail.private" class="private-notee" float-right>Note</ion-badge></p>
 			  	</ion-item>
 			  	<ion-item *ngIf="detail.create_name==null" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF'}">
 			  		<ion-avatar item-start class="box-avatar">SYS</ion-avatar>
 				      <h2 class="create-by">System</h2>
-				      <p class="create-time">{{detail.datecreate * 1000 | date: 'dd/MM hh:mm a'}}</p>
+				      <p class="create-time">{{detail.datecreate | toTime}}</p>
 			  	</ion-item>
 		  		<ion-grid class="content-detail" [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private && ticketDetail.length!=i ? '0.55px solid #EFDAA3':'0.px solid #CCC'}" padding-left padding-right>
 		  		<!-- <ion-grid [ngStyle]="{'background-color': detail.private ? '#FFF6D9':'#FFFFFF','border-bottom': detail.private ? '0.55px solid #EFDAA3':'0.55px solid #CCC'}" padding-left padding-right> -->
