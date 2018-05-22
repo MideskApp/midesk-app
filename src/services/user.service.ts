@@ -60,6 +60,11 @@ export class UserService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    updateUserProfile(data:any={}){
+        return this._http.put(this._settingGlobal._api_user_update_profile,data)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     private extractData(res: Response) {
         let body = res.json();
         return body || {};

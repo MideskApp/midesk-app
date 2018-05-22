@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, NavController, ModalController, Select, ToastController, LoadingController, PopoverController, AlertController, ActionSheetController  } from 'ionic-angular';
+import { NavParams, NavController, ModalController, Select, ToastController, LoadingController, PopoverController, AlertController, ActionSheetController, Events } from 'ionic-angular';
 import { TicketService } from './../../../services/ticket.service';
 import { ModalAssign } from'./../../../components/modal/modal-assign/modal-assign';
 import { SettingService } from './../../../common/setting.service';
@@ -72,7 +72,8 @@ export class TicketDetailPage {
     private _authService: AuthService,
     private popoverCtrl: PopoverController,
     private alertCtrl: AlertController,
-    private actsheetCtrl: ActionSheetController
+    private actsheetCtrl: ActionSheetController,
+    private _event: Events
   	){
     this.urlFile = this._settingService._baseUrl+'/public/upload/';
     let loader = this.loadingCtrl.create({
@@ -183,33 +184,56 @@ export class TicketDetailPage {
      }
    }  
    openActionSheet(){
-     let action = this.actsheetCtrl.create({
-      buttons: [
-        {
-          text: 'Xóa phiếu',
-          role: 'destructive',
-          handler: () => {
-            console.log('Destructive clicked');
-            this.presentAlert();
+    let action:any;
+    if(this.ticketInfo.is_delete == 0){
+      action = this.actsheetCtrl.create({
+        buttons: [
+          {
+            text: 'Xóa phiếu',
+            icon: 'trash',
+            handler: () => {
+              this.presentAlert();
+            }
+          },
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
           }
-        },
-        {
-          text: 'Phục hồi phiếu',
-          handler: () => {
-            console.log('Archive clicked');
-            this.presentAlert();
+        ]
+      });
+    }else if(this.ticketInfo.is_delete == 1){
+      action = this.actsheetCtrl.create({
+        buttons: [
+          {
+            text: 'Xóa vĩnh viễn',
+            icon: 'trash',
+            handler: () => {
+              alert('Tính năng đang phát triển');
+            }
+          },
+          {
+            text: 'Phục hồi phiếu',
+            icon: 'refresh',
+            handler: () => {
+              this.presentAlert();
+            }
+          },
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
           }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-     });
-     action.present();
+        ]
+      });
+    }
+    action.present();
    }
    changePriority(){
     let popoverPriority = this.popoverCtrl.create(PopoverPriority,{data:this.ticketInfo.priority},{cssClass:"custom-priority",enableBackdropDismiss:true})
@@ -309,22 +333,34 @@ export class TicketDetailPage {
   }
   presentAlert(){
     let alert = this.alertCtrl.create({
-      message:'Tính năng đang phát triển',
-      // buttons: [
-      //   {
-      //     text: 'Hủy',
-      //     handler: data => {
-      //     }
-      //   },
-      //   {
-      //     text: 'Đồng ý',
-      //     handler: data => {
-      //     }
-      //   }
-      // ]
+      message:'Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Oke',
+          handler: data => {
+            this.trashOrResolveTicket();
+          }
+        }
+      ]
     })
     alert.present();
-  }  
+  }
+  trashOrResolveTicket(){
+    let id = this.navParamsCtrl.get('data').id;
+    console.log(id);
+    this._ticketService.trashOrResolveTicket(id).subscribe(res=>{
+      if(res.code==200){
+        this.initTicketDetail();
+        this.presentToast('Cập nhật thành công','success-toast');
+        this._event.publish('UPDATE TICKET');
+      }
+    });
+  }
 }
 
 

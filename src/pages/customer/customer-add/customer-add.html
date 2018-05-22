@@ -20,7 +20,7 @@
 			<form [formGroup]="addCustomerForm">
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="text"></ion-icon></ion-avatar>
-				<p class="title">Name <span [hidden]="!addCustomerForm.controls.customer.invalid" class="note">*</span></p>
+				<p class="title">Họ tên <span [hidden]="!addCustomerForm.controls.customer.invalid" class="note">*</span></p>
 				<input clearInput no-margin class="text-input text-input-md input-edit" required="required" formControlName="customer" [(ngModel)]="modelCustomer.customer" type="text"/>
 			</ion-item>
 			<ion-item class="customer-info">
@@ -32,15 +32,15 @@
 			</ion-item>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="call"></ion-icon></ion-avatar>
-				<p class="title">Phone 
+				<p class="title">Điện thoại 
 					<span [hidden]="!addCustomerForm.controls.phone.errors?.required" class="note">*</span>
-					<span [hidden]="!addCustomerForm.controls.phone.errors?.pattern" class="note">(only 8-15 number)</span>
+					<span [hidden]="!addCustomerForm.controls.phone.errors?.pattern" class="note">(từ 8-15 số)</span>
 				</p>
 				<input no-margin class="text-input text-input-md input-edit" required="required" formControlName="phone" [(ngModel)]="modelCustomer.phone" type="tel"/>
 			</ion-item>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="card"></ion-icon></ion-avatar>
-				<p class="title">Address</p>
+				<p class="title">Địa chỉ</p>
 				<input no-margin class="text-input text-input-md input-edit" formControlName="address" [(ngModel)]="modelCustomer.address" type="text"/>
 			</ion-item>
 			</form>

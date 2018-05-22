@@ -2,7 +2,7 @@
 
   <ion-navbar>
   	<ion-buttons><button ion-button menuToggle><ion-icon name="menu"></ion-icon></button></ion-buttons>
-    <ion-title>Customer</ion-title>
+    <ion-title>Khách Hàng</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,7 +15,8 @@
 	<ion-list *ngIf="!loading">
 		<ion-item *ngFor=" let item of modelCustomer.dataItems " (click)="customerProfile(item)">
 			<ion-avatar item-start class="customer-avatar margin-vertical" [ngStyle]="{'background':item.color}">{{item.customer|firstNlast}}</ion-avatar>
-			<p>{{item.customer}}</p>
+			<p class="name">{{item.customer}}</p>
+			<p class="phone">Điện thoại: <span *ngIf="item.phone!=='' && item.phone!==null">{{item.phone}}</span><span *ngIf="item.phone==='' || item.phone===null">chưa có</span></p>
 		</ion-item>
 	</ion-list>
 	<ion-infinite-scroll *ngIf="modelCustomer.loadMore" (ionInfinite)="doInfinite($event)">

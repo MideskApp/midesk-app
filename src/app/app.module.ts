@@ -19,6 +19,7 @@ import { TicketService } from '../services/ticket.service';
 import { AuthService } from '../services/authentication/auth.service';
 import { AuthRequestOptions } from '../services/authentication/auth-request.service';
 import { NotificationsService } from '../services/notifications.service';
+import { DataService } from '../common/data.service';
 import { SocketService } from './../common/socket.service';
 
 import { MyApp } from './app.component';
@@ -31,6 +32,7 @@ import { SettingPage } from './../pages/setting/setting';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { CustomerAddPage } from './../pages/customer/customer-add/customer-add';
 import { NotificationsPage } from './../pages/notifications/notifications';
+import { AccountPage } from './../pages/account/account';
 
 import { ModalAssign } from '../components/modal/modal-assign/modal-assign';
 import { ModalRequester } from '../components/modal/modal-requester/modal-requester';
@@ -48,6 +50,8 @@ import { GetFirstLastCharacter} from '../pipes/get-first-last-character.pipe';
 import { ConvertLengthTitle } from '../pipes/convert-length-title.pipe';
 import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
 import { ConvertTime } from '../pipes/convert-time.pipe';
+import { ConvertTimeListTicket } from '../pipes/convert-time-list-ticket.pipe';
+import { SearchFilter } from '../pipes/search-filter.pipe';
 const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {} };
 
 @NgModule({
@@ -58,6 +62,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     CustomerProfilePage,
     CustomerAddPage,
     SettingPage,
+    AccountPage,
     LoginPage,
     TicketAddPage,
     TicketDetailPage,
@@ -70,6 +75,8 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     GetFirstLastCharacter,
     ConvertLengthTitle,
     ConvertTime,
+    ConvertTimeListTicket,
+    SearchFilter,
     SafeHtmlPipe,
     PopoverSort,
     PopoverChannel,
@@ -91,6 +98,8 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     SafeHtmlPipe,
     GetFirstLastCharacter,
     ConvertTime,
+    ConvertTimeListTicket,
+    SearchFilter,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -100,6 +109,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     CustomerProfilePage,
     CustomerAddPage,
     SettingPage,
+    AccountPage,
     LoginPage,
     TicketAddPage,
     TicketDetailPage,
@@ -117,6 +127,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
   providers: [
     CookieService,
     SettingService,
+    DataService,
     UserService,
     TicketService,
     CustomerService,

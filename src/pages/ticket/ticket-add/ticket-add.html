@@ -1,8 +1,8 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>Add Ticket</ion-title>
+		<ion-title>Tạo Phiếu Mới</ion-title>
 		<ion-buttons end>
-			<button [disabled]="ticketParams.title==''||ticketParams.priority==''||ticketParams.status==''||ticketParams.requester==''"(click)="createTicket()" ion-button>
+			<button (click)="createTicket()" ion-button>
 				<ion-icon class="send-icon" name="paper-plane" style="width:25px" color="light"></ion-icon>
 			</button>
 		</ion-buttons>

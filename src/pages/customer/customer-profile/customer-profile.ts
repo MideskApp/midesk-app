@@ -36,18 +36,18 @@ export class CustomerProfilePage {
       private _ticketService: TicketService,
       private loadingCtrl: LoadingController
       ) {
+        this.customerId = this.navParams.get('id');
+    this.initCustomerProfile();
+    this.initListTicketByCustomer();
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad CustomerProfilePage');
-    this.customerId = this.navParams.get('id');
-    this.initCustomerProfile();
-    this.initListTicketByCustomer();
+    
   }
   initCustomerProfile(){
     this.loading = true;
     this._customerService.getCustomerProfile(this.navParams.get('id')).subscribe(res=>{
       this.customerProfile = res;
-      //this.customerName = this.customerProfile.customer;
       this.modelEdit.customer = res.customer;
       this.modelEdit.address = res.address;
       this.modelEdit.phone = res.phone;

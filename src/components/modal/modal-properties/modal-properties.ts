@@ -28,9 +28,10 @@ export class ModalProperties{
 	    		this.category = '';
 	    		this.categoryName = '';
 	    		for(let i = 0; i<data.data.length;i++){
-	            	this.category+=data.data[i].id+',';
-	            	this.categoryName +=data.data[i].name+' ';
-	          	}
+	            	//this.category+=data.data[i].id+',';
+	            	this.categoryName +=data.data[i].name+'/';
+				  }
+				this.category = data.data[data.data.length - 1].id;
 	    	}
 	    })
 	    //   if(!data.cancel){

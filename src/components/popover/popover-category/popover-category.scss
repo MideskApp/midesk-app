@@ -17,5 +17,13 @@ popover-category{
 	.list-ios > .item-block:first-child{
 		border:none!important;
 	}
-
+	.navbar-category{
+		min-height: 40px!important;
+		.toolbar-background-md{
+			background:white;
+		}
+	}
+	.text-input-md{
+		margin:8px!important;
+	}
 }

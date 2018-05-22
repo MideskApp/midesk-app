@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Notifications</ion-title>
+    <ion-title>Thông Báo</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -25,7 +25,7 @@
 		      	<ion-icon color="facebook" *ngIf="item.channel=='facebook'" name="logo-facebook"></ion-icon>
 		      	<ion-icon color="chrome" *ngIf="item.channel=='web'" name="logo-chrome"></ion-icon>
 		      	<ion-icon color="secondary" *ngIf="item.channel=='voice'" name="call"></ion-icon>
-		      	<i>  {{item.created_at| date: 'd MMM y h:mm a'}}</i>
+		      	<i>  {{item.created_at| toTime}}</i>
 		      </p>
 		    </ion-item>
 		    <ion-item-options *ngIf="!item.del"  side="right">

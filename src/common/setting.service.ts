@@ -16,6 +16,7 @@ export class SettingService {
     public _api_requester_search = this._baseAPIUrl + 'searchRequester';
     public _api_assigner_search = this._baseAPIUrl + 'searchAssigner';
     public _api_user_getListUserTeam = this._baseAPIUrl + 'getListUserTeam';
+    public _api_user_update_profile = this._baseAPIUrl + 'updateUserProfile';
     //--
     //ticket service
     public _api_ticket_getList = this._baseAPIUrl + 'getListTicket';
@@ -28,6 +29,8 @@ export class SettingService {
     public _api_action_ticket = this._baseAPIUrl + 'actionTicket';
     public _api_ticket_customer = this._baseAPIUrl + 'getTicketByCustomer/';
     public _api_count_ticket = this._baseAPIUrl + 'countTicket';
+    public _api_trash_or_resolve_ticket = this._baseAPIUrl + 'trashOrResolveTicket';
+    public _api_delete_ticket = this._baseAPIUrl + ' deleteTicket/';
     //--
     //customer service
     public _api_customer_getList = this._baseAPIUrl + 'getListCustomer/';

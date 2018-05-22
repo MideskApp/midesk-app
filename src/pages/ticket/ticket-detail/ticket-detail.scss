@@ -123,7 +123,7 @@ page-ticket-detail{
 		background: #F4A460;
 	}
 	.private-note {
-		color: #444444;
+		color: #000;
 		font-weight: 500;
 	}
 	.status_pending{
@@ -155,10 +155,13 @@ page-ticket-detail{
 			font-weight: bold;
 		}
 		.create-time{
-			font-size: 1.4rem;
+			font-size: 1.2rem;
+			font-style: italic;
 		}
 	}
 	.content-detail{
+		font-size:1.2rem;
+		overflow:auto;
 		padding:0 8px 0 16px!important;
 		ion-col{
 			padding:0 0 5px 5px;

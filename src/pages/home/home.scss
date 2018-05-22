@@ -77,6 +77,16 @@ page-home {
 	}
 	.title-ticket{
 		color:black;
-		font-size:1.5rem!important;
+		font-size:1.4rem!important;
+	}
+	.date-ticket{
+		margin:0!important;
+		text-align:right;
+		font-size:1rem;
+		line-height:20px;
+		ion-badge{
+			padding:2px 4px;
+			font-size:1.1rem;
+		}
 	}
 }

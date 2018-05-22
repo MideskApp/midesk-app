@@ -8,16 +8,16 @@
   </ion-navbar>
 	<ion-grid no-padding style="background:#2cd094">
 		<ion-row>
-			<ion-col col-12 text-center><ion-avatar text-center [ngStyle]="{'background':customerProfile.color}" class="customer-avatar">S</ion-avatar></ion-col>
+			<ion-col col-12 text-center><ion-avatar text-center [ngStyle]="{'background':customerProfile.color}" class="customer-avatar">{{modelEdit.customer|firstNlast}}</ion-avatar></ion-col>
 			<ion-col col-12 text-center><p style="color:white" no-margin>{{customerProfile.customer}}</p></ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-segment color="whitee" [(ngModel)]="section">
 			    <ion-segment-button value="segment1">
-			      Personal Detail
+			      Thông tin cá nhân
 			    </ion-segment-button>
 			    <ion-segment-button [disabled]="edit" value="segment2">
-			      Recent Ticket
+			      Phiếu liên quan ({{customerTicket.length}})
 			    </ion-segment-button>
 			  </ion-segment>
 		</ion-row>
@@ -27,41 +27,45 @@
 	<div [ngSwitch]='section' *ngIf="!loading">
 	<ion-grid *ngSwitchCase="'segment1'" >
 		<ion-list *ngIf="!edit">
-			<ion-item class="customer-info" (click)="openAddTicket()" *ngIf="customerProfile.email!==''">
+			<ion-item class="customer-info" (click)="openAddTicket()">
 				<ion-avatar item-start><ion-icon color="midesk" name="mail"></ion-icon></ion-avatar>
 				<p class="title">Email</p>
-				<p>{{customerProfile.email}}</p>
+				<p *ngIf="customerProfile.email!==''">{{customerProfile.email}}</p>
+				<p *ngIf="customerProfile.email===''">Chưa cập nhật</p>
 			</ion-item>
-			<ion-item class="customer-info" *ngIf="customerProfile.phone!==''">
+			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="call"></ion-icon></ion-avatar>
-				<p class="title">Phone</p>
-				<p>{{customerProfile.phone}}</p>
+				<p class="title">Điện thoại</p>
+				<p *ngIf="customerProfile.phone!==''">{{customerProfile.phone}}</p>
+				<p *ngIf="customerProfile.phone===''">Chưa cập nhật</p>
 			</ion-item>
-			<ion-item class="customer-info" *ngIf="customerProfile.address!==''&&customerProfile.address!==null">
+			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="card"></ion-icon></ion-avatar>
-				<p class="title">Address</p>
-				<p>{{customerProfile.address}}</p>
+				<p class="title">Địa chỉ</p>
+				<p *ngIf="customerProfile.address!==''&&customerProfile.address!==null">{{customerProfile.address}}</p>
+				<p *ngIf="customerProfile.address===''||customerProfile.address===null">Chưa cập nhật</p>
 			</ion-item>
-			<ion-item class="customer-info" *ngIf="customerProfile.channel!==''">
+			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="desktop"></ion-icon></ion-avatar>
-				<p class="title">Channel</p>
-				<p>{{customerProfile.channel}}</p>
+				<p class="title">Kênh</p>
+				<p *ngIf="customerProfile.channel!==''">{{customerProfile.channel}}</p>
+				<p *ngIf="customerProfile.channel===''">Chưa cập nhật</p>
 			</ion-item>
 		</ion-list>
 		<ion-list *ngIf="edit" no-lines>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="text"></ion-icon></ion-avatar>
-				<p class="title">Name</p>
+				<p class="title">Họ tên</p>
 				<input no-margin class="text-input text-input-md input-edit" (keyup)="onInsertData($event,$type='customer')" [(ngModel)]="modelEdit.customer" type="text"/>
 			</ion-item>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="call"></ion-icon></ion-avatar>
-				<p class="title">Phone</p>
+				<p class="title">Điện thoại</p>
 				<input no-margin class="text-input text-input-md input-edit" (keyup)="onInsertData($event,$type='phone')" [(ngModel)]="modelEdit.phone" type="text"/>
 			</ion-item>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="card"></ion-icon></ion-avatar>
-				<p class="title">Address</p>
+				<p class="title">Địa chỉ</p>
 				<input no-margin class="text-input text-input-md input-edit" (keyup)="onInsertData($event,$type='address')" [(ngModel)]="modelEdit.address" type="text"/>
 			</ion-item>
 		</ion-list>

@@ -13,12 +13,16 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'setting.html',
 })
 export class SettingPage {
-
+  enableNotify:boolean=false;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingPage');
+    console.log(this.enableNotify);
+  }
+  changeStatusNotify(){
+    console.log(this.enableNotify);
   }
 
 }

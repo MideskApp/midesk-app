@@ -32,15 +32,16 @@
       <ion-avatar item-start class="box-avatar" *ngIf="item.request===null">
         ERR
       </ion-avatar>
-      <h2 *ngIf="item.request!==null"><span style="font-size:1.2rem;color:#888888">#{{item.ticket_id}} - {{item.request}}</span></h2>
-      <h2 *ngIf="item.request===null"><span style="font-size:1.2rem;color:#888888">#{{item.ticket_id}} - Chưa có người yêu cầu</span></h2>
+      <p *ngIf="item.request!==null"><span style="font-size:1.2rem;color:#888888">#{{item.ticket_id}} - {{item.request}}</span></p>
+      <p *ngIf="item.request===null"><span style="font-size:1.2rem;color:#888888">#{{item.ticket_id}} - Chưa có người yêu cầu</span><p>
       <p class="title-ticket" *ngIf="item.title!==''" >{{item.title}}</p>
       <p class="title-ticket" *ngIf="item.title===''" >Chưa có tiêu đề</p>
-      <span item-end class="date-bagde-ticket">{{item.created_at| date: 'dd/MM'}}
+      <p class="date-ticket" item-end>
         <span *ngFor=" let stt of status" >
-          <ion-badge *ngIf="stt.value===item.status" item-end color="{{stt.value}}">{{stt.alias}}</ion-badge>
+          <ion-badge *ngIf="stt.value===item.status" color="{{stt.value}}">{{stt.alias}}</ion-badge>
         </span>
-      </span>
+        <br>{{item.created_at| toTime2}}
+      </p>
     </ion-item>
   </ion-card>
   </div>

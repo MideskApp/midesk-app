@@ -1,10 +1,11 @@
+import { AccountPage } from './../pages/account/account';
 import { SocketService } from './../common/socket.service';
 import { NotificationsService } from './../services/notifications.service';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, AlertController, LoadingController } from 'ionic-angular';
+import { Nav, Platform, AlertController, LoadingController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -37,14 +38,18 @@ export class MyApp {
     private loadingCtrl: LoadingController,
     private _fcm: FCM,
     private _localNotification: LocalNotifications,
-    private _socketService: SocketService
+    private _socketService: SocketService,
+    public _event: Events,
     ) {
     // _socket.on('NEW NOTIFI',data=>{
     //   this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
     //   console.log(JSON.parse(data[0]['custom']));
     // });
     this.listenEventNewNotifi();
-    this.receiveNotification();
+    this._event.subscribe('UPDATE PROFILE',data=>{
+      this.loggedInUser = this._authService.getLoggedInUser(); 
+    });
+    //this.receiveNotification();
     // _fcm.subscribeToTopic('all');
     // _fcm.onNotification().subscribe(data=>{
     //   // _localNotification.schedule({
@@ -62,16 +67,16 @@ export class MyApp {
     // _fcm.onTokenRefresh().subscribe(token=>{
     //   this._cookieService.put('fcm_token',token);
     // })
-   
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
       //{ title: 'Home', component: HomePage, icon: 'home' },
       //{ title: 'List', component: ListPage, icon: 'notifications-outline'},
-      { title: 'Notifications', component: NotificationsPage, icon:'notifications-outline', badge:'33'},
-      { title: 'Add Ticket', component: TicketAddPage, icon:'create', badge:''},
-      { title: 'Customer', component: CustomerPage, icon:'people', badge:''},
-      { title: 'Settings', component: SettingPage, icon:'settings', badge:''},
+      { title: 'Thông Báo', component: NotificationsPage, icon:'notifications-outline', badge:'33'},
+      { title: 'Tạo Phiếu Mới', component: TicketAddPage, icon:'create', badge:''},
+      { title: 'Khách Hàng', component: CustomerPage, icon:'people', badge:''},
+      { title: 'Tài Khoản', component: AccountPage, icon:'contact', badge:''},
+      { title: 'Cài Đặt', component: SettingPage, icon:'settings', badge:''},
     ];
 
   }
@@ -81,8 +86,8 @@ export class MyApp {
   initializeApp() {
     this.platform.ready().then(() => {
       if(this._authService.isUserLoggedIn()){
-        this.loggedInUser = this._authService.getLoggedInUser();
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
+        this.loggedInUser = this._authService.getLoggedInUser(); 
         this.rootPage = HomePage;
       }else{
         this.loggedInUser = {};

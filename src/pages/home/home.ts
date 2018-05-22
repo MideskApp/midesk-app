@@ -1,6 +1,6 @@
 import { NotificationsService } from './../../services/notifications.service';
 import { Component, ViewChild, Injectable } from '@angular/core';
-import { NavController, Select, Platform, ModalController, PopoverController, /*Events*/ } from 'ionic-angular';
+import { NavController, Select, Platform, ModalController, PopoverController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from './../../services/authentication/auth.service';
@@ -32,7 +32,7 @@ export class HomePage {
   // ];
   arrayFilter:any=[
     { id:'filter1', name:'Phiếu chưa xử lý của bạn', value: 'yêu cầu chưa giải quyết của bạn' },
-    { id:'filter2', name:'Phiếu chưa giải quyết trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' },
+    { id:'filter2', name:'Phiếu chưa xử lý trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' },
     { id:'filter3', name:'Phiếu chưa phân công', value: 'yêu cầu chưa phân công' },
     { id:'filter4', name:'Phiếu đang chờ xử lý', value: 'yêu cầu đang chờ xử lý' },
     { id:'filter5', name:'Phiếu đã xử lý', value: 'yêu cầu đã xử lý' },
@@ -78,30 +78,23 @@ export class HomePage {
     private _authService: AuthService,
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
+    private _event: Events,
     ) {
-      
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
     setTimeout(function(){
       self._socketService.connect(self.room);
     },2000);
     this.listenEventNewNotifi();
-  }
-  // connectSocket(){
-  //   //this.room= JSON.parse(this._authService.getLoggedInRoom());
-  //   this._socket.connect();
-  //   this._socket.emit('room',this.room);
-  // }
-  // disconnectSocket(){
-  //   this._socket.disconnect();
-  // }
-  ionViewWillLoad(){
+    _event.subscribe('UPDATE TICKET',data=>{
+      this.loadCountTicket();
+      this.initListTicket();
+    })
     this.loadCountTicket();
   }
   ionViewDidLoad(){
     this.initListTicket();
     this.priority = this._authService.getPriority();
-    
   }
   loadCountTicket(){
     this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});

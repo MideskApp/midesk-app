@@ -86,8 +86,13 @@
 .popover-content{
 	width:330px!important;
 }
-.custom-popup .popover-content,.custom-sort .popover-content,.custom-channel .popover-content,.custom-status .popover-content,.custom-priority .popover-content{
+.custom-sort .popover-content,.custom-channel .popover-content,.custom-status .popover-content,.custom-priority .popover-content{
 	width:200px!important;
+}
+.custom-popup .popover-content{
+	width:300px!important;
+	//left:40%!important;
+	height: 300px;
 }
 .custom-status .popover-content{
 	// top:186px!important;

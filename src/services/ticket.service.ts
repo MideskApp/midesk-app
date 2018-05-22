@@ -76,6 +76,16 @@ export class TicketService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    trashOrResolveTicket(ticketId:number){
+        return this._http.put(this._settingGlobal._api_trash_or_resolve_ticket,{ticketId:ticketId})
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    deleteTicket(ticketId:number){
+        return this._http.delete(this._settingGlobal._api_delete_ticket+ticketId)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     // pushNotifications(data:any){
     //     let headers = new Headers();
     //     headers.append('Content-Type','application/json');
