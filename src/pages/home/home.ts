@@ -86,6 +86,7 @@ export class HomePage {
     let self = this;
     setTimeout(function(){
       self._socketService.connect(self.room);
+      this._userService.updateFCMToken({data:{fcm_token:this._authService.getFCMToken()}}).subscribe();
     },2000);
     this.listenEventNewNotifi();
     _event.subscribe('UPDATE TICKET',data=>{
@@ -95,7 +96,6 @@ export class HomePage {
     this.loadCountTicket();
   }
   ionViewDidLoad(){
-    this._userService.updateFCMToken({data:{fcm_token:this._authService.getFCMToken()}}).subscribe();
     //alert(this._authService.getFCMToken());
     this.initListTicket();
     this.priority = this._authService.getPriority();
