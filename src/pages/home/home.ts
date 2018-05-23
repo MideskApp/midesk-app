@@ -95,7 +95,7 @@ export class HomePage {
     this.loadCountTicket();
   }
   ionViewDidLoad(){
-    this._userService.updateFCMToken({fcm_token:this._authService.getFCMToken()}).subscribe();
+    this._userService.updateFCMToken({data:{fcm_token:this._authService.getFCMToken()}}).subscribe();
     //alert(this._authService.getFCMToken());
     this.initListTicket();
     this.priority = this._authService.getPriority();
