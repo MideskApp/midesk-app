@@ -86,7 +86,7 @@ export class HomePage {
     let self = this;
     setTimeout(function(){
       self._socketService.connect(self.room);
-      this._userService.updateFCMToken({data:{fcm_token:this._authService.getFCMToken()}}).subscribe();
+      self._userService.updateFCMToken({data:{fcm_token:self._authService.getFCMToken()}}).subscribe();
     },2000);
     this.listenEventNewNotifi();
     _event.subscribe('UPDATE TICKET',data=>{
