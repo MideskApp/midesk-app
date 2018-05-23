@@ -32,7 +32,8 @@ export class User {
         public active_session: string = null,
         public status_chat: string,
         public is_first: number,
-        
+        public is_notification:number,
+        public fcm_token:string,
         public check: boolean = false,
     ) {
     }

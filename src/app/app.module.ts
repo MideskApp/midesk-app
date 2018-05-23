@@ -32,6 +32,7 @@ import { CustomerProfilePage } from './../pages/customer/customer-profile/custom
 import { SettingPage } from './../pages/setting/setting';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { CustomerAddPage } from './../pages/customer/customer-add/customer-add';
+import { CustomerSearchPage } from './../pages/customer/customer-search/customer-search';
 import { NotificationsPage } from './../pages/notifications/notifications';
 import { AccountPage } from './../pages/account/account';
 
@@ -62,6 +63,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     CustomerPage,
     CustomerProfilePage,
     CustomerAddPage,
+    CustomerSearchPage,
     SettingPage,
     AccountPage,
     LoginPage,
@@ -109,6 +111,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     CustomerPage,
     CustomerProfilePage,
     CustomerAddPage,
+    CustomerSearchPage,
     SettingPage,
     AccountPage,
     LoginPage,

@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import { CookieService } from 'angular2-cookie/core';
 import { User } from './../../models/user';
 import { FCM } from '@ionic-native/fcm';
+//import { UserService } from '../user.service';
 
 //import { SocketIoModule, SocketIoConfig, Socket } from 'ng-socket-io';
 
@@ -20,15 +21,18 @@ export class AuthService {
     private loggedInUser: any; //User
     constructor(
         public _cookieService: CookieService,
-        _fcm: FCM
+        private _fcm: FCM,
+        //private _userService: UserService,
         //private _socket: Socket   
         //public _settingGlobal: SettingService
         ) {
-        // _fcm.getToken().then(token=>{
-        //     this.fcm_token = token;
-        // })
+        
     }
-
+    initFCMToken(){
+        this._fcm.getToken().then(token=>{
+            this.fcm_token = token;
+        })
+    }
     getToken(): string {
         return this._cookieService.get(TOKEN_NAME);
     }
@@ -36,11 +40,17 @@ export class AuthService {
         if (typeof userLogin.success != 'undefined' && userLogin.success.token != '') {
             this.isloggedIn = true;
             this.loggedInUser = userLogin.success;
+            if(this.loggedInUser.fcm_token==0){
+                this.initFCMToken();
+                this._cookieService.put('fcm_token',this.fcm_token);
+            }else{
+                this._cookieService.put('fcm_token',this.loggedInUser.fcm_token);
+            }
             this._cookieService.putObject('curuser', { info: this.loggedInUser.user, user_log: this.loggedInUser.user_log });
             //this._cookieService.putObject('curgroup',{ extension: this.loggedInUser.extension ,list_team: this.loggedInUser.list_team, list_agent: this.loggedInUser.list_agent });
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.putObject('room',{room: this.loggedInUser.room});
-            this._cookieService.put('fcm_token',this.fcm_token);
+            
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
         } else {
             console.log('Empty token ---');
@@ -56,18 +66,6 @@ export class AuthService {
         }
         return this.isloggedIn;
     }
-    // getRedirectUrl(): string {
-    //     return this.redirectUrl;
-    // }
-
-    // setRedirectUrl(url: string): void {
-    //     this.redirectUrl = url;
-    // }
-
-    // getLoginUrl(): string {
-    //     return this.loginUrl;
-    // }
-
     getLoggedInUser(): User {
         if (this._cookieService.getObject('curuser')) {
             this.loggedInUser = this._cookieService.getObject('curuser')['info'];
@@ -83,30 +81,6 @@ export class AuthService {
     getFCMToken():string{
         return this._cookieService.get('fcm_token');
     }
-    // getLoggedInListTeam(){
-    //     if (this._cookieService.getObject('curgroup')) {
-    //         this.loggedInUser = this._cookieService.getObject('curgroup')['list_team'];
-    //     }
-    //     return this.loggedInUser;
-    // }
-    // getLoggedInListAgent(){
-    //     if (this._cookieService.getObject('curgroup')) {
-    //         this.loggedInUser = this._cookieService.getObject('curgroup')['list_agent'];
-    //     }
-    //     return this.loggedInUser;
-    // }
-    // getLoggedInExtension(){
-    //     if (this._cookieService.getObject('curgroup')) {
-    //         this.loggedInUser = this._cookieService.getObject('curgroup')['extension'];
-    //     }
-    //     return this.loggedInUser;
-    // }
-    // getLoggedInUserTeam() {
-    //     if (this._cookieService.getObject('curgroup')) {
-    //         this.loggedInUser = this._cookieService.getObject('curgroup')['team'];
-    //     }
-    //     return this.loggedInUser;
-    // }
     getUserLastlogId() {
         if (this._cookieService.getObject('curuser')) {
             return this._cookieService.getObject('curuser')['user_log'].id;

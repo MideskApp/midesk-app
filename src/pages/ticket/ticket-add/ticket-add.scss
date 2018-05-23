@@ -48,14 +48,18 @@ page-ticket-add{
 		input{
 			padding: 11px 8px 11px 0!important;
 			margin:0!important;
-			border-bottom:0.55px solid #E8E8E8!important;
+			//border-bottom:0.55px solid #E8E8E8!important;
 			caret-color:#FFF;
 			color:#FFF;
 		}
 		input:focus{
-			border-bottom:0.55px solid #FFFFFF!important;
+			//border-bottom:0.55px solid #FFFFFF!important;
 		}
 
+	}
+	.input-cover{
+		border-bottom:0.55px solid #E8E8E8!important;
+		display:block!important;
 	}
 	.box-avatar{
 		background:#2979ff;

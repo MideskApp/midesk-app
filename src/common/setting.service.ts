@@ -17,6 +17,7 @@ export class SettingService {
     public _api_assigner_search = this._baseAPIUrl + 'searchAssigner';
     public _api_user_getListUserTeam = this._baseAPIUrl + 'getListUserTeam';
     public _api_user_update_profile = this._baseAPIUrl + 'updateUserProfile';
+    public _api_user_update_fcm_token = this._baseAPIUrl + 'updateFCMToken';
     //--
     //ticket service
     public _api_ticket_getList = this._baseAPIUrl + 'getListTicket';
