@@ -45,4 +45,5 @@ export class SettingService {
     public _api_notifications_countNewNotify = this._baseAPIUrl + 'countNewNotifications';
     //fcm notifications
     public _api_fcm_notification = 'https://fcm.googleapis.com/fcm/send';
+
 }

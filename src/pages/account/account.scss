@@ -20,7 +20,9 @@ page-account {
 		}
 		.title{
 			font-size:12px;
-			color:#2cd094;
+			//color:#2cd094;
+			color:#5fb85f;
+			font-weight: 500;
 		}
 	}
 	.input-edit{
@@ -69,5 +71,11 @@ page-account {
     }
     .no-background{
         background: transparent;
-    }
+	}
+	.name{
+		font-size:1.8rem;
+		font-weight: 500;
+		color:white;
+		text-decoration: underline;
+	}
 }

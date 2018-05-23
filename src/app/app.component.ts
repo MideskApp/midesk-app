@@ -28,6 +28,7 @@ export class MyApp {
   pages: Array<{title: string, component: any, icon: string, badge:any}>;
   countNotify:any;
   token:any;
+  avatarName:string;
   constructor(
     public platform: Platform, 
     public statusBar: StatusBar, 
@@ -47,7 +48,9 @@ export class MyApp {
     // });
     this.listenEventNewNotifi();
     this._event.subscribe('UPDATE PROFILE',data=>{
-      this.loggedInUser = this._authService.getLoggedInUser(); 
+      this.loggedInUser = this._authService.getLoggedInUser();
+      this.avatarName = this._authService.getLoggedInUser().lastname;
+      this.avatarName = this.avatarName.substr(0,1);  
     });
     //this.receiveNotification();
     // _fcm.subscribeToTopic('all');
@@ -87,7 +90,9 @@ export class MyApp {
     this.platform.ready().then(() => {
       if(this._authService.isUserLoggedIn()){
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-        this.loggedInUser = this._authService.getLoggedInUser(); 
+        this.loggedInUser = this._authService.getLoggedInUser();
+        this.avatarName = this._authService.getLoggedInUser().lastname;
+        this.avatarName = this.avatarName.substr(0,1); 
         this.rootPage = HomePage;
       }else{
         this.loggedInUser = {};

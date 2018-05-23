@@ -2,14 +2,14 @@
 
   <ion-navbar>
     <ion-title>Tài Khoản</ion-title>
-    <ion-buttons end *ngIf="edit && countEdit>0"><button ion-button (click)="submitEdit()"><ion-icon name="checkmark"></ion-icon></button></ion-buttons>
+    <ion-buttons end *ngIf="edit && (countEdit > 0 || enableToggle)"><button ion-button (click)="submitEdit()"><ion-icon name="checkmark"></ion-icon></button></ion-buttons>
     <ion-buttons end *ngIf="!edit" item-end><button ion-button (click)="editAccount()"><ion-icon name="create"></ion-icon></button></ion-buttons>
     <ion-buttons end *ngIf="edit" item-end><button ion-button (click)="closeEdit()"><ion-icon name="close"></ion-icon></button></ion-buttons>
   </ion-navbar>
-  <ion-grid no-padding style="background:#2cd094">
+  <ion-grid no-padding class="background-midesk">
 		<ion-row>
-			<ion-col col-12 text-center><ion-avatar text-center [ngStyle]="{'background':colorAvatar}" class="customer-avatar">{{modelUser.lastname}}</ion-avatar></ion-col>
-			<ion-col col-12 text-center><p style="color:white" margin-bottom>{{modelUser.firstname+' '+modelUser.lastname}}</p></ion-col>
+			<ion-col col-12 text-center><ion-avatar text-center [ngStyle]="{'background':colorAvatar}" class="customer-avatar">{{nameAvatar}}</ion-avatar></ion-col>
+			<ion-col col-12 text-center><p class="name" margin-bottom>{{modelUser.firstname+' '+modelUser.lastname}}</p></ion-col>
 		</ion-row>
 		<!-- <ion-row>
 			<ion-segment color="whitee" [(ngModel)]="section">
@@ -63,13 +63,13 @@
     <ion-item class="customer-info" *ngIf="enableToggle">
       <ion-avatar item-start><ion-icon color="midesk" name="lock"></ion-icon></ion-avatar>
       <p class="title">Mật khẩu mới</p>
-      <input no-margin class="text-input text-input-md input-edit" [(ngModel)]="password">
+      <input type="password" no-margin class="text-input text-input-md input-edit" [(ngModel)]="password">
     </ion-item>
 
     <ion-item class="customer-info" *ngIf="enableToggle">
       <ion-avatar item-start><ion-icon color="midesk" name="lock"></ion-icon></ion-avatar>
-      <p class="title">Nhập lại mật khẩu</p>
-      <input no-margin class="text-input text-input-md input-edit" [(ngModel)]="confirmPassword">
+      <p class="title">Xác nhận mật khẩu</p>
+      <input type="password" no-margin class="text-input text-input-md input-edit" [(ngModel)]="confirmPassword">
     </ion-item>
   </ion-list>
 </ion-content>

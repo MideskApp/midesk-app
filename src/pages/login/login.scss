@@ -1,6 +1,7 @@
 page-login {
 	.login-background{
-		background-color:#2cd094;
+		//background-color:#2cd094;
+		background:#0a844c;
 	}
 	.img-midesk{
 		margin:0 auto;
@@ -35,8 +36,11 @@ page-login {
 		background: rgb(248,248,255);
 		border-radius:5px;
 	}
+	ion-card-header b{
+		color:#0a844c;
+	}
 	a, p,
-	ion-card-header.card-header{
+	{
 		color:#FFF;
 	}
 	.list > .item-block:first-child{

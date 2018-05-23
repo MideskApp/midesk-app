@@ -1,27 +1,41 @@
 import { AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { Injectable } from '@angular/core';
+import { NumberFormatStyle } from '@angular/common';
 
 @Injectable()
 export class DataService {
     constructor(
-        private alertCtrl: AlertController,
+        public alertCtrl: AlertController,
         private toastCtrl: ToastController,
         private loadingCtrl: LoadingController
     ) {}
-    // presentAlert(msgContent:string,handleWhenYes:any,handleWhenNo:any){
-    //     var alert = this.alertCtrl.create({
-    //         message: msgContent,
-    //         buttons:[
-    //             {
-    //                 text: 'Đồng ý',
-    //                 handler: handleWhenYes
-    //             },
-    //             {
-    //                 text: 'Hủy',
-    //                 handler: handleWhenNo
-    //             }
-    //         ]
-    //     })
-    //     alert.present();
-    // }
+    createAlertWithHandle(msgContent:string){
+        var alert = this.alertCtrl.create({
+            message: msgContent,
+            buttons:[
+                {
+                    text: 'Đồng ý',
+                    handler: () => {
+                        alert.dismiss(true);
+                        return false;
+                    }
+                },
+                {
+                    text: 'Hủy',
+                    handler: () => {
+                       alert.dismiss(false);
+                       return false;
+                    }
+                }
+            ]
+        })
+        return alert;
+    }
+    createAlertWithoutHandle(msgContent:string){
+        let alert = this.alertCtrl.create({
+            message: msgContent,
+            buttons: [{text: 'Đóng'}]
+        })
+        alert.present();
+    }
 }

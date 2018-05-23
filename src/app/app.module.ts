@@ -13,6 +13,7 @@ import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 
 
 import { SettingService } from '../common/setting.service';
+import { MessageService } from '../common/message.service';
 import { UserService } from '../services/user.service';
 import { CustomerService } from '../services/customer.service';
 import { TicketService } from '../services/ticket.service';
@@ -127,6 +128,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
   providers: [
     CookieService,
     SettingService,
+    MessageService,
     DataService,
     UserService,
     TicketService,

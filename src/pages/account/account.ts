@@ -2,8 +2,9 @@ import { UserService } from './../../services/user.service';
 import { DataService } from './../../common/data.service';
 import { AuthService } from './../../services/authentication/auth.service';
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Events } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { CookieService } from 'angular2-cookie/core';
+import { MessageService } from '../../common/message.service';
 
 @Component({
   selector: 'page-account',
@@ -14,8 +15,9 @@ export class AccountPage {
   modelEdit:any={};
   modelUpdate:any={};
   colorAvatar:any;
-  password:any;
-  confirmPassword:any;
+  nameAvatar:any;
+  password:any='';
+  confirmPassword:any='';
   countEdit = 0;
   enableToggle:boolean=false;
   constructor(
@@ -23,12 +25,11 @@ export class AccountPage {
     public navParams: NavParams,
     private _authService: AuthService,
     private _dataService: DataService,
-    private alertCtrl: AlertController,
     private _userService: UserService,
     private _cookieService: CookieService,
     private _event : Events,
+    private _msgService: MessageService
   ) {
-    
   }
   edit:boolean=false;
   ionViewDidLoad() {
@@ -36,6 +37,7 @@ export class AccountPage {
   }
   initProfileUser(){
     this.modelUser = this._authService.getLoggedInUser();
+    this.nameAvatar = this._authService.getLoggedInUser().lastname.substr(0,1);
     this.colorAvatar = this.modelUser.datecreate.toString().substr(4,6);
     console.log(this.modelUser);
   }
@@ -52,32 +54,39 @@ export class AccountPage {
     this.countEdit = Object.keys(this.modelUpdate).length;
   }
   submitEdit(){
-    if(this.password!=this.confirmPassword){
-      let alert = this.alertCtrl.create({
-        message:'Mật khẩu không chính xác',
-      })
-      alert.present();
-    }
-    else{
-      let alert = this.alertCtrl.create({
-      message:'Vui lòng xác nhận lại',
-      buttons:[
-        {
-          text:'Đồng ý',
-          handler: data=>{
-            this.updateProfileUser();
-            //console.log(this.modelUpdate);
-          }
-        },
-        {
-          text:'Hủy',
-          handler:data=>{}
+    if(this.enableToggle){
+      if(this.password==='' && this.confirmPassword===''){
+        this._dataService.createAlertWithoutHandle(this._msgService._msg_account_empty_password);
+      }
+      else{
+        if(this.password !== this.confirmPassword){
+          this._dataService.createAlertWithoutHandle(this._msgService._msg_account_incorrect_password);
         }
-      ]
-      })
-      alert.present();
+        else{
+          this.modelUpdate['password'] = this.password;
+          let alert = this._dataService.createAlertWithHandle(this._msgService._msg_account_confirm_update);
+          alert.present();
+          alert.onDidDismiss((data)=>{
+            if(data){
+              this.updateProfileUser();
+              this._dataService.createAlertWithoutHandle(this._msgService._msg_account_auto_logout);
+              this._authService.logoutUser();
+              setTimeout(()=>{
+                window.location.reload();
+              },500)
+            }
+          })
+        }
+      }
+    }else{
+      if(this.countEdit>0){
+        let alert = this._dataService.createAlertWithHandle(this._msgService._msg_account_confirm_update);
+          alert.present();
+          alert.onDidDismiss((data)=>{
+            if(data) this.updateProfileUser();
+          })
+      }
     }
-    
   }
   onInsertData($event,$type){
     if($event.target.value != this.modelEdit[$type]){
@@ -90,22 +99,23 @@ export class AccountPage {
   }
   updateProfileUser(){
     this._userService.updateUserProfile({data:this.modelUpdate}).subscribe(res=>{
-      //this.initProfileUser();
       if(res.code==200){
         this._cookieService.remove('curuser');
         this._cookieService.putObject('curuser',{info:res.data});
+        this.edit =!this.edit;
         this.initProfileUser();
         this._event.publish('UPDATE PROFILE');
       }
       
     })
   }
+
   changePassword(){
-    if(this.enableToggle == true){
-      let alert = this.alertCtrl.create({
-        message:'Bạn sẽ cần đăng nhập lại nếu như thay đổi mật khẩu',
-      })
-      alert.present();
+    if(this.enableToggle){
+      this._dataService.createAlertWithoutHandle(this._msgService._msg_account_change_password);
+    }else{
+      this.password ='';
+      this.confirmPassword = '';
     }
   }
 }

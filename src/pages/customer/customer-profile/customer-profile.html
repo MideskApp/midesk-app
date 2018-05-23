@@ -6,10 +6,10 @@
     <ion-buttons *ngIf="section=='segment1' && edit" (click)="updateProfile()" float-right><button ion-button><ion-icon name="checkmark"></ion-icon></button></ion-buttons>
     <ion-buttons *ngIf="section=='segment1' && edit" (click)="closeEdit()" float-right><button ion-button><ion-icon name="close"></ion-icon></button></ion-buttons>
   </ion-navbar>
-	<ion-grid no-padding style="background:#2cd094">
+	<ion-grid no-padding class="background-midesk">
 		<ion-row>
 			<ion-col col-12 text-center><ion-avatar text-center [ngStyle]="{'background':customerProfile.color}" class="customer-avatar">{{modelEdit.customer|firstNlast}}</ion-avatar></ion-col>
-			<ion-col col-12 text-center><p style="color:white" no-margin>{{customerProfile.customer}}</p></ion-col>
+			<ion-col col-12 text-center><p class="name" no-margin>{{customerProfile.customer}}</p></ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-segment color="whitee" [(ngModel)]="section">
@@ -70,8 +70,8 @@
 			</ion-item>
 		</ion-list>
 	</ion-grid>
-	<ion-grid no-padding *ngSwitchCase="'segment2'" >
-		<ion-list no-padding *ngIf="customerTicket.length>0">
+	<ion-grid *ngSwitchCase="'segment2'" >
+		<ion-list *ngIf="customerTicket.length>0">
 			<ion-item *ngFor="let item of customerTicket" class="customer-ticket" (click)="openTicketDetail(item)" no-padding>
 				<ion-avatar class="box-ticket" item-start><ion-icon color="midesk" name="pricetags"></ion-icon></ion-avatar>
 				<p class="title">#{{item.ticket_id}} - {{item.title}}</p>
