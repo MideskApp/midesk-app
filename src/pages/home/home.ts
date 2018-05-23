@@ -10,7 +10,7 @@ import { ModalSearchTicket } from './../../components/modal/modal-search-ticket/
 import { PopoverSort } from './../../components/popover/popover-sort/popover-sort';
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 import { SocketService } from '../../common/socket.service';
-import { UserService } from '../../services/user.service';
+//import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'page-home',
@@ -80,7 +80,7 @@ export class HomePage {
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
     private _event: Events,
-    private _userService: UserService
+    //private _userService: UserService
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
@@ -95,7 +95,7 @@ export class HomePage {
     this.loadCountTicket();
   }
   ionViewDidLoad(){
-    this._userService.updateFCMToken({fcm_token:this._authService.getFCMToken()}).subscribe();
+    //this._userService.updateFCMToken({fcm_token:this._authService.getFCMToken()}).subscribe();
     this.initListTicket();
     this.priority = this._authService.getPriority();
   }

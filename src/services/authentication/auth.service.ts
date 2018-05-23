@@ -32,6 +32,7 @@ export class AuthService {
         this._fcm.getToken().then(token=>{
             this.fcm_token = token;
         })
+        this._cookieService.put('fcm_token',this.fcm_token);
     }
     getToken(): string {
         return this._cookieService.get(TOKEN_NAME);
@@ -40,9 +41,8 @@ export class AuthService {
         if (typeof userLogin.success != 'undefined' && userLogin.success.token != '') {
             this.isloggedIn = true;
             this.loggedInUser = userLogin.success;
-            if(this.loggedInUser.fcm_token==0){
+            if(this.loggedInUser.fcm_token=='0'){
                 this.initFCMToken();
-                this._cookieService.put('fcm_token',this.fcm_token);
             }else{
                 this._cookieService.put('fcm_token',this.loggedInUser.fcm_token);
             }
