@@ -21,18 +21,14 @@ export class AuthService {
     private loggedInUser: any; //User
     constructor(
         public _cookieService: CookieService,
-        private _fcm: FCM,
+        _fcm: FCM,
         //private _userService: UserService,
         //private _socket: Socket   
         //public _settingGlobal: SettingService
         ) {
-        
-    }
-    initFCMToken(){
-        this._fcm.getToken().then(token=>{
+        _fcm.getToken().then(token=>{
             this.fcm_token = token;
         })
-        this._cookieService.put('fcm_token',this.fcm_token);
     }
     getToken(): string {
         return this._cookieService.get(TOKEN_NAME);
@@ -42,7 +38,7 @@ export class AuthService {
             this.isloggedIn = true;
             this.loggedInUser = userLogin.success;
             if(this.loggedInUser.fcm_token=='0'){
-                this.initFCMToken();
+                this._cookieService.put('fcm_token',this.fcm_token);
             }else{
                 this._cookieService.put('fcm_token',this.loggedInUser.fcm_token);
             }
