@@ -21,14 +21,17 @@ export class AuthService {
     private loggedInUser: any; //User
     constructor(
         public _cookieService: CookieService,
-        _fcm: FCM,
+        private _fcm: FCM,
         //private _userService: UserService,
         //private _socket: Socket   
         //public _settingGlobal: SettingService
         ) {
-        _fcm.getToken().then(token=>{
+    }
+    initFCMToken(){
+        this._fcm.getToken().then(token=>{
             this.fcm_token = token;
         })
+        this._cookieService.put('fcm_token',this.fcm_token);
     }
     getToken(): string {
         return this._cookieService.get(TOKEN_NAME);
@@ -37,8 +40,8 @@ export class AuthService {
         if (typeof userLogin.success != 'undefined' && userLogin.success.token != '') {
             this.isloggedIn = true;
             this.loggedInUser = userLogin.success;
-            if(this.loggedInUser.fcm_token=='0'){
-                this._cookieService.put('fcm_token',this.fcm_token);
+            if(this.loggedInUser.user.fcm_token=='0'){
+                this.initFCMToken();
             }else{
                 this._cookieService.put('fcm_token',this.loggedInUser.fcm_token);
             }
@@ -46,7 +49,6 @@ export class AuthService {
             //this._cookieService.putObject('curgroup',{ extension: this.loggedInUser.extension ,list_team: this.loggedInUser.list_team, list_agent: this.loggedInUser.list_agent });
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.putObject('room',{room: this.loggedInUser.room});
-            
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
         } else {
             console.log('Empty token ---');
