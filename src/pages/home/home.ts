@@ -1,8 +1,6 @@
 import { NotificationsService } from './../../services/notifications.service';
 import { Component, ViewChild, Injectable } from '@angular/core';
-import { NavController, Select, Platform, ModalController, PopoverController, Events } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { NavController, Select,  ModalController, PopoverController, Events } from 'ionic-angular';
 import { AuthService } from './../../services/authentication/auth.service';
 import { TicketService } from './../../services/ticket.service';
 import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
@@ -11,6 +9,8 @@ import { PopoverSort } from './../../components/popover/popover-sort/popover-sor
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 import { SocketService } from '../../common/socket.service';
 import { UserService } from '../../services/user.service';
+import { CookieService } from 'angular2-cookie/core';
+import { FCM } from '@ionic-native/fcm';
 
 @Component({
   selector: 'page-home',
@@ -72,18 +72,22 @@ export class HomePage {
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
     private _ticketService: TicketService,
-    public platform: Platform, 
-    public statusBar: StatusBar, 
-    public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
     private _authService: AuthService,
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
     private _event: Events,
-    private _userService: UserService
+    private _userService: UserService,
+    private _cookieService: CookieService,
+    private _fcm: FCM
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
-    this.fcm_token = _authService.getFCMToken();
+    if(_authService.getFCMToken()=='0'){
+      _fcm.getToken().then(token=>{
+        this.fcm_token = token;
+      })
+      _cookieService.put('fcm_token',this.fcm_token);
+    }
     let self = this;
     setTimeout(function(){
       self._socketService.connect(self.room);
@@ -97,7 +101,6 @@ export class HomePage {
     this.loadCountTicket();
   }
   ionViewDidLoad(){
-    //alert(this._authService.getFCMToken());
     this.initListTicket();
     this.priority = this._authService.getPriority();
   }
