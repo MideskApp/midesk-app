@@ -162,54 +162,54 @@ export class TicketAddPage {
   }
   createTicket(){
     console.log(this.ticketParams.category);
-    //this.ticketParams.category=this.ticketParams.category.slice(0,this.ticketParams.category.length-1);
-    // let loader = this.loadingCtrl.create({
-    //   content: "Vui lòng chờ...",
-    // });
-    // console.log(this.ticketParams);
-    // var formData = new FormData();
-    // formData.append('title',this.ticketParams.title);
-    // formData.append('assign_agent',this.ticketParams.assign_agent);
-    // formData.append('assign_team',this.ticketParams.assign_team);
-    // formData.append('priority',this.ticketParams.priority);
-    // formData.append('requester',this.ticketParams.requester);
-    // formData.append('requester_type',this.ticketParams.requester_type);
-    // formData.append('status',this.ticketParams.status);
-    // formData.append('content',this.ticketParams.content);
-    // formData.append('private',this.privateNote);
-    // if(this.ticketParams.file!=null){
-    //   //var file:File = this.ticketParams.file;
-    //   formData.append('file',this.ticketParams.file,this.ticketParams.file.name);
-    // }
-    // loader.present().then(()=>{
-    //     this._ticketService.createTicket(formData).subscribe(res=>{
-    //     loader.dismiss();
-    //     if(res.code==200){
-    //       this.presentToast(res.message,'success-toast');
-    //       this.resetInput();
-    //       var seft = this;
-    //       setTimeout(function(){
-    //         let presentAlert = seft.alertCtrl.create({
-    //         subTitle:'Bạn có muốn đến phiếu vừa tạo không?',
-    //         buttons:[
-    //           {
-    //             text: 'Cancel',
-    //           },
-    //           {
-    //             text: 'OK',
-    //             handler: data=>{
+    this.ticketParams.category=this.ticketParams.category.slice(0,this.ticketParams.category.length-1);
+    let loader = this.loadingCtrl.create({
+      content: "Vui lòng chờ...",
+    });
+    console.log(this.ticketParams);
+    var formData = new FormData();
+    formData.append('title',this.ticketParams.title);
+    formData.append('assign_agent',this.ticketParams.assign_agent);
+    formData.append('assign_team',this.ticketParams.assign_team);
+    formData.append('priority',this.ticketParams.priority);
+    formData.append('requester',this.ticketParams.requester);
+    formData.append('requester_type',this.ticketParams.requester_type);
+    formData.append('status',this.ticketParams.status);
+    formData.append('content',this.ticketParams.content);
+    formData.append('private',this.privateNote);
+    if(this.ticketParams.file!=null){
+      //var file:File = this.ticketParams.file;
+      formData.append('file',this.ticketParams.file,this.ticketParams.file.name);
+    }
+    loader.present().then(()=>{
+        this._ticketService.createTicket(formData).subscribe(res=>{
+        loader.dismiss();
+        if(res.code==200){
+          this.presentToast(res.message,'success-toast');
+          this.resetInput();
+          var seft = this;
+          setTimeout(function(){
+            let presentAlert = seft.alertCtrl.create({
+            subTitle:'Bạn có muốn đến phiếu vừa tạo không?',
+            buttons:[
+              {
+                text: 'Cancel',
+              },
+              {
+                text: 'OK',
+                handler: data=>{
 
-    //               seft.navCtrl.push(TicketDetailPage,{data:res.data.ticket});
-    //             }
-    //           }
-    //         ]
-    //       })
-    //       presentAlert.present();
-    //       },1500);
-    //     }
-    //     else this.presentToast(res.message,'fail-toast');
-    //   });
-    // })
+                  seft.navCtrl.push(TicketDetailPage,{data:res.data.ticket});
+                }
+              }
+            ]
+          })
+          presentAlert.present();
+          },1500);
+        }
+        else this.presentToast(res.message,'fail-toast');
+      });
+    })
   }
   clearAssign(){
     this.ticketParams.assign_agent = '';

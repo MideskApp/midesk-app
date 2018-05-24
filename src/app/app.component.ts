@@ -172,6 +172,7 @@ export class MyApp {
       title:'Bạn có thông báo mới!',
       text:data.title,
       led:'66CC00',
+      vibrate:this._authService.enableVibrate(),
       data:{
         id:data.id,
         ticket_id:data.ticket_id,

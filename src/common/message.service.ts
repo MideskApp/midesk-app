@@ -13,4 +13,6 @@ export class MessageService {
     public _msg_loading = 'Vui lòng chờ ...';
     //ticket
     public _msg_ticket_confirm = 'Bạn có chắc là muốn thực hiện hành động này';
+    //settings
+    public _msg_setting_disable_notification = 'Lưu ý: Bạn sẽ không nhận được thông báo';
 }
