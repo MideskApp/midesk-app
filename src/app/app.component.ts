@@ -45,13 +45,14 @@ export class MyApp {
     private _socketService: SocketService,
     public _event: Events,
     ) {
-    this.initializeApp();
+    
     this.listenEventNewNotifi();
     this._event.subscribe('UPDATE PROFILE',data=>{
       this.loggedInUser = this._authService.getLoggedInUser();
       this.avatarName = this._authService.getLoggedInUser().lastname;
       this.avatarName = this.avatarName.substr(0,1);  
     });
+    this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Thông Báo', component: NotificationsPage, icon:'notifications-outline', badge:'33'},
@@ -158,13 +159,13 @@ export class MyApp {
     }
   }
   initLocalNotification(data){
-    let vibrate = this._authService.enableVibrate();
+    //let vibrate = this._authService.enableVibrate();
     this._localNotification.schedule({
       id:2,
       title:'Bạn có thông báo mới!',
       text:data.title,
       led:'66CC00',
-      vibrate:vibrate,
+      //vibrate:vibrate,
       data:{
         id:data.id,
         ticket_id:data.ticket_id,

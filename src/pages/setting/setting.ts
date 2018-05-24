@@ -28,7 +28,7 @@ export class SettingPage {
     private _msgService: MessageService
   ) {
     this.enableNotify = this._authService.enableNotify();
-    this.enableVibrate = this._authService.enableVibrate();
+    //this.enableVibrate = this._authService.enableVibrate();
   }
 
   ionViewDidLoad() {
@@ -41,10 +41,10 @@ export class SettingPage {
     this._cookieService.putObject('setting',arr);
     this._dataService.createAlertWithoutHandle(this._msgService._msg_setting_disable_notification);
   }
-  changeVibrate(){
-    let flag = (this.enableVibrate==true)?'1':'0';
-    let arr = this._cookieService.getObject('setting');
-    arr['vibrate']= flag;
-    this._cookieService.putObject('setting',arr);
-  }
+  // changeVibrate(){
+  //   let flag = (this.enableVibrate==true)?'1':'0';
+  //   let arr = this._cookieService.getObject('setting');
+  //   arr['vibrate']= flag;
+  //   this._cookieService.putObject('setting',arr);
+  // }
 }
