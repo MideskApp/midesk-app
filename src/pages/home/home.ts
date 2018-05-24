@@ -9,8 +9,6 @@ import { PopoverSort } from './../../components/popover/popover-sort/popover-sor
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 import { SocketService } from '../../common/socket.service';
 import { UserService } from '../../services/user.service';
-import { CookieService } from 'angular2-cookie/core';
-import { FCM } from '@ionic-native/fcm';
 
 @Component({
   selector: 'page-home',
@@ -60,7 +58,6 @@ export class HomePage {
   countList:any=[];
   countNotify:any;
   room:any={};
-  fcm_token:any;
   constructor(
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
@@ -71,18 +68,11 @@ export class HomePage {
     private _socketService: SocketService,
     private _event: Events,
     private _userService: UserService,
-    private _cookieService: CookieService,
-    private _fcm: FCM
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
-    this.fcm_token = _authService.getLoggedInUser().fcm_token;
-    if(this.fcm_token == '0'){
-      this._userService.updateFCMToken({data:{fcm_token:_authService.getFCMToken()}}).subscribe();
-    }
     let self = this;
     setTimeout(function(){
       self._socketService.connect(self.room);
-      self._userService.updateFCMToken({data:{fcm_token:self.fcm_token}}).subscribe();
     },2000);
     this.listenEventNewNotifi();
     _event.subscribe('UPDATE TICKET',data=>{
