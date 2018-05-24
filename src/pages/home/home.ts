@@ -67,7 +67,7 @@ export class HomePage {
   countList:any=[];
   countNotify:any;
   room:any={};
-  deviceToken:any;
+  fcm_token:any;
   constructor(
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
@@ -83,10 +83,11 @@ export class HomePage {
     private _userService: UserService
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
+    this.fcm_token = _authService.getFCMToken();
     let self = this;
     setTimeout(function(){
       self._socketService.connect(self.room);
-      self._userService.updateFCMToken({data:{fcm_token:self._authService.getFCMToken()}}).subscribe();
+      self._userService.updateFCMToken({data:{fcm_token:self.fcm_token}}).subscribe();
     },2000);
     this.listenEventNewNotifi();
     _event.subscribe('UPDATE TICKET',data=>{
