@@ -48,7 +48,6 @@ export class AuthService {
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.putObject('room',{room: this.loggedInUser.room});
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
-            this._cookieService.put('fcm_token',this.loggedInUser.user.fcm_token);
         } else {
             console.log('Empty token ---');
             this._cookieService.removeAll();

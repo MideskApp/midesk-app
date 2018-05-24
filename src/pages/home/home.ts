@@ -82,7 +82,10 @@ export class HomePage {
     private _fcm: FCM
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
-    this.fcm_token = _authService.getFCMToken();
+    this.fcm_token = _authService.getLoggedInUser().fcm_token;
+    if(this.fcm_token == '0'){
+      this._userService.updateFCMToken({data:{fcm_token:_authService.getFCMToken()}}).subscribe();
+    }
     let self = this;
     setTimeout(function(){
       self._socketService.connect(self.room);

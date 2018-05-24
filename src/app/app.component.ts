@@ -46,6 +46,7 @@ export class MyApp {
     //   this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
     //   console.log(JSON.parse(data[0]['custom']));
     // });
+    this.initializeApp();
     this.listenEventNewNotifi();
     this._event.subscribe('UPDATE PROFILE',data=>{
       this.loggedInUser = this._authService.getLoggedInUser();
@@ -143,6 +144,7 @@ export class MyApp {
   listenEventNewNotifi(){
     this._socketService.listenEvent('NEW NOTIFI').subscribe(data=>{
       this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
+      this.token = this._authService.getFCMToken();
       this.pushNotifications(data);
     });
   }
@@ -150,7 +152,6 @@ export class MyApp {
     console.log(data);
     let userId = this._authService.getLoggedInUser().id;
     if(data[0]['del_agent'] != userId && data[0]['view'] != userId){
-      this.token = this._authService.getFCMToken();
       let team = JSON.parse(this._authService.getLoggedInRoom()).array_team;
       let userLevel = this._authService.getLoggedInUser().level;
       team = team.split(',');
