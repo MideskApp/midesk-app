@@ -121,7 +121,9 @@ export class MyApp {
     this._socketService.listenEvent('NEW NOTIFI').subscribe(data=>{
       this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
       this.token = this._authService.getFCMToken();
-      this.pushNotifications(data);
+      if(this._authService.enableNotify()){
+        this.pushNotifications(data);
+      }
     });
   }
   pushNotifications(data){
