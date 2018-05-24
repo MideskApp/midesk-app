@@ -88,6 +88,9 @@ export class HomePage {
       })
       _cookieService.put('fcm_token',this.fcm_token);
     }
+    else{
+      this.fcm_token = _authService.getFCMToken();
+    }
     let self = this;
     setTimeout(function(){
       self._socketService.connect(self.room);
