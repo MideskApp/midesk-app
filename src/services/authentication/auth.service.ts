@@ -33,7 +33,7 @@ export class AuthService {
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.putObject('room',{room: this.loggedInUser.room});
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
-            this._cookieService.putObject('setting',{ notify:this.loggedInUser.user.is_notification,vibrate:'1'});
+            //._cookieService.putObject('setting',{ notify:this.loggedInUser.user.is_notification,vibrate:'1'});
         } else {
             console.log('Empty token ---');
             this._cookieService.removeAll();

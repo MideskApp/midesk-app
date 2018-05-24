@@ -27,7 +27,7 @@ export class SettingPage {
     private _dataService: DataService,
     private _msgService: MessageService
   ) {
-    this.enableNotify = this._authService.enableNotify();
+    //this.enableNotify = this._authService.enableNotify();
     //this.enableVibrate = this._authService.enableVibrate();
   }
 
@@ -35,11 +35,11 @@ export class SettingPage {
     console.log('ionViewDidLoad SettingPage');
   }
   changeStatusNotify(){
-    let flag = (this.enableNotify==true)?'1':'0';
-    let arr = this._cookieService.getObject('setting');
-    arr['notify']= flag;
-    this._cookieService.putObject('setting',arr);
-    this._dataService.createAlertWithoutHandle(this._msgService._msg_setting_disable_notification);
+    // let flag = (this.enableNotify==true)?'1':'0';
+    // let arr = this._cookieService.getObject('setting');
+    // arr['notify']= flag;
+    // this._cookieService.putObject('setting',arr);
+    // this._dataService.createAlertWithoutHandle(this._msgService._msg_setting_disable_notification);
   }
   // changeVibrate(){
   //   let flag = (this.enableVibrate==true)?'1':'0';
