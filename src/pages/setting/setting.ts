@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../services/authentication/auth.service';
-import { UserService } from '../../services/user.service';
 import { CookieService } from 'angular2-cookie/core';
 import { DataService } from '../../common/data.service';
 import { MessageService } from '../../common/message.service';
@@ -24,7 +23,6 @@ export class SettingPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private _authService: AuthService,
-    private _userService: UserService,
     private _cookieService: CookieService,
     private _dataService: DataService,
     private _msgService: MessageService

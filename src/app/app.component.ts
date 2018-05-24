@@ -5,7 +5,7 @@ import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail'
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, AlertController, LoadingController, Events } from 'ionic-angular';
+import { Nav, Platform, LoadingController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -16,6 +16,8 @@ import { NotificationsPage } from './../pages/notifications/notifications';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
 import { AuthService } from '../services/authentication/auth.service';
+import { DataService } from '../common/data.service';
+import { MessageService } from '../common/message.service';
 
 @Component({
   templateUrl: 'app.html',
@@ -34,7 +36,8 @@ export class MyApp {
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen, 
     private _authService: AuthService,
-    private alertCtrl: AlertController,
+    private _dataService: DataService,
+    private _msgService: MessageService,
     private _notifyService:NotificationsService,
     private loadingCtrl: LoadingController,
     private _fcm: FCM,
@@ -49,7 +52,6 @@ export class MyApp {
       this.avatarName = this._authService.getLoggedInUser().lastname;
       this.avatarName = this.avatarName.substr(0,1);  
     });
-    this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Thông Báo', component: NotificationsPage, icon:'notifications-outline', badge:'33'},
@@ -95,27 +97,16 @@ export class MyApp {
     loader.present();
   }
   confirmLogout(){
-    let prompt = this.alertCtrl.create({
-      title: 'Thông báo!',
-      message: "Bạn có chắc là muốn đăng xuất?",
-      buttons: [
-        {
-          text: 'Hủy',
-          handler: data => {
-          }
-        },
-        {
-          text: 'Đồng ý',
-          handler: data => {
-            this.presentLoading();
-            this._socketService.disconnect();
-            this._authService.logoutUser();
-            window.location.reload();
-          }
-        }
-      ]
-    });
-    prompt.present();
+    let promt = this._dataService.createAlertWithHandle(this._msgService._msg_user_logout);
+    promt.present();
+    promt.onDidDismiss(data=>{
+      if(data){
+        this.presentLoading();
+        this._socketService.disconnect();
+        this._authService.logoutUser();
+        window.location.reload();
+      }
+    })
   }
   listenEventNewNotifi(){
     this._socketService.listenEvent('NEW NOTIFI').subscribe(data=>{
@@ -167,12 +158,13 @@ export class MyApp {
     }
   }
   initLocalNotification(data){
+    let vibrate = this._authService.enableVibrate();
     this._localNotification.schedule({
       id:2,
       title:'Bạn có thông báo mới!',
       text:data.title,
       led:'66CC00',
-      vibrate:this._authService.enableVibrate(),
+      vibrate:vibrate,
       data:{
         id:data.id,
         ticket_id:data.ticket_id,

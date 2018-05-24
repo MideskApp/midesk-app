@@ -14,17 +14,17 @@ export class DataService {
             message: msgContent,
             buttons:[
                 {
-                    text: 'Đồng ý',
-                    handler: () => {
-                        alert.dismiss(true);
-                        return false;
-                    }
-                },
-                {
                     text: 'Hủy',
                     handler: () => {
                        alert.dismiss(false);
                        return false;
+                    }
+                },
+                {
+                    text: 'Đồng ý',
+                    handler: () => {
+                        alert.dismiss(true);
+                        return false;
                     }
                 }
             ]

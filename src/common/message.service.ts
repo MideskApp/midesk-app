@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class MessageService {
+    //user
+    public _msg_user_logout = 'Bạn có chắc là muốn đăng xuất?';
     //account 
     public _msg_account_change_password = 'Bạn sẽ cần đăng nhập lại nếu như thay đổi mật khẩu';
     public _msg_account_incorrect_password = 'Mật khẩu mới không chính xác';
