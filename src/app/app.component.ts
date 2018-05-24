@@ -113,9 +113,9 @@ export class MyApp {
     this._socketService.listenEvent('NEW NOTIFI').subscribe(data=>{
       this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
       this.token = this._authService.getFCMToken();
-      //if(this._authService.enableNotify()){
+      if(this._authService.enableNotify()){
         this.pushNotifications(data);
-      //}
+      }
     });
   }
   pushNotifications(data){
@@ -165,7 +165,7 @@ export class MyApp {
       title:'Bạn có thông báo mới!',
       text:data.title,
       led:'66CC00',
-      vibrate:false,
+      vibrate:true,
       data:{
         id:data.id,
         ticket_id:data.ticket_id,
@@ -174,10 +174,10 @@ export class MyApp {
     })
   }
   receiveNotification(){
-    //if(this._authService.enableNotify()){
+    if(this._authService.enableNotify()){
       this._fcm.onNotification().subscribe(res=>{
         this.initLocalNotification(res);
       })
-    //}
+    }
   }
 }
