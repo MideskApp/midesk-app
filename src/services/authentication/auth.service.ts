@@ -26,10 +26,10 @@ export class AuthService {
         //private _socket: Socket   
         //public _settingGlobal: SettingService
         ) {
-        // _fcm.getToken().then(token=>{
-        //     this.fcm_token = token;
-        //     //alert(token);
-        // })
+        _fcm.getToken().then(token=>{
+            this.fcm_token = token;
+            //alert(token);
+        })
     }
     getToken(): string {
         return this._cookieService.get(TOKEN_NAME);
@@ -38,11 +38,11 @@ export class AuthService {
         if (typeof userLogin.success != 'undefined' && userLogin.success.token != '') {
             this.isloggedIn = true;
             this.loggedInUser = userLogin.success;
-            // if(this.loggedInUser.user.fcm_token==0){
-            //     this._cookieService.put('fcm_token',this.fcm_token);
-            // }else{
-            //     this._cookieService.put('fcm_token',this.loggedInUser.user.fcm_token);
-            // }
+            if(this.loggedInUser.user.fcm_token=='0'){
+                this._cookieService.put('fcm_token',this.fcm_token);
+            }else{
+                this._cookieService.put('fcm_token',this.loggedInUser.user.fcm_token);
+            }
             this._cookieService.putObject('curuser', { info: this.loggedInUser.user, user_log: this.loggedInUser.user_log });
             //this._cookieService.putObject('curgroup',{ extension: this.loggedInUser.extension ,list_team: this.loggedInUser.list_team, list_agent: this.loggedInUser.list_agent });
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });

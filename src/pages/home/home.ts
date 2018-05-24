@@ -82,15 +82,7 @@ export class HomePage {
     private _fcm: FCM
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
-    if(_authService.getFCMToken()=='0'){
-      _fcm.getToken().then(token=>{
-        this.fcm_token = token;
-      })
-      _cookieService.put('fcm_token',this.fcm_token);
-    }
-    else{
-      this.fcm_token = _authService.getFCMToken();
-    }
+    this.fcm_token = _authService.getFCMToken();
     let self = this;
     setTimeout(function(){
       self._socketService.connect(self.room);
