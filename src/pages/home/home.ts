@@ -24,13 +24,6 @@ export class HomePage {
       { id: 'desc', name: 'Mới nhất', value: 'desc' },
       { id: 'asc', name: 'Cũ nhất', value: 'asc' },
   ];
-  // arrayFilter:any=[
-  //     { id:'filter1', name:'Yêu cầu tạo bởi bạn', value:'yêu cầu được tạo bởi bạn' },
-  //     { id:'filter3',name:'Yêu cầu chưa phân công', value: 'yêu cầu chưa phân công' },
-  //     { id:'filter4', name:'Yêu cầu đang chờ xử lý', value: 'yêu cầu đang chờ xử lý' },
-  //     { id:'filter5', name:'Yêu cầu đã xử lý', value: 'yêu cầu đã xử lý' },
-  //     { id:'filter6', name:'Yêu cầu chưa giải quyết', value: 'yêu cầu chưa giải quyết' }
-  // ];
   arrayFilter:any=[
     { id:'filter1', name:'Phiếu chưa xử lý của bạn', value: 'yêu cầu chưa giải quyết của bạn' },
     { id:'filter2', name:'Phiếu chưa xử lý trong bộ phận', value: 'yêu cầu chưa giải quyết trong bộ phận' },

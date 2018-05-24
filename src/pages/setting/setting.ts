@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { AuthService } from '../../services/authentication/auth.service';
+import { UserService } from '../../services/user.service';
+import { CookieService } from 'angular2-cookie/core';
 
 /**
  * Generated class for the SettingPage page.
@@ -13,8 +16,15 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'setting.html',
 })
 export class SettingPage {
-  enableNotify:boolean=false;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  enableNotify:boolean;
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private _authService: AuthService,
+    private _userService: UserService,
+    private _cookieService: CookieService
+  ) {
+    this.enableNotify = this._authService.enableNotify();
   }
 
   ionViewDidLoad() {
@@ -23,6 +33,8 @@ export class SettingPage {
   }
   changeStatusNotify(){
     console.log(this.enableNotify);
+    let flag = (this.enableNotify==true)?'1':'0';
+    this._cookieService.put('enableNotify',flag);
   }
 
 }

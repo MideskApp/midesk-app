@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
-//import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-
-//import { SettingService } from './../../common/setting.service';
 import { CookieService } from 'angular2-cookie/core';
 import { User } from './../../models/user';
 import { FCM } from '@ionic-native/fcm';
-//import { UserService } from '../user.service';
-
-//import { SocketIoModule, SocketIoConfig, Socket } from 'ng-socket-io';
 
 export const TOKEN_NAME: string = 'jwt_token';
 
@@ -22,13 +16,9 @@ export class AuthService {
     constructor(
         public _cookieService: CookieService,
         private _fcm: FCM,
-        //private _userService: UserService,
-        //private _socket: Socket   
-        //public _settingGlobal: SettingService
         ) {
         _fcm.getToken().then(token=>{
             this.fcm_token = token;
-            //alert(token);
         })
     }
     getToken(): string {
@@ -44,10 +34,10 @@ export class AuthService {
                 this._cookieService.put('fcm_token',this.loggedInUser.user.fcm_token);
             }
             this._cookieService.putObject('curuser', { info: this.loggedInUser.user, user_log: this.loggedInUser.user_log });
-            //this._cookieService.putObject('curgroup',{ extension: this.loggedInUser.extension ,list_team: this.loggedInUser.list_team, list_agent: this.loggedInUser.list_agent });
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.putObject('room',{room: this.loggedInUser.room});
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
+            this._cookieService.put('enableNotify',this.loggedInUser.user.is_notification);
         } else {
             console.log('Empty token ---');
             this._cookieService.removeAll();
@@ -77,6 +67,14 @@ export class AuthService {
     getFCMToken():string{
         return this._cookieService.get('fcm_token');
     }
+    enableNotify():boolean{
+        let flag = this._cookieService.get('enableNotify');
+        if(flag=='1'){
+            return true;
+        }else {
+            return false;
+        }
+    }
     getUserLastlogId() {
         if (this._cookieService.getObject('curuser')) {
             return this._cookieService.getObject('curuser')['user_log'].id;
@@ -92,8 +90,6 @@ export class AuthService {
 
     logoutUser(): void {
         this._cookieService.removeAll();
-        localStorage.clear();
-        // console.log(this._cookieService.getAll());
         this.isloggedIn = false;
     }
 } 

@@ -42,10 +42,6 @@ export class MyApp {
     private _socketService: SocketService,
     public _event: Events,
     ) {
-    // _socket.on('NEW NOTIFI',data=>{
-    //   this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-    //   console.log(JSON.parse(data[0]['custom']));
-    // });
     this.initializeApp();
     this.listenEventNewNotifi();
     this._event.subscribe('UPDATE PROFILE',data=>{
@@ -53,29 +49,9 @@ export class MyApp {
       this.avatarName = this._authService.getLoggedInUser().lastname;
       this.avatarName = this.avatarName.substr(0,1);  
     });
-    //this.receiveNotification();
-    // _fcm.subscribeToTopic('all');
-    // _fcm.onNotification().subscribe(data=>{
-    //   // _localNotification.schedule({
-    //   //   id:2,
-    //   //   title:data.title,
-    //   //   text:data.body,
-    //   // })
-    //   if(data.wasTapped){
-    //     alert('receive in background');
-    //   }
-    //   else{
-    //     alert('receive in foreground');
-    //   }
-    // })
-    // _fcm.onTokenRefresh().subscribe(token=>{
-    //   this._cookieService.put('fcm_token',token);
-    // })
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
-      //{ title: 'Home', component: HomePage, icon: 'home' },
-      //{ title: 'List', component: ListPage, icon: 'notifications-outline'},
       { title: 'Thông Báo', component: NotificationsPage, icon:'notifications-outline', badge:'33'},
       { title: 'Tạo Phiếu Mới', component: TicketAddPage, icon:'create', badge:''},
       { title: 'Khách Hàng', component: CustomerPage, icon:'people', badge:''},
@@ -201,17 +177,11 @@ export class MyApp {
       }
     })
   }
-  // handleNotification(){
-  //   this._localNotification.on('schedule',data=>{
-  //     if(data.id==2){
-        
-  //     }
-  //   })
-  // }
   receiveNotification(){
-    //this._fcm.subscribeToTopic('all');
-    this._fcm.onNotification().subscribe(res=>{
-      this.initLocalNotification(res);
-    })
+    if(this._authService.enableNotify()){
+      this._fcm.onNotification().subscribe(res=>{
+        this.initLocalNotification(res);
+      })
+    }
   }
 }
