@@ -28,11 +28,12 @@ export class AuthService {
         if (typeof userLogin.success != 'undefined' && userLogin.success.token != '') {
             this.isloggedIn = true;
             this.loggedInUser = userLogin.success;
-            if(this.loggedInUser.user.fcm_token=='0'){
-                this._cookieService.put('fcm_token',this.fcm_token);
-            }else{
-                this._cookieService.put('fcm_token',this.loggedInUser.user.fcm_token);
-            }
+            // if(this.loggedInUser.user.fcm_token=='0'){
+            //     this._cookieService.put('fcm_token',this.fcm_token);
+            // }else{
+            //     this._cookieService.put('fcm_token',this.loggedInUser.user.fcm_token);
+            // }
+            this._cookieService.put('fcm_token',this.fcm_token);
             this._cookieService.putObject('curuser', { info: this.loggedInUser.user, user_log: this.loggedInUser.user_log });
             this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
             this._cookieService.putObject('room',{room: this.loggedInUser.room});

@@ -35,6 +35,6 @@ export class SettingPage {
     console.log(this.enableNotify);
     let flag = (this.enableNotify==true)?'1':'0';
     this._cookieService.put('enableNotify',flag);
+    console.log(this._authService.enableNotify());
   }
-
 }
