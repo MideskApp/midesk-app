@@ -11,12 +11,12 @@
 <ion-content>
 	<ion-list>
 		<ion-item>
-			<ion-label>Nhận thông báo khi có phiếu</ion-label>
+			<ion-label>Thông báo khi có phiếu</ion-label>
 			<ion-toggle (ionChange)="changeStatusNotify()" [(ngModel)]="enableNotify" color="secondary"></ion-toggle>
 		</ion-item>
 		<ion-item>
 			<ion-label>Rung</ion-label>
-			<ion-toggle (ionChange)="changeVibrate()" [(ngModel)]="enableVibrate" color="secondary"></ion-toggle>
+			<ion-toggle (ionChange)="changeVibrate()" [disabled]="enableNotify==false" [(ngModel)]="enableVibrate" color="secondary"></ion-toggle>
 		</ion-item>
 	</ion-list>
 </ion-content>

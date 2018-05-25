@@ -168,12 +168,21 @@ export class MyApp {
       text:data.title,
       led:'66CC00',
       vibrate:this.vibrate,
+      sound:this.setSound(),
       data:{
         id:data.id,
         ticket_id:data.ticket_id,
         notify_id:data.notify_id
       }
     })
+  }
+  setSound(){
+    if(this.platform.is('android')){
+      return 'file://assets/sounds/shame.mp3';
+    }
+    else{
+      return 'file://assets/sounds/bell.mp3';
+    }
   }
   receiveNotification(){
     //if(this._authService.enableNotify()){
