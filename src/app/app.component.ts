@@ -176,10 +176,10 @@ export class MyApp {
     })
   }
   receiveNotification(){
-    if(this._authService.enableNotify()){
+    //if(this._authService.enableNotify()){
       this._fcm.onNotification().subscribe(res=>{
         this.initLocalNotification(res);
       })
-    }
+    //}
   }
 }

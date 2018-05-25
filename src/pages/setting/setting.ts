@@ -35,13 +35,7 @@ export class SettingPage {
     console.log('ionViewDidLoad SettingPage');
   }
   changeStatusNotify(){
-    let flag:any;
-    if(this.enableNotify){
-      flag = '1';
-    }else{
-      flag = '0';
-      this.enableVibrate = false;
-    }     
+    let flag = (this.enableNotify==true)?'1':'0';
     let arr = this._cookieService.getObject('setting');
     arr['notify']= flag;
     this._cookieService.putObject('setting',arr);
