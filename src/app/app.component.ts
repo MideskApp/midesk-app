@@ -30,6 +30,7 @@ export class MyApp {
   pages: Array<{title: string, component: any, icon: string, badge:any}>;
   countNotify:any;
   token:any;
+  vibrate:any;
   avatarName:string;
   constructor(
     public platform: Platform, 
@@ -113,9 +114,10 @@ export class MyApp {
     this._socketService.listenEvent('NEW NOTIFI').subscribe(data=>{
       this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
       this.token = this._authService.getFCMToken();
-      //if(this._authService.enableNotify()){
+      if(this._authService.enableNotify()){
         this.pushNotifications(data);
-      //}
+        let vibrate = this._authService.enableVibrate();
+      }
     });
   }
   pushNotifications(data){
@@ -159,13 +161,13 @@ export class MyApp {
     }
   }
   initLocalNotification(data){
-    //let vibrate = this._authService.enableVibrate();
+    
     this._localNotification.schedule({
       id:2,
       title:'Bạn có thông báo mới!',
       text:data.title,
       led:'66CC00',
-      vibrate:true,
+      vibrate:this.vibrate,
       data:{
         id:data.id,
         ticket_id:data.ticket_id,
@@ -174,10 +176,10 @@ export class MyApp {
     })
   }
   receiveNotification(){
-    //if(this._authService.enableNotify()){
+    if(this._authService.enableNotify()){
       this._fcm.onNotification().subscribe(res=>{
         this.initLocalNotification(res);
       })
-    //}
+    }
   }
 }
