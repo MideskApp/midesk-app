@@ -1,7 +1,5 @@
 import { Component} from '@angular/core';
-import { NavController, NavParams, ModalController, PopoverController,ToastController, LoadingController, AlertController  } from 'ionic-angular';
-// import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-// import { File } from '@ionic-native/file';
+import { NavController, NavParams, ModalController, PopoverController,ToastController, LoadingController, AlertController, Events  } from 'ionic-angular';
 import { AuthService } from './../../../services/authentication/auth.service';
 import { TicketService } from './../../../services/ticket.service';
 import { ModalAssign } from'./../../../components/modal/modal-assign/modal-assign';
@@ -11,6 +9,7 @@ import { PopoverCategory } from './../../../components/popover/popover-category/
 import { PopoverStatus } from './../../../components/popover/popover-status/popover-status';
 import { PopoverPriority } from './../../../components/popover/popover-priority/popover-priority';
 import { TicketDetailPage} from './../ticket-detail/ticket-detail';
+import { ModalMacro } from '../../../components/modal/modal-macro/modal-macro';
 
 
 @Component({
@@ -38,8 +37,15 @@ export class TicketAddPage {
     loadMore:false,
     dataChildItems:{},
   }
+  checkStatus={
+    new: { id : 1, name : 'Mở mới', value : 'new', color : '#C8C800', alias: 'n', checked: false  },
+    open: { id : 2, name : 'Đang mở', value : 'open', color : '#C80000', alias: 'o', checked: false },
+    pending: { id : 3, name : 'Đang chờ', value : 'pending', color : '#15BDE9', alias: 'p', checked: false },
+    solved: { id : 4, name : 'Đã xử lý', value : 'solved', color : '#CCCCCC', alias: 's', checked: false }
+  };
   privateNote:any = 0;
   priority:any={};
+  checkPriority:any;
   status:any={};
   categoryName = '';
   requesterName = '';
@@ -57,11 +63,12 @@ export class TicketAddPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _event: Events
   	){
   }
   ionViewWillLoad(){
-    this.priority = this._authService.getPriority();
+    this.checkPriority = this._authService.getPriority();
     let navData = this.navParams.get('data');
     if(navData != null && typeof navData != undefined){
         this.requesterName = navData.requesterName;
@@ -98,14 +105,14 @@ export class TicketAddPage {
         if(data.assign_agent.id==''){
           this.assign = data.assign_team.team_name;
           this.ticketParams.assign_team = data.assign_team.team_id;
-          //this.avatar = '#2979ff';
-          this.avatar = data.assign_team.color;
+          this.avatar = '#2979ff';
+          //this.avatar = data.assign_team.color;
         }else{
           this.assign = data.assign_agent.name;
           this.ticketParams.assign_team = data.assign_team.team_id;
           this.ticketParams.assign_agent = data.assign_agent.id;
-          //this.avatar = '#4F4F4F';
-          this.avatar = data.assign_agent.color;
+          this.avatar = '#4F4F4F';
+          //this.avatar = data.assign_agent.color;
         }
       }
     })
@@ -156,6 +163,29 @@ export class TicketAddPage {
     })
     propertiesModal.present();
   }
+  openMacro(){
+    let macroModal = this.modalCtrl.create(ModalMacro);
+    macroModal.present();
+    // let self = this;
+    // macroModal.onDidDismiss(data=>{
+      // if(data!=null && typeof data!=undefined){
+      //   Object.keys(data).forEach(function(key) {
+      //     self.ticketParams[key] = data[key];
+      //     if(key == 'private' || key == 'public'){
+      //       self.privateNote = data[key];
+      //     }
+      //     else if(key == 'status'){
+      //       self.status = self.checkStatus[data[key]];
+      //       //self.ticketParams[key] = data[key];
+      //     }else if(key == 'priority'){
+      //       //self.ticketParams.priority = (data[key]).toString();
+      //       self.priority = self.checkPriority[data[key]-1];
+      //     }
+      //   });
+      // }
+    //   console.log(data);
+    // })
+  }
   onChangeUpload($event){
     this.ticketParams.file = $event.target.files[0];
     this.fileName = $event.target.files[0].name;
@@ -178,7 +208,6 @@ export class TicketAddPage {
     formData.append('content',this.ticketParams.content);
     formData.append('private',this.privateNote);
     if(this.ticketParams.file!=null){
-      //var file:File = this.ticketParams.file;
       formData.append('file',this.ticketParams.file,this.ticketParams.file.name);
     }
     loader.present().then(()=>{
@@ -244,7 +273,36 @@ export class TicketAddPage {
     }
     this.clearAssign();
     this.clearRequester();
-  } 
+  }
+  ionViewWillEnter(){
+    let self = this;
+    this._event.subscribe('MACRO',data=>{
+      if(data.assignName!='') {
+        this.assign = data.assignName;
+        this.avatar = '#4F4F4F';
+      }
+      else{
+        if(data.teamName!=''){
+          this.assign = data.teamName;
+          this.avatar = '#2979ff';
+        } 
+      }
+      console.log(data.dataMacro);
+      Object.keys(data.dataMacro).forEach(function(key) {
+        self.ticketParams[key] = data.dataMacro[key];
+        if(key == 'private' || key == 'public'){
+          self.privateNote = data.dataMacro[key];
+        }
+        else if(key == 'status'){
+          self.status = self.checkStatus[data.dataMacro[key]];
+          //self.ticketParams[key] = data[key];
+        }else if(key == 'priority'){
+          //self.ticketParams.priority = (data[key]).toString();
+          self.priority = self.checkPriority[data.dataMacro[key]-1];
+        }
+      });      
+    })
+  }
 }
 
 

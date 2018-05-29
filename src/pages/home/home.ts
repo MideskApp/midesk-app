@@ -1,5 +1,5 @@
 import { NotificationsService } from './../../services/notifications.service';
-import { Component, ViewChild, Injectable } from '@angular/core';
+import { Component, ViewChild, Injectable, NgZone } from '@angular/core';
 import { NavController, Select,  ModalController, PopoverController, Events } from 'ionic-angular';
 import { AuthService } from './../../services/authentication/auth.service';
 import { TicketService } from './../../services/ticket.service';
@@ -37,6 +37,12 @@ export class HomePage {
       { id : 3, name : 'Đang chờ', value : 'pending', color : '#15BDE9', alias: 'p', checked: false },
       { id : 4, name : 'Đã xử lý', value : 'solved', color : '#CCCCCC', alias: 's', checked: false }
   ];
+  orderBy=[
+    { id : 1, name : 'Ngày cập nhật mới nhất', value : 'dateupdate', checked: false  },
+    { id : 2, name : 'Ngày khởi tạo mới nhất', value : 'datecreate', checked: false },
+    { id : 3, name : 'Người xử lý', value : 'assign_agent', checked: false },
+    { id : 4, name : 'Người yêu cầu', value : 'request', checked: false }
+  ];
   priority=[];
   filterTicket:any={
   	filterBy:'yêu cầu chưa giải quyết của bạn',
@@ -51,6 +57,7 @@ export class HomePage {
     filterBy:'yêu cầu chưa giải quyết của bạn',
     sortBy:[],
     channel:'all',
+    orderBy:'',
   };
   filterOption = {
     cssClass: 'my-class'
@@ -119,8 +126,11 @@ export class HomePage {
   		if(res.next_page_url!==null) this.modelTicket.loadMore = true;
       else this.modelTicket.loadMore = false;
       this.modelTicket.dataLoading = false;
+      this.initListTicket();
+      console.log(this.modelTicket.dataItems);
       infiniteScroll.complete();
-  	})
+    })
+    
   }
   openModal(){
     let contactModal = this.modalCtrl.create(ModalSearchTicket);
@@ -141,18 +151,20 @@ export class HomePage {
     console.log(this.modelTicket.filterBy);
   }
   openPopoverSort(myEvent) {
-    let data = {priority:this.priority,status:this.status}
+    let data = {priority:this.priority,status:this.status,orderBy: this.orderBy}
     let popover = this.popoverCtrl.create(PopoverSort,data,{cssClass:"custom-sort",enableBackdropDismiss: true });
     popover.present({
       ev: myEvent
     });
     popover.onDidDismiss(data=>{
       if(typeof data!=undefined && data!=null){
-        this.modelTicket.sortBy=data;
+        this.modelTicket.sortBy={status:data.status,priority:data.priority};
+        this.modelTicket.orderBy = data.orderBy;
         this.modelTicket.dataPage=1;
         this.modelTicket.dataTotal=0;
         this.initListTicket();
       }
+      console.log(this.modelTicket);
       console.log(data);
       //
     });

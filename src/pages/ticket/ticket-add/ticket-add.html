@@ -89,8 +89,11 @@
 				</label>
 				<input id="profile_image" hidden type="file" (change)="onChangeUpload($event)">
 			</ion-col>
-			<ion-col col-11>
+			<ion-col col-10>
 				<p no-margin>{{fileName}}</p>
+			</ion-col>
+			<ion-col col-1>
+				<ion-icon name="flash" (click)="openMacro()" style="font-size:20px"></ion-icon>
 			</ion-col>
       		
 		</ion-row>

@@ -18,6 +18,7 @@ export class SettingService {
     public _api_user_getListUserTeam = this._baseAPIUrl + 'getListUserTeam';
     public _api_user_update_profile = this._baseAPIUrl + 'updateUserProfile';
     public _api_user_update_fcm_token = this._baseAPIUrl + 'updateFCMToken';
+    public _api_user_get_name = this._baseAPIUrl + 'getUserName/';
     //--
     //ticket service
     public _api_ticket_getList = this._baseAPIUrl + 'getListTicket';
@@ -32,6 +33,7 @@ export class SettingService {
     public _api_count_ticket = this._baseAPIUrl + 'countTicket';
     public _api_trash_or_resolve_ticket = this._baseAPIUrl + 'trashOrResolveTicket';
     public _api_delete_ticket = this._baseAPIUrl + ' deleteTicket/';
+    public _api_get_macro = this._baseAPIUrl + 'getMacro';
     //--
     //customer service
     public _api_customer_getList = this._baseAPIUrl + 'getListCustomer/';

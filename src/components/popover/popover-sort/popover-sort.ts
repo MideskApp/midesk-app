@@ -23,6 +23,15 @@ import { NavParams, ViewController } from 'ionic-angular';
         </ion-col>
       </ion-row>
       <ion-row>
+        <ion-col>
+          <ion-label padding-left>Sắp xếp theo:</ion-label>
+          <ion-item *ngFor="let item of orderBy; let i = index">
+            <ion-label>{{item.name}}</ion-label>
+            <ion-radio (ionSelect)="changeSort(item)" [checked]="item.checked"></ion-radio>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col col-6 padding-left><button class="button-popover" ion-button block color="secondary" (click)="confirmSort()">Xác nhận</button></ion-col>
         <ion-col col-6 padding-right><button class="button-popover" ion-button block color="solved" (click)="close()" >Hủy</button></ion-col>
       </ion-row>
@@ -33,24 +42,39 @@ import { NavParams, ViewController } from 'ionic-angular';
 export class PopoverSort {
   priority=[];
   status=[];
+  orderBy=[];
   checkedPriority=[];
   checkedItems={
     status:'',
     priority:'',
+    orderBy:'',
   };
   constructor(public viewCtrl: ViewController,public navParams:NavParams) {
     this.priority=this.navParams.data.priority;
     this.status=this.navParams.data.status;
+    this.orderBy = this.navParams.data.orderBy;
     //this.checkedItems = new Array(this.priority.length);
   }
   close() {
     this.viewCtrl.dismiss();
   }
+  changeSort(index){
+    this.checkedItems.orderBy=index.value;
+    for(let i = 0; i < this.orderBy.length; i++){
+      if(this.orderBy[i].value == index.value){
+        this.orderBy[i].checked = true;
+      }
+      else{
+        this.orderBy[i].checked = false;
+      }
+    }
+  }
   confirmSort(){
-    this.checkedItems={
-      status:'',
-      priority:'',
-    };
+    // this.checkedItems={
+    //   status:'',
+    //   priority:'',
+    //   orderBy:'',
+    // };
     //console.log(this.priority);
     for(let i = 0;i<this.status.length;i++){
       if(this.status[i].checked == true){

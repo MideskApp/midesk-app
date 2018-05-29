@@ -168,8 +168,6 @@ export class MyApp {
       text:data.title,
       led:'66CC00',
       vibrate:this.vibrate,
-      wakeup:true,
-      progressBar:true,
       data:{
         id:data.id,
         ticket_id:data.ticket_id,

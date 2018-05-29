@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { CustomerService } from './../../services/customer.service';
 import { CustomerProfilePage } from'./customer-profile/customer-profile';
 import { CustomerAddPage } from'./customer-add/customer-add';
+import { CustomerSearchPage } from './customer-search/customer-search';
 
 /**
  * Generated class for the CustomerPage page.
@@ -43,6 +44,9 @@ export class CustomerPage {
   }
   customerProfile(index){
   	this.navCtrl.push(CustomerProfilePage,{id:index.id});
+  }
+  openSearchCustomer(){
+    this.navCtrl.push(CustomerSearchPage);
   }
   openAddCustomer(){
     this.navCtrl.push(CustomerAddPage);

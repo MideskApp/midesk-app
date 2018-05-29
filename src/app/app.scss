@@ -86,8 +86,11 @@
 .popover-content{
 	width:330px!important;
 }
-.custom-sort .popover-content,.custom-channel .popover-content,.custom-status .popover-content,.custom-priority .popover-content{
+.custom-channel .popover-content,.custom-status .popover-content,.custom-priority .popover-content{
 	width:200px!important;
+}
+.custom-sort .popover-content{
+	width:300px!important;
 }
 .custom-popup .popover-content{
 	width:300px!important;

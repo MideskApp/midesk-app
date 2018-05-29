@@ -99,18 +99,20 @@
 <ion-footer no-lines *ngIf="!loading" style="border-top: 1px solid #CCC;">
 	<ion-grid>
 		<ion-row>
-			<ion-col>
+			<ion-col col-11>
 				<ion-select class="note" no-padding interface="popover" [(ngModel)]="privateNote">
 			      	<ion-option [value]="0">Public</ion-option>
 			      	<ion-option [value]="1">Private</ion-option>
 			    </ion-select>
+			</ion-col>
+			<ion-col col-1>
+				<ion-icon name="flash" (click)="openMacro()" style="font-size:20px"></ion-icon>
 			</ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-col col-12>
 				<ion-textarea no-margin placeholder="Nội dung phiếu" rows="2" [(ngModel)]="content" (keyup)="onComment()" autocomplete="on" autocorrect="on"></ion-textarea>
 			</ion-col>
-
 		</ion-row>
 	</ion-grid>
 </ion-footer>

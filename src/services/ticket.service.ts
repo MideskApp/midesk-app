@@ -86,6 +86,11 @@ export class TicketService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    getMacro(){
+        return this._http.get(this._settingGlobal._api_get_macro)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     // pushNotifications(data:any){
     //     let headers = new Headers();
     //     headers.append('Content-Type','application/json');

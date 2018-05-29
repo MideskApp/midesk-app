@@ -39,6 +39,8 @@ import { AccountPage } from './../pages/account/account';
 import { ModalAssign } from '../components/modal/modal-assign/modal-assign';
 import { ModalRequester } from '../components/modal/modal-requester/modal-requester';
 import { ModalProperties } from '../components/modal/modal-properties/modal-properties';
+import { ModalMacro } from '../components/modal/modal-macro/modal-macro';
+import { MacroDetail } from '../components/modal/modal-macro/macro-detail/macro-detail';
 
 import { ModalSearchTicket } from '../components/modal/modal-search-ticket/modal-search.component';
 import { PopoverSort } from '../components/popover/popover-sort/popover-sort';
@@ -54,6 +56,7 @@ import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
 import { ConvertTime } from '../pipes/convert-time.pipe';
 import { ConvertTimeListTicket } from '../pipes/convert-time-list-ticket.pipe';
 import { SearchFilter } from '../pipes/search-filter.pipe';
+import { GroupByPipe } from '../pipes/group-by.pipe';
 const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {} };
 
 @NgModule({
@@ -74,6 +77,8 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     ModalRequester,
     ModalProperties,
     ModalSearchTicket,
+    ModalMacro,
+    MacroDetail,
     GetFirstCharacter,
     GetFirstLastCharacter,
     ConvertLengthTitle,
@@ -81,6 +86,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     ConvertTimeListTicket,
     SearchFilter,
     SafeHtmlPipe,
+    GroupByPipe,
     PopoverSort,
     PopoverChannel,
     PopoverCategory,
@@ -103,6 +109,7 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     ConvertTime,
     ConvertTimeListTicket,
     SearchFilter,
+    GroupByPipe,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -122,6 +129,8 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     ModalRequester,
     ModalProperties,
     ModalSearchTicket,
+    ModalMacro,
+    MacroDetail,
     PopoverSort,
     PopoverChannel,
     PopoverCategory,

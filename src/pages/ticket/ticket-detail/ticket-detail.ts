@@ -6,6 +6,7 @@ import { SettingService } from './../../../common/setting.service';
 import { AuthService} from './../../../services/authentication/auth.service';
 import { PopoverPriority } from './../../../components/popover/popover-priority/popover-priority';
 import { PopoverStatus } from './../../../components/popover/popover-status/popover-status';
+import { ModalMacro } from '../../../components/modal/modal-macro/modal-macro';
 
 @Component({
   selector: 'page-ticket-detail',
@@ -18,6 +19,13 @@ export class TicketDetailPage {
       { id : 3, name : 'Đang chờ', value : 'pending', color : '#15BDE9', alias: 'p', checked: false },
       { id : 4, name : 'Đã xử lý', value : 'solved', color : '#CCCCCC', alias: 's', checked: false }
   ];
+  checkStatus={
+    new: { id : 1, name : 'Mở mới', value : 'new', color : '#C8C800', alias: 'n', checked: false  },
+    open: { id : 2, name : 'Đang mở', value : 'open', color : '#C80000', alias: 'o', checked: false },
+    pending: { id : 3, name : 'Đang chờ', value : 'pending', color : '#15BDE9', alias: 'p', checked: false },
+    solved: { id : 4, name : 'Đã xử lý', value : 'solved', color : '#CCCCCC', alias: 's', checked: false }
+  };
+  checkPriority:any;
   assign='';
   avatar='';
   countChange = 0;
@@ -73,7 +81,7 @@ export class TicketDetailPage {
     private popoverCtrl: PopoverController,
     private alertCtrl: AlertController,
     private actsheetCtrl: ActionSheetController,
-    private _event: Events
+    private _event: Events,
   	){
     this.urlFile = this._settingService._baseUrl+'/public/upload/';
     let loader = this.loadingCtrl.create({
@@ -83,6 +91,7 @@ export class TicketDetailPage {
   }
   ionViewWillLoad() {
     this.priority = this._authService.getPriority();
+    this.checkPriority = this.priority;
     this.initTicketDetail();
   }
   initTicketDetail(){
@@ -182,6 +191,10 @@ export class TicketDetailPage {
      if(index.compactContent!=''){
        this.ticketDetail[i].showMore=!index.showMore;
      }
+   }
+   openMacro(){
+    let macroModal = this.modalCtrl.create(ModalMacro);
+    macroModal.present();
    }  
    openActionSheet(){
     let action:any;
@@ -360,6 +373,54 @@ export class TicketDetailPage {
         this._event.publish('UPDATE TICKET');
       }
     });
+  }
+  ionViewWillEnter(){
+    let self = this;
+    this._event.subscribe('MACRO',data=>{
+      if(data.assignName!='') {
+        this.assign = data.assignName;
+        this.avatar = '#4F4F4F';
+      }
+      else{
+        if(data.teamName!=''){
+          this.assign = data.teamName;
+          this.avatar = '#2979ff';
+        } 
+      }
+      console.log(data.dataMacro);
+      Object.keys(data.dataMacro).forEach(function(key) {
+        if(key == 'private' || key == 'public'){
+          self.privateNote = data.dataMacro[key];
+          self.ticketUpdateDetail['content'] = data.dataMacro['content'];
+          self.content = data.dataMacro['content'];
+        }
+        else if(key == 'status'){
+          if(self.ticketInfo.status != data.dataMacro[key]){
+            self.status = self.checkStatus[data.dataMacro[key]];
+            self.statusDefault = self.status;
+            self.ticketInfo.status = data.dataMacro[key];
+            self.ticketUpdate[key] = data.dataMacro[key];
+          }
+        }else if(key == 'priority'){
+          if(self.ticketInfo.priority!= data.dataMacro[key]){
+            self.ticketUpdate[key] = data.dataMacro[key];
+            self.priority = self.checkPriority[data.dataMacro[key]-1];
+            self.priorityDefault = self.priority;
+            self.ticketInfo.priority = data.dataMacro[key];
+          }
+        }else if(key == 'assign_agent'){
+          if(self.ticketInfo.assign_agent != data.dataMacro[key]){
+            self.ticketUpdate[key] = data.dataMacro[key];
+          }
+        }else if(key == 'assign_team'){
+          if(self.ticketInfo.assign_team != data.dataMacro[key]){
+            self.ticketUpdate[key] = data.dataMacro[key];
+          }
+        }
+      });
+      console.log(self.ticketUpdate);
+      self.countChange = Object.keys(self.ticketUpdate).length + Object.keys(self.ticketUpdateDetail).length;
+    })
   }
 }
 
