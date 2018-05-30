@@ -1,13 +1,13 @@
-import { AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { AlertController, ToastController, LoadingController, Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
-import { NumberFormatStyle } from '@angular/common';
-
+import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class DataService {
     constructor(
         public alertCtrl: AlertController,
         private toastCtrl: ToastController,
-        private loadingCtrl: LoadingController
+        private loadingCtrl: LoadingController,
+        private _event: Events
     ) {}
     createAlertWithHandle(msgContent:string){
         var alert = this.alertCtrl.create({
@@ -37,5 +37,29 @@ export class DataService {
             buttons: [{text: 'Đóng'}]
         })
         alert.present();
+    }
+    listenEvent(eventName,handle?){
+        let observable = new Observable(observer=>{
+            this._event.subscribe(eventName,(data)=>{
+                observer.next(data);
+            });
+        })
+        return observable;
+    }
+    publishEvent(eventName,data?){
+        this._event.publish(eventName,data);
+    }
+    createLoading(option?){
+        let loader = this.loadingCtrl.create(option);
+        return loader;
+    }
+    createToast(msgContent?,duration?,cssClass?){
+        let toast = this.toastCtrl.create({
+            message:msgContent,
+            position:'bottom',
+            duration:duration,
+            cssClass:cssClass
+        });
+        toast.present();
     }
 }

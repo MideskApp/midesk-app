@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from '../../../services/customer.service';
+import { DataService } from '../../../common/data.service';
+import { MessageService } from '../../../common/message.service';
 
 /**
  * Generated class for the CustomerAddPage page.
@@ -26,7 +28,8 @@ export class CustomerAddPage {
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private _customerService: CustomerService,
-    private loadingCtrl: LoadingController
+    private _dataService: DataService,
+    private _msgService: MessageService
     ) {
     this.addCustomerForm = new FormGroup({
         customer: new FormControl('', Validators.required),
@@ -41,9 +44,10 @@ export class CustomerAddPage {
 
   }
   addCustomer(){
-    let loader = this.loadingCtrl.create({
-      content:'Please wait ...',
-    })
+    // let loader = this.loadingCtrl.create({
+    //   content:'Please wait ...',
+    // })
+    let loader = this._dataService.createLoading({content:this._msgService._msg_loading});
     loader.present();
     this._customerService.addCustomer(this.modelCustomer).subscribe(res=>{
       loader.setContent(res.message);

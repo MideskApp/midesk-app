@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { CustomerService } from './../../../services/customer.service';
 import { TicketService } from './../../../services/ticket.service';
 import { TicketDetailPage } from './../../ticket/ticket-detail/ticket-detail';
 import { TicketAddPage } from './../../ticket/ticket-add/ticket-add';
+import { DataService } from '../../../common/data.service';
+import { MessageService } from '../../../common/message.service';
 /**
  * Generated class for the CustomerProfilePage page.
  *
@@ -34,7 +36,8 @@ export class CustomerProfilePage {
       public navParams: NavParams, 
       private _customerService: CustomerService,
       private _ticketService: TicketService,
-      private loadingCtrl: LoadingController
+      private _dataService: DataService,
+      private _msgService: MessageService
       ) {
         this.customerId = this.navParams.get('id');
     this.initCustomerProfile();
@@ -64,9 +67,7 @@ export class CustomerProfilePage {
   }
   updateProfile(){
     if(Object.keys(this.modelUpdate).length>0){
-        let loading = this.loadingCtrl.create({
-        content:'Please wait ....'
-      })
+      let loading = this._dataService.createLoading({content:this._msgService._msg_loading});
       loading.present();
       this._customerService.updateCustomer({dataUpdate:this.modelUpdate,customerId:this.customerId}).subscribe(res=>{
         if(res.code==200){

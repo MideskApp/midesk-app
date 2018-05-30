@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { NotificationsService } from './../../services/notifications.service';
 import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
+import { DataService } from '../../common/data.service';
 
-/**
- * Generated class for the NotificationsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-notifications',
@@ -19,7 +14,7 @@ export class NotificationsPage {
   	public navCtrl: NavController, 
   	public navParams: NavParams, 
   	private _notifyService: NotificationsService,
-    private loadingCtrl: LoadingController,
+    private _dataService: DataService
   	) {
   }
   modelNotify={
@@ -53,9 +48,10 @@ export class NotificationsPage {
     })
   }
   updateViewNotify(index,i){
-    let loader = this.loadingCtrl.create({
-      spinner:'dots',
-    })
+    let loader = this._dataService.createLoading({spinner:'dots'});
+    // let loader = this.loadingCtrl.create({
+    //   spinner:'dots',
+    // })
     loader.present();
   	this._notifyService.updateViewNotifications(index.id).subscribe(res=>{
   		if(res.code==200){
@@ -68,9 +64,10 @@ export class NotificationsPage {
   }
   deleteViewNotify(index,i){
     console.log(this.modelNotify.dataItems.indexOf(index));
-    let loader = this.loadingCtrl.create({
-      spinner:'dots',
-    })
+    // let loader = this.loadingCtrl.create({
+    //   spinner:'dots',
+    // })
+    let loader = this._dataService.createLoading({spinner:'dots'});
     loader.present();
   	this._notifyService.deleteViewNotifications(index.id).subscribe(res=>{
   		if(res.code==200){
@@ -87,6 +84,7 @@ export class NotificationsPage {
   	let custom = (JSON.parse(index.custom));
     this._notifyService.updateViewNotifications(index.id).subscribe(res=>{
       //this.initListNotifications();
+      this._dataService.publishEvent('UPDATE NOTIFI');
       this.modelNotify.dataItems[i].seen = 1;
     });
     this.navCtrl.push(TicketDetailPage,{data:custom});

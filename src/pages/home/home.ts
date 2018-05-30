@@ -9,6 +9,7 @@ import { PopoverSort } from './../../components/popover/popover-sort/popover-sor
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 import { SocketService } from '../../common/socket.service';
 import { UserService } from '../../services/user.service';
+import { DataService } from '../../common/data.service';
 
 @Component({
   selector: 'page-home',
@@ -75,6 +76,7 @@ export class HomePage {
     private _socketService: SocketService,
     private _event: Events,
     private _userService: UserService,
+    private _dataService: DataService
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());
     let self = this;
@@ -82,10 +84,8 @@ export class HomePage {
       self._socketService.connect(self.room);
     },2000);
     this.listenEventNewNotifi();
-    _event.subscribe('UPDATE TICKET',data=>{
-      this.loadCountTicket();
-      this.initListTicket();
-    })
+    this.listenEventUpdate();
+    this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
     this.loadCountTicket();
   }
   ionViewDidLoad(){
@@ -93,8 +93,7 @@ export class HomePage {
     this.priority = this._authService.getPriority();
   }
   loadCountTicket(){
-    this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-      this._ticketService.countTicket().subscribe(res=>{
+    this._ticketService.countTicket().subscribe(res=>{
         this.countList['filter1'] = res.filter1;
         this.countList['filter2'] = res.filter2;
         this.countList['filter3'] = res.filter3;
@@ -130,7 +129,19 @@ export class HomePage {
       console.log(this.modelTicket.dataItems);
       infiniteScroll.complete();
     })
-    
+  }
+  doLoadMore($type){
+    if(this.modelTicket.dataPage>1){
+      this.modelTicket.dataPage = ($type='next')?this.modelTicket.dataPage+1:this.modelTicket.dataPage-1;
+      this._ticketService.getListTicket(this.modelTicket).subscribe(res=>{
+        this.modelTicket.dataItems = res.data;
+        if(res.next_page_url!==null) this.modelTicket.loadMore = true;
+        else this.modelTicket.loadMore = false;
+        this.modelTicket.dataLoading = false;
+        this.initListTicket();
+        console.log(this.modelTicket.dataItems);
+      })
+    }
   }
   openModal(){
     let contactModal = this.modalCtrl.create(ModalSearchTicket);
@@ -185,8 +196,23 @@ export class HomePage {
     });
   }
   listenEventNewNotifi(){
+    console.log(JSON.parse(this._authService.getLoggedInRoom()).array_agent.split(','));
+    let userId = this._authService.getLoggedInUser().id;
+    let teamId = JSON.parse(this._authService.getLoggedInRoom()).array_team.split(',');
     this._socketService.listenEvent('NEW NOTIFI').subscribe(res=>{
-      this.loadCountTicket();
+      if(res[0]['view'] != userId && res[0]['del_agent'] != userId && teamId.indexOf(res[0]['id_team'],0)!=-1 || userId == res[0]['id_user']){
+        this.countNotify+=1;
+        this.loadCountTicket();
+      }
     });
+  }
+  listenEventUpdate(){
+    this._dataService.listenEvent('UPDATE NOTIFI').subscribe(res=>{
+      this.countNotify-=1;
+    })
+    this._dataService.listenEvent('UPDATE TICKET').subscribe(res=>{
+      this.loadCountTicket();
+      this.initListTicket();
+    })
   }
 }

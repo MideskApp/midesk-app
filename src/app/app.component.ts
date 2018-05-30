@@ -5,7 +5,7 @@ import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail'
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, LoadingController, Events } from 'ionic-angular';
+import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -40,19 +40,10 @@ export class MyApp {
     private _dataService: DataService,
     private _msgService: MessageService,
     private _notifyService:NotificationsService,
-    private loadingCtrl: LoadingController,
     private _fcm: FCM,
     private _localNotification: LocalNotifications,
     private _socketService: SocketService,
-    public _event: Events,
     ) {
-    
-    this.listenEventNewNotifi();
-    this._event.subscribe('UPDATE PROFILE',data=>{
-      this.loggedInUser = this._authService.getLoggedInUser();
-      this.avatarName = this._authService.getLoggedInUser().lastname;
-      this.avatarName = this.avatarName.substr(0,1);  
-    });
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
@@ -70,6 +61,8 @@ export class MyApp {
   initializeApp() {
     this.platform.ready().then(() => {
       if(this._authService.isUserLoggedIn()){
+        this.listenEventNewNotifi();
+        this.listenEventUpdate();
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
         this.loggedInUser = this._authService.getLoggedInUser();
         this.avatarName = this._authService.getLoggedInUser().lastname;
@@ -93,17 +86,12 @@ export class MyApp {
   logOut(){
     this.confirmLogout();
   }
-  presentLoading() {
-    let loader = this.loadingCtrl.create({
-    });
-    loader.present();
-  }
   confirmLogout(){
     let promt = this._dataService.createAlertWithHandle(this._msgService._msg_user_logout);
     promt.present();
     promt.onDidDismiss(data=>{
       if(data){
-        this.presentLoading();
+        this._dataService.createLoading().present();
         this._socketService.disconnect();
         this._authService.logoutUser();
         window.location.reload();
@@ -112,21 +100,21 @@ export class MyApp {
   }
   listenEventNewNotifi(){
     this._socketService.listenEvent('NEW NOTIFI').subscribe(data=>{
-      this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
-      this.token = this._authService.getFCMToken();
-      if(this._authService.enableNotify()){
-        this.pushNotifications(data);
-        let vibrate = this._authService.enableVibrate();
+      let userId = this._authService.getLoggedInUser().id;
+      let team = JSON.parse(this._authService.getLoggedInRoom()).array_team;
+      team = team.split(',');
+      if(userId == data[0]['id_user'] || team.indexOf(data[0]['id_team'],0)!=-1 && data[0]['del_agent'] != userId && data[0]['view'] != userId){
+        this.countNotify+=1;
+        this.token = this._authService.getFCMToken();
+        if(this._authService.enableNotify()){
+          this.pushNotifications(data);
+          let vibrate = this._authService.enableVibrate();
+        }
       }
     });
   }
   pushNotifications(data){
     console.log(data);
-    let userId = this._authService.getLoggedInUser().id;
-    if(data[0]['del_agent'] != userId && data[0]['view'] != userId){
-      let team = JSON.parse(this._authService.getLoggedInRoom()).array_team;
-      let userLevel = this._authService.getLoggedInUser().level;
-      team = team.split(',');
       let title = data[0]['title'];
       var regex = /(<([^>]+)>)/ig;
       let custom = JSON.parse(data[0]['custom']);
@@ -150,15 +138,8 @@ export class MyApp {
         "to":this.token,
         "priority":"high",
         "restricted_package_name":""
-      } 
-      if(userLevel=='agent'){
-        if(userId == data[0]['id_user'] || team.indexOf(data[0]['id_team'],0)!=-1){
-          this._notifyService.sendNotification(body).subscribe();
-        }
-      }else{
-        this._notifyService.sendNotification(body).subscribe();
       }
-    }
+      this._notifyService.sendNotification(body).subscribe(); 
   }
   initLocalNotification(data){
     
@@ -181,5 +162,15 @@ export class MyApp {
         this.initLocalNotification(res);
       })
     //}
+  }
+  listenEventUpdate(){
+    this._dataService.listenEvent('UPDATE PROFILE').subscribe(res=>{
+      this.loggedInUser = this._authService.getLoggedInUser();
+      this.avatarName = this._authService.getLoggedInUser().lastname;
+      this.avatarName = this.avatarName.substr(0,1);
+    })
+    this._dataService.listenEvent('UPDATE NOTIFI').subscribe(res=>{
+      this.countNotify-=1;
+    })
   }
 }

@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { NavController, NavParams, ModalController, PopoverController,ToastController, LoadingController, AlertController, Events  } from 'ionic-angular';
+import { NavController, NavParams, ModalController, PopoverController } from 'ionic-angular';
 import { AuthService } from './../../../services/authentication/auth.service';
 import { TicketService } from './../../../services/ticket.service';
 import { ModalAssign } from'./../../../components/modal/modal-assign/modal-assign';
@@ -10,6 +10,8 @@ import { PopoverStatus } from './../../../components/popover/popover-status/popo
 import { PopoverPriority } from './../../../components/popover/popover-priority/popover-priority';
 import { TicketDetailPage} from './../ticket-detail/ticket-detail';
 import { ModalMacro } from '../../../components/modal/modal-macro/modal-macro';
+import { DataService } from '../../../common/data.service';
+import { MessageService } from '../../../common/message.service';
 
 
 @Component({
@@ -60,11 +62,9 @@ export class TicketAddPage {
   	private _ticketService: TicketService,
   	private modalCtrl : ModalController,
     private popoverCtrl : PopoverController,
-    private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController,
     private _authService: AuthService,
-    private _event: Events
+    private _dataService: DataService,
+    private _msgService: MessageService
   	){
   }
   ionViewWillLoad(){
@@ -84,7 +84,6 @@ export class TicketAddPage {
         this.filterCategory.dataChildItems = res.data;
       }
     });
-    //this.filterCategory.dataChoose.push()
   }
   openModalRequester(){
     let requesterModal = this.modalCtrl.create(ModalRequester,{data:this.ticketParams.requester});
@@ -158,7 +157,7 @@ export class TicketAddPage {
     let propertiesModal = this.modalCtrl.create(ModalProperties);
     propertiesModal.onDidDismiss(data=>{
       if(typeof data!= undefined && data!=null){
-          this.ticketParams.category = data.category;
+        this.ticketParams.category = data.category;
       }
     })
     propertiesModal.present();
@@ -166,36 +165,14 @@ export class TicketAddPage {
   openMacro(){
     let macroModal = this.modalCtrl.create(ModalMacro);
     macroModal.present();
-    // let self = this;
-    // macroModal.onDidDismiss(data=>{
-      // if(data!=null && typeof data!=undefined){
-      //   Object.keys(data).forEach(function(key) {
-      //     self.ticketParams[key] = data[key];
-      //     if(key == 'private' || key == 'public'){
-      //       self.privateNote = data[key];
-      //     }
-      //     else if(key == 'status'){
-      //       self.status = self.checkStatus[data[key]];
-      //       //self.ticketParams[key] = data[key];
-      //     }else if(key == 'priority'){
-      //       //self.ticketParams.priority = (data[key]).toString();
-      //       self.priority = self.checkPriority[data[key]-1];
-      //     }
-      //   });
-      // }
-    //   console.log(data);
-    // })
   }
   onChangeUpload($event){
     this.ticketParams.file = $event.target.files[0];
     this.fileName = $event.target.files[0].name;
   }
   createTicket(){
-    console.log(this.ticketParams.category);
     this.ticketParams.category=this.ticketParams.category.slice(0,this.ticketParams.category.length-1);
-    let loader = this.loadingCtrl.create({
-      content: "Vui lòng chờ...",
-    });
+    let loader = this._dataService.createLoading({content:this._msgService._msg_loading});
     console.log(this.ticketParams);
     var formData = new FormData();
     formData.append('title',this.ticketParams.title);
@@ -214,29 +191,21 @@ export class TicketAddPage {
         this._ticketService.createTicket(formData).subscribe(res=>{
         loader.dismiss();
         if(res.code==200){
-          this.presentToast(res.message,'success-toast');
+          //this.presentToast(res.message,'success-toast');
+          this._dataService.createToast(res.message,2000,'success-toast');
           this.resetInput();
-          var seft = this;
+          var self = this;
           setTimeout(function(){
-            let presentAlert = seft.alertCtrl.create({
-            subTitle:'Bạn có muốn đến phiếu vừa tạo không?',
-            buttons:[
-              {
-                text: 'Cancel',
-              },
-              {
-                text: 'OK',
-                handler: data=>{
-
-                  seft.navCtrl.push(TicketDetailPage,{data:res.data.ticket});
+            let promt = self._dataService.createAlertWithHandle(self._msgService._msg_ticket_go_view);
+            promt.present();
+            promt.onDidDismiss(data=>{
+                if(data){
+                  self.navCtrl.push(TicketDetailPage,{data:res.data.ticket});
                 }
-              }
-            ]
-          })
-          presentAlert.present();
+            })
           },1500);
         }
-        else this.presentToast(res.message,'fail-toast');
+        else this._dataService.createToast(res.message,2000,'fail-toast');
       });
     })
   }
@@ -248,15 +217,6 @@ export class TicketAddPage {
   clearRequester(){
     this.ticketParams.requester = '';
     this.requesterName = '';
-  }
-  presentToast(mess,css) {
-    let toast = this.toastCtrl.create({
-      message: mess,
-      duration: 2000,
-      position: 'bottom',
-      cssClass: css
-    });
-    toast.present();
   }
   resetInput(){
     this.ticketParams = {
@@ -276,32 +236,56 @@ export class TicketAddPage {
   }
   ionViewWillEnter(){
     let self = this;
-    this._event.subscribe('MACRO',data=>{
-      if(data.assignName!='') {
-        this.assign = data.assignName;
+    this._dataService.listenEvent('MACRO').subscribe(data=>{
+      if(data['assignName']!='') {
+        this.assign = data['assignName'];
         this.avatar = '#4F4F4F';
       }
       else{
-        if(data.teamName!=''){
-          this.assign = data.teamName;
+        if(data['teamName']!=''){
+          this.assign = data['teamName'];
           this.avatar = '#2979ff';
         } 
       }
-      console.log(data.dataMacro);
-      Object.keys(data.dataMacro).forEach(function(key) {
-        self.ticketParams[key] = data.dataMacro[key];
+      Object.keys(data['dataMacro']).forEach(function(key) {
+        self.ticketParams[key] = data['dataMacro'][key];
         if(key == 'private' || key == 'public'){
-          self.privateNote = data.dataMacro[key];
+          self.privateNote = data['dataMacro'][key];
         }
         else if(key == 'status'){
-          self.status = self.checkStatus[data.dataMacro[key]];
+          self.status = self.checkStatus[data['dataMacro'][key]];
           //self.ticketParams[key] = data[key];
         }else if(key == 'priority'){
           //self.ticketParams.priority = (data[key]).toString();
-          self.priority = self.checkPriority[data.dataMacro[key]-1];
+          self.priority = self.checkPriority[data['dataMacro'][key]-1];
         }
-      });      
+      });   
     })
+    // this._event.subscribe('MACRO',data=>{
+    //   if(data.assignName!='') {
+    //     this.assign = data.assignName;
+    //     this.avatar = '#4F4F4F';
+    //   }
+    //   else{
+    //     if(data.teamName!=''){
+    //       this.assign = data.teamName;
+    //       this.avatar = '#2979ff';
+    //     } 
+    //   }
+    //   Object.keys(data.dataMacro).forEach(function(key) {
+    //     self.ticketParams[key] = data.dataMacro[key];
+    //     if(key == 'private' || key == 'public'){
+    //       self.privateNote = data.dataMacro[key];
+    //     }
+    //     else if(key == 'status'){
+    //       self.status = self.checkStatus[data.dataMacro[key]];
+    //       //self.ticketParams[key] = data[key];
+    //     }else if(key == 'priority'){
+    //       //self.ticketParams.priority = (data[key]).toString();
+    //       self.priority = self.checkPriority[data.dataMacro[key]-1];
+    //     }
+    //   });      
+    // })
   }
 }
 
