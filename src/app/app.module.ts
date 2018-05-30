@@ -58,7 +58,9 @@ import { ConvertTimeListTicket } from '../pipes/convert-time-list-ticket.pipe';
 import { SearchFilter } from '../pipes/search-filter.pipe';
 import { GroupByPipe } from '../pipes/group-by.pipe';
 const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {} };
-
+export function cookieServiceFactory() {
+  return new CookieService();
+}
 @NgModule({
   declarations: [
     MyApp,
@@ -138,7 +140,6 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     PopoverPriority
   ],
   providers: [
-    CookieService,
     SettingService,
     MessageService,
     DataService,
@@ -156,7 +157,8 @@ const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {
     {
       provide: RequestOptions,
       useClass: AuthRequestOptions  //automatically appending headers to every request.
-    }
+    },
+    {provide: CookieService, useFactory: cookieServiceFactory},
   ]
 })
 export class AppModule {}
