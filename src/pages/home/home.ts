@@ -1,6 +1,6 @@
 import { NotificationsService } from './../../services/notifications.service';
-import { Component, ViewChild, Injectable, NgZone } from '@angular/core';
-import { NavController, Select,  ModalController, PopoverController, Events } from 'ionic-angular';
+import { Component, ViewChild, Injectable } from '@angular/core';
+import { NavController, Select,  ModalController, PopoverController } from 'ionic-angular';
 import { AuthService } from './../../services/authentication/auth.service';
 import { TicketService } from './../../services/ticket.service';
 import { TicketDetailPage } from './../ticket/ticket-detail/ticket-detail';
@@ -8,7 +8,6 @@ import { ModalSearchTicket } from './../../components/modal/modal-search-ticket/
 import { PopoverSort } from './../../components/popover/popover-sort/popover-sort';
 import { PopoverChannel } from './../../components/popover/popover-channel/popover-channel';
 import { SocketService } from '../../common/socket.service';
-import { UserService } from '../../services/user.service';
 import { DataService } from '../../common/data.service';
 
 @Component({
@@ -74,8 +73,6 @@ export class HomePage {
     private _authService: AuthService,
     private _notifyService: NotificationsService,
     private _socketService: SocketService,
-    private _event: Events,
-    private _userService: UserService,
     private _dataService: DataService
     ) {
     this.room=JSON.parse(_authService.getLoggedInRoom());

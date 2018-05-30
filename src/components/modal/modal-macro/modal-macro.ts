@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavParams, ViewController, NavController } from 'ionic-angular';
 import { TicketService } from '../../../services/ticket.service';
 import { MacroDetail } from './macro-detail/macro-detail';
-import { UserService } from '../../../services/user.service';
 
 /**
  * Generated class for the ModalRequesterPage page.
@@ -36,7 +35,6 @@ export class ModalMacro {
     private viewCtrl: ViewController,
     private _ticketService: TicketService,
     private navCtrl: NavController,
-    private _userService: UserService
   ) {
     this.initMacro();
   }

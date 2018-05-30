@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, NavController, ModalController, Select, PopoverController, AlertController, ActionSheetController } from 'ionic-angular';
+import { NavParams, NavController, ModalController, PopoverController, AlertController, ActionSheetController } from 'ionic-angular';
 import { TicketService } from './../../../services/ticket.service';
 import { ModalAssign } from'./../../../components/modal/modal-assign/modal-assign';
 import { SettingService } from './../../../common/setting.service';
