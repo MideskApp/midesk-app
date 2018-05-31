@@ -18,6 +18,7 @@ import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
 import { AuthService } from '../services/authentication/auth.service';
 import { DataService } from '../common/data.service';
 import { MessageService } from '../common/message.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   templateUrl: 'app.html',
@@ -43,6 +44,7 @@ export class MyApp {
     private _fcm: FCM,
     private _localNotification: LocalNotifications,
     private _socketService: SocketService,
+    private _userService: UserService
     ) {
     this.initializeApp();
     // used for an example of ngFor and navigation
@@ -91,10 +93,19 @@ export class MyApp {
     promt.present();
     promt.onDidDismiss(data=>{
       if(data){
-        this._dataService.createLoading().present();
-        this._socketService.disconnect();
-        this._authService.logoutUser();
-        window.location.reload();
+        let loading = this._dataService.createLoading();
+        loading.present();
+        this._userService.logout(this._authService.getUserLastlogId()).subscribe(res=>{
+          if(res.code==200){
+            this._socketService.disconnect();
+            this._authService.logoutUser();
+            window.location.reload();
+          }
+          else{
+            this._dataService.createAlertWithHandle(res.message);
+            loading.dismiss();
+          }
+        }) 
       }
     })
   }
