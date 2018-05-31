@@ -37,7 +37,7 @@ export class NotificationsService {
     sendNotification(data:any){
         let headers = new Headers();
         headers.append('Content-Type','application/json');
-        headers.append('Authorization','key=AAAAeKKOKTg:APA91bHa9BgAUJKKI_72iAsyzy8iVXRceq2JWg_u6QOcxSgSpB9gm32lx7qcdX2c2WNPXcxYQceAh-iDnvJwHoNu0vOtCgKoqV6rG72hBTdfpNRTbcVbOEAePHPGsmzoc8ZRLhYSQFvF');
+        headers.append('Authorization','key=AAAAeKKOKTg:APA91bHFGTSoqU_7xSyijJRFJx6uMrbomdsmNtcg4-_WMJJF5YK5A-T2JLFX8JFT6QhKz4gTuboC6CDjt40aDPTxRlIoF3i20eZPO2Gf-5B3ug1Y9fC93vE0Kc8rsALp3gDF_8gkrbSI');
         let options = new RequestOptions({ headers : headers });
         return this._http.post(this._settingGlobal._api_fcm_notification,data,options)
             .map(this.extractData)

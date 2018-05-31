@@ -42,7 +42,7 @@
             <span *ngFor=" let stt of status" >
               <ion-badge *ngIf="stt.value===child.status" color="{{stt.value}}">{{stt.alias}}</ion-badge>
             </span>
-            <br><span *ngIf="modelTicket.orderBy!='dateupdate'">{{child.created_at| toTime2}}</span><span *ngIf="modelTicket.orderBy=='dateupdate'">{{child.dateupdate| toTime}}</span>
+            <br><span *ngIf="modelTicket.orderBy!='dateupdate'">{{child.created_at| toTime2}}</span><span *ngIf="modelTicket.orderBy=='dateupdate'">{{child.dateupdate| toTime2}}</span>
           </p>
         </ion-item>
   </div>

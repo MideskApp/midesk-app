@@ -65,6 +65,7 @@ export class MyApp {
       if(this._authService.isUserLoggedIn()){
         this.listenEventNewNotifi();
         this.listenEventUpdate();
+        //this.receiveNotification();
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
         this.loggedInUser = this._authService.getLoggedInUser();
         this.avatarName = this._authService.getLoggedInUser().lastname;
@@ -119,7 +120,7 @@ export class MyApp {
         this.token = this._authService.getFCMToken();
         if(this._authService.enableNotify()){
           this.pushNotifications(data);
-          let vibrate = this._authService.enableVibrate();
+          this.vibrate = this._authService.enableVibrate();
         }
       }
     });
