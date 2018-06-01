@@ -27,7 +27,8 @@
   <!-- <div *ngIf="modelTicket.orderBy!='assign_agent' || modelTicket.orderBy!='request'"> -->
   <div *ngIf="modelTicket.orderBy=='assign_agent'">
   <div *ngFor="let item of modelTicket.dataItems|groupBy:'assign_name'">
-    <ion-item-divider>Người xử lý: {{item.key}}</ion-item-divider>
+    <ion-item-divider *ngIf="item.key!='null'">Người xử lý: {{item.key}}</ion-item-divider>
+    <ion-item-divider *ngIf="item.key=='null'">Bộ phận xử lý: {{item.value[0].assign_team}}</ion-item-divider>
         <ion-item *ngFor="let child of item.value" (click)="clickTicket(child)">
           <ion-avatar item-start [ngStyle]="{'background-color':'#'+child.date}" class="box-avatar" *ngIf="child.request!==null">{{child.request | firstNlast}}
           </ion-avatar>
@@ -63,7 +64,7 @@
             <span *ngFor=" let stt of status" >
               <ion-badge *ngIf="stt.value===item.status" color="{{stt.value}}">{{stt.alias}}</ion-badge>
             </span>
-            <br><span *ngIf="modelTicket.orderBy!='dateupdate'">{{item.created_at| toTime2}}</span><span *ngIf="modelTicket.orderBy=='dateupdate'">{{item.dateupdate| toTime}}</span>
+            <br><span *ngIf="modelTicket.orderBy!='dateupdate'">{{item.created_at| toTime2}}</span><span *ngIf="modelTicket.orderBy=='dateupdate'">{{item.dateupdate| toTime2}}</span>
           </p>
       </ion-item>
     </ion-card>
@@ -76,9 +77,16 @@
     </ion-item>
   </ion-card>
   </ion-list>
-  <ion-infinite-scroll *ngIf="modelTicket.loadMore" (ionInfinite)="doInfinite($event)">
+  <!-- <ion-infinite-scroll *ngIf="modelTicket.loadMore" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  </ion-infinite-scroll> -->
+  <ion-row>
+    <ion-col col-12 text-center>
+      <!-- <button text-center class="no-background" ion-button (click)="doLoadMore($type='back')">Back</button> -->
+      <button text-center class="no-background" ion-button *ngIf="modelTicket.loadMore" (click)="doLoadMore($type='next')">Next</button>       
+    </ion-col>
+
+  </ion-row>
   <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
   <ion-refresher *ngIf="modelTicket.dataLoading==false" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>

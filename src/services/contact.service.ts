@@ -8,27 +8,27 @@ import 'rxjs/add/operator/catch';
 import { SettingService } from './../common/setting.service';
 
 @Injectable()
-export class CustomerService {
+export class ContactService {
 	constructor(private _http: Http, private _settingGlobal: SettingService) {
 
     }
-    getListCustomer(dataPage:number){
-    	return this._http.get(this._settingGlobal._api_customer_getList+dataPage)
+    getListContact(dataPage:number){
+    	return this._http.get(this._settingGlobal._api_contact_getList+dataPage)
     		.map(this.extractData)
     		.catch(this.handleError);
     }
-    getCustomerProfile(customerId:number){
-        return this._http.get(this._settingGlobal._api_customer_profile+customerId)
+    getContactProfile(contactId:number){
+        return this._http.get(this._settingGlobal._api_contact_profile+contactId)
             .map(this.extractData)
             .catch(this.handleError);
     }
-    updateCustomer(data:any){
-        return this._http.put(this._settingGlobal._api_customer_update,data)
+    updateContact(data:any){
+        return this._http.put(this._settingGlobal._api_contact_update,data)
             .map(this.extractData)
             .catch(this.handleError);
     }
-    addCustomer(data:any){
-        return this._http.post(this._settingGlobal._api_customer_add,data)
+    addContact(data:any){
+        return this._http.post(this._settingGlobal._api_contact_add,data)
             .map(this.extractData)
             .catch(this.handleError);
     }

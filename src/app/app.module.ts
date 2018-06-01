@@ -15,7 +15,7 @@ import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { SettingService } from '../common/setting.service';
 import { MessageService } from '../common/message.service';
 import { UserService } from '../services/user.service';
-import { CustomerService } from '../services/customer.service';
+import { ContactService } from '../services/contact.service';
 import { TicketService } from '../services/ticket.service';
 import { AuthService } from '../services/authentication/auth.service';
 import { AuthRequestOptions } from '../services/authentication/auth-request.service';
@@ -27,12 +27,12 @@ import { MyApp } from './app.component';
 import { HomePage } from './../pages/home/home';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
-import { CustomerPage } from './../pages/customer/customer';
-import { CustomerProfilePage } from './../pages/customer/customer-profile/customer-profile';
+import { ContactPage } from './../pages/contact/contact';
+import { ContactProfilePage } from './../pages/contact/contact-profile/contact-profile';
 import { SettingPage } from './../pages/setting/setting';
 import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
-import { CustomerAddPage } from './../pages/customer/customer-add/customer-add';
-import { CustomerSearchPage } from './../pages/customer/customer-search/customer-search';
+import { ContactAddPage } from './../pages/contact/contact-add/contact-add';
+import { ContactSearchPage } from './../pages/contact/contact-search/contact-search';
 import { NotificationsPage } from './../pages/notifications/notifications';
 import { AccountPage } from './../pages/account/account';
 
@@ -65,10 +65,10 @@ export function cookieServiceFactory() {
   declarations: [
     MyApp,
     HomePage,
-    CustomerPage,
-    CustomerProfilePage,
-    CustomerAddPage,
-    CustomerSearchPage,
+    ContactPage,
+    ContactProfilePage,
+    ContactAddPage,
+    ContactSearchPage,
     SettingPage,
     AccountPage,
     LoginPage,
@@ -117,10 +117,10 @@ export function cookieServiceFactory() {
   entryComponents: [
     MyApp,
     HomePage,
-    CustomerPage,
-    CustomerProfilePage,
-    CustomerAddPage,
-    CustomerSearchPage,
+    ContactPage,
+    ContactProfilePage,
+    ContactAddPage,
+    ContactSearchPage,
     SettingPage,
     AccountPage,
     LoginPage,
@@ -145,7 +145,7 @@ export function cookieServiceFactory() {
     DataService,
     UserService,
     TicketService,
-    CustomerService,
+    ContactService,
     AuthService,
     NotificationsService,
     StatusBar,

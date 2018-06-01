@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SettingService {
-	// public _baseAPIUrl = "http://localhost:8000/api/v1/";
-    // public _baseUrl= "http://localhost:8000";
-    public _baseAPIUrl = "https://webapp-api.midesk.vn/api/v1/";
-    public _baseUrl= "https://webapp-api.midesk.vn/";
+	public _baseAPIUrl = "http://localhost:8000/api/v1/";
+    public _baseUrl= "http://localhost:8000";
+    //public _baseAPIUrl = "https://webapp-api.midesk.vn/api/v1/";
+    //public _baseUrl= "https://webapp-api.midesk.vn/";
     //Authentication
     public _api_auth_login = this._baseAPIUrl + "login";
     public _api_auth_logout = this._baseAPIUrl + "logout";
@@ -29,17 +29,17 @@ export class SettingService {
     public _api_search_ticket = this._baseAPIUrl + 'searchTicket';
     public _api_create_ticket = this._baseAPIUrl + 'createTicket';
     public _api_action_ticket = this._baseAPIUrl + 'actionTicket';
-    public _api_ticket_customer = this._baseAPIUrl + 'getTicketByCustomer/';
+    public _api_ticket_contact = this._baseAPIUrl + 'getTicketByContact/';
     public _api_count_ticket = this._baseAPIUrl + 'countTicket';
     public _api_trash_or_resolve_ticket = this._baseAPIUrl + 'trashOrResolveTicket';
     public _api_delete_ticket = this._baseAPIUrl + ' deleteTicket/';
     public _api_get_macro = this._baseAPIUrl + 'getMacro';
     //--
-    //customer service
-    public _api_customer_getList = this._baseAPIUrl + 'getListCustomer/';
-    public _api_customer_profile = this._baseAPIUrl + 'getCustomerProfile/';
-    public _api_customer_update = this._baseAPIUrl + 'updateCustomer';
-    public _api_customer_add = this._baseAPIUrl + 'addCustomer';
+    //contact service
+    public _api_contact_getList = this._baseAPIUrl + 'getListContact/';
+    public _api_contact_profile = this._baseAPIUrl + 'getContactProfile/';
+    public _api_contact_update = this._baseAPIUrl + 'updateContact';
+    public _api_contact_add = this._baseAPIUrl + 'addContact';
     //--
     //notifications service
     public _api_notifications_getList = this._baseAPIUrl + 'getListNotification/';

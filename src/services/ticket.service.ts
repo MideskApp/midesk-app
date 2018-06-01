@@ -71,8 +71,8 @@ export class TicketService {
             .map(this.extractData)
             .catch(this.handleError);
     }
-    getTicketByCustomer(customerId:number){
-        return this._http.get(this._settingGlobal._api_ticket_customer + customerId)
+    getTicketByContact(contactId:number){
+        return this._http.get(this._settingGlobal._api_ticket_contact + contactId)
             .map(this.extractData)
             .catch(this.handleError);
     }

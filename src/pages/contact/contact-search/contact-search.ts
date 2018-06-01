@@ -9,10 +9,10 @@ import { NavController, NavParams } from 'ionic-angular';
  */
 
 @Component({
-  selector: 'page-customer-search',
-  templateUrl: 'customer-search.html',
+  selector: 'page-contact-search',
+  templateUrl: 'contact-search.html',
 })
-export class CustomerSearchPage {
+export class ContactSearchPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

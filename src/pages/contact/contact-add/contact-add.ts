@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CustomerService } from '../../../services/customer.service';
+import { ContactService } from '../../../services/contact.service';
 import { DataService } from '../../../common/data.service';
 import { MessageService } from '../../../common/message.service';
 
@@ -13,13 +13,13 @@ import { MessageService } from '../../../common/message.service';
  */
 
 @Component({
-  selector: 'page-customer-add',
-  templateUrl: 'customer-add.html',
+  selector: 'page-contact-add',
+  templateUrl: 'contact-add.html',
 })
-export class CustomerAddPage {
-  private addCustomerForm : FormGroup;
-	modelCustomer:any={
-		customer:'',
+export class ContactAddPage {
+  private addContactForm : FormGroup;
+	modelContact:any={
+		fullname:'',
 		address:'',
 		email:'',
 		phone:''
@@ -27,12 +27,12 @@ export class CustomerAddPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
-    private _customerService: CustomerService,
+    private _contactService: ContactService,
     private _dataService: DataService,
     private _msgService: MessageService
     ) {
-    this.addCustomerForm = new FormGroup({
-        customer: new FormControl('', Validators.required),
+    this.addContactForm = new FormGroup({
+        fullname: new FormControl('', Validators.required),
         email: new FormControl('', Validators.required && Validators.email),
         phone: new FormControl('', Validators.compose([Validators.required,Validators.pattern('^[0-9]{8,15}$')]) ),
         address: new FormControl(''),
@@ -43,15 +43,15 @@ export class CustomerAddPage {
     console.log('ionViewDidLoad CustomerAddPage');
 
   }
-  addCustomer(){
+  addContact(){
     // let loader = this.loadingCtrl.create({
     //   content:'Please wait ...',
     // })
     let loader = this._dataService.createLoading({content:this._msgService._msg_loading});
     loader.present();
-    this._customerService.addCustomer(this.modelCustomer).subscribe(res=>{
+    this._contactService.addContact(this.modelContact).subscribe(res=>{
       loader.setContent(res.message);
-      if(res.code == 200) this.addCustomerForm.reset()
+      if(res.code == 200) this.addContactForm.reset()
       loader.dismiss();
     });
   }

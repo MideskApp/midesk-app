@@ -3,7 +3,7 @@
   <ion-navbar>
   	<ion-buttons><button ion-button menuToggle><ion-icon name="menu"></ion-icon></button></ion-buttons>
 		<ion-title>Khách Hàng</ion-title>
-		<ion-buttons end><button (click)="openSearchCustomer()" ion-button><ion-icon name="search"></ion-icon></button></ion-buttons>
+		<ion-buttons end><button (click)="openSearchContact()" ion-button><ion-icon name="search"></ion-icon></button></ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -14,13 +14,13 @@
 		<ion-spinner text-center name="crescent"></ion-spinner>
 	</div>
 	<ion-list *ngIf="!loading">
-		<ion-item *ngFor=" let item of modelCustomer.dataItems " (click)="customerProfile(item)">
-			<ion-avatar item-start class="customer-avatar margin-vertical" [ngStyle]="{'background':item.color}">{{item.customer|firstNlast}}</ion-avatar>
-			<p class="name">{{item.customer}}</p>
+		<ion-item *ngFor=" let item of modelContact.dataItems " (click)="contactProfile(item)">
+			<ion-avatar item-start class="customer-avatar margin-vertical" [ngStyle]="{'background':item.color}">{{item.fullname|firstNlast}}</ion-avatar>
+			<p class="name">{{item.fullname}}</p>
 			<p class="phone">Điện thoại: <span *ngIf="item.phone!=='' && item.phone!==null">{{item.phone}}</span><span *ngIf="item.phone==='' || item.phone===null">chưa có</span></p>
 		</ion-item>
 	</ion-list>
-	<ion-infinite-scroll *ngIf="modelCustomer.loadMore" (ionInfinite)="doInfinite($event)">
+	<ion-infinite-scroll *ngIf="modelContact.loadMore" (ionInfinite)="doInfinite($event)">
 	    <ion-infinite-scroll-content></ion-infinite-scroll-content>
 	</ion-infinite-scroll>
 	<ion-refresher *ngIf="!loading" (ionRefresh)="doRefresh($event)">
@@ -28,5 +28,5 @@
 	</ion-refresher>
 </ion-content>
 <ion-footer no-lines>
-	<ion-buttons (click)="openAddCustomer()" float-right style="padding:0 5px 5px 0"><button class="btn-add-customer"><ion-icon name="person-add"></ion-icon></button></ion-buttons>
+	<ion-buttons (click)="openAddContact()" float-right style="padding:0 5px 5px 0"><button class="btn-add-customer"><ion-icon name="person-add"></ion-icon></button></ion-buttons>
 </ion-footer>

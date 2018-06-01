@@ -11,7 +11,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from './../pages/home/home';
 import { SettingPage } from './../pages/setting/setting';
-import { CustomerPage } from './../pages/customer/customer';
+import { ContactPage } from './../pages/contact/contact';
 import { NotificationsPage } from './../pages/notifications/notifications';
 import { LoginPage } from './../pages/login/login';
 import { TicketAddPage } from './../pages/ticket/ticket-add/ticket-add';
@@ -51,7 +51,7 @@ export class MyApp {
     this.pages = [
       { title: 'Thông Báo', component: NotificationsPage, icon:'notifications-outline', badge:'33'},
       { title: 'Tạo Phiếu Mới', component: TicketAddPage, icon:'create', badge:''},
-      { title: 'Khách Hàng', component: CustomerPage, icon:'people', badge:''},
+      { title: 'Khách Hàng', component: ContactPage, icon:'people', badge:''},
       { title: 'Tài Khoản', component: AccountPage, icon:'contact', badge:''},
       { title: 'Cài Đặt', component: SettingPage, icon:'settings', badge:''},
     ];

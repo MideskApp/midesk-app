@@ -8,8 +8,8 @@
   </ion-navbar>
 	<ion-grid no-padding class="background-midesk">
 		<ion-row>
-			<ion-col col-12 text-center><ion-avatar text-center [ngStyle]="{'background':customerProfile.color}" class="customer-avatar">{{modelEdit.customer|firstNlast}}</ion-avatar></ion-col>
-			<ion-col col-12 text-center><p class="name" no-margin>{{customerProfile.customer}}</p></ion-col>
+			<ion-col col-12 text-center><ion-avatar text-center [ngStyle]="{'background':contactProfile.color}" class="customer-avatar">{{modelEdit.fullname|firstNlast}}</ion-avatar></ion-col>
+			<ion-col col-12 text-center><p class="name" no-margin>{{contactProfile.fullname}}</p></ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-segment color="whitee" [(ngModel)]="section">
@@ -17,7 +17,7 @@
 			      Thông tin cá nhân
 			    </ion-segment-button>
 			    <ion-segment-button [disabled]="edit" value="segment2">
-			      Phiếu liên quan ({{customerTicket.length}})
+			      Phiếu liên quan ({{contactTicket.length}})
 			    </ion-segment-button>
 			  </ion-segment>
 		</ion-row>
@@ -30,33 +30,33 @@
 			<ion-item class="customer-info" (click)="openAddTicket()">
 				<ion-avatar item-start><ion-icon color="midesk" name="mail"></ion-icon></ion-avatar>
 				<p class="title">Email</p>
-				<p *ngIf="customerProfile.email!==''">{{customerProfile.email}}</p>
-				<p *ngIf="customerProfile.email===''">Chưa cập nhật</p>
+				<p *ngIf="contactProfile.email!==''">{{contactProfile.email}}</p>
+				<p *ngIf="contactProfile.email===''">Chưa cập nhật</p>
 			</ion-item>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="call"></ion-icon></ion-avatar>
 				<p class="title">Điện thoại</p>
-				<p *ngIf="customerProfile.phone!==''">{{customerProfile.phone}}</p>
-				<p *ngIf="customerProfile.phone===''">Chưa cập nhật</p>
+				<p *ngIf="contactProfile.phone!==''">{{contactProfile.phone}}</p>
+				<p *ngIf="contactProfile.phone===''">Chưa cập nhật</p>
 			</ion-item>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="card"></ion-icon></ion-avatar>
 				<p class="title">Địa chỉ</p>
-				<p *ngIf="customerProfile.address!==''&&customerProfile.address!==null">{{customerProfile.address}}</p>
-				<p *ngIf="customerProfile.address===''||customerProfile.address===null">Chưa cập nhật</p>
+				<p *ngIf="contactProfile.address!==''&&contactProfile.address!==null">{{contactProfile.address}}</p>
+				<p *ngIf="contactProfile.address===''||contactProfile.address===null">Chưa cập nhật</p>
 			</ion-item>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="desktop"></ion-icon></ion-avatar>
 				<p class="title">Kênh</p>
-				<p *ngIf="customerProfile.channel!==''">{{customerProfile.channel}}</p>
-				<p *ngIf="customerProfile.channel===''">Chưa cập nhật</p>
+				<p *ngIf="contactProfile.channel!==''">{{contactProfile.channel}}</p>
+				<p *ngIf="contactProfile.channel===''">Chưa cập nhật</p>
 			</ion-item>
 		</ion-list>
 		<ion-list *ngIf="edit" no-lines>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="text"></ion-icon></ion-avatar>
 				<p class="title">Họ tên</p>
-				<input no-margin class="text-input text-input-md input-edit" (keyup)="onInsertData($event,$type='customer')" [(ngModel)]="modelEdit.customer" type="text"/>
+				<input no-margin class="text-input text-input-md input-edit" (keyup)="onInsertData($event,$type='contact')" [(ngModel)]="modelEdit.fullname" type="text"/>
 			</ion-item>
 			<ion-item class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="call"></ion-icon></ion-avatar>
@@ -71,15 +71,15 @@
 		</ion-list>
 	</ion-grid>
 	<ion-grid *ngSwitchCase="'segment2'" >
-		<ion-list *ngIf="customerTicket.length>0">
-			<ion-item *ngFor="let item of customerTicket" class="customer-ticket" (click)="openTicketDetail(item)" no-padding>
+		<ion-list *ngIf="contactTicket.length>0">
+			<ion-item *ngFor="let item of contactTicket" class="customer-ticket" (click)="openTicketDetail(item)" no-padding>
 				<ion-avatar class="box-ticket" item-start><ion-icon color="midesk" name="pricetags"></ion-icon></ion-avatar>
 				<p class="title">#{{item.ticket_id}} - {{item.title}}</p>
 				<p class="description">{{item.created_at| date: 'dd/MM'}} | {{item.status}}</p>
 			</ion-item>
 		</ion-list>
 		
-			<p *ngIf="customerTicket.length<=0">Không tìm thấy dữ liệu</p>
+			<p *ngIf="contactTicket.length<=0">Không tìm thấy dữ liệu</p>
 		
 	</ion-grid>
 	</div>
