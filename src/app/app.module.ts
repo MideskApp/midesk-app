@@ -57,7 +57,7 @@ import { ConvertTime } from '../pipes/convert-time.pipe';
 import { ConvertTimeListTicket } from '../pipes/convert-time-list-ticket.pipe';
 import { SearchFilter } from '../pipes/search-filter.pipe';
 import { GroupByPipe } from '../pipes/group-by.pipe';
-const config: SocketIoConfig = { url: 'https://michat.mitek.vn:3007', options: {} };
+const config: SocketIoConfig = { url: 'https://socketprod.midesk.vn', options: {} };
 export function cookieServiceFactory() {
   return new CookieService();
 }
