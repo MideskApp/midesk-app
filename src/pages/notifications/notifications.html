@@ -19,7 +19,8 @@
 		    <ion-item *ngIf="!item.del" (click)="viewTicketDetail(item,i)"  [ngStyle]="{'background':item.seen?'#FFFFFF':'#ebeef0'}">
 		      <ion-avatar class="box-ticket" item-start><ion-icon color="midesk" name="pricetags"></ion-icon></ion-avatar>
 		      <h4 [innerHTML]="item.title|safeHtml"></h4>
-		      <p>
+					<p>{{item.content}}</p>
+					<p>
 		      	<ion-icon color="primary" *ngIf="item.channel=='chat'" name="chatbubbles"></ion-icon>
 		      	<ion-icon *ngIf="item.channel=='api'" name="cloud"></ion-icon>
 		      	<ion-icon color="facebook" *ngIf="item.channel=='facebook'" name="logo-facebook"></ion-icon>

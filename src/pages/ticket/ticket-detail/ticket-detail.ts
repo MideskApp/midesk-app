@@ -204,6 +204,20 @@ export class TicketDetailPage {
       action = this.actsheetCtrl.create({
         buttons: [
           {
+            text: 'Theo dõi phiếu',
+            icon: 'logo-rss',
+            handler: () => {
+              this._dataService.createToast('Đã theo dõi',2000,'success-toast');
+            }
+          },
+          {
+            text: 'Hủy theo dõi',
+            icon: 'logo-rss',
+            handler: () => {
+              this._dataService.createToast('Đã theo dõi',2000,'fail-toast');
+            }
+          },
+          {
             text: 'Xóa phiếu',
             icon: 'trash',
             handler: () => {

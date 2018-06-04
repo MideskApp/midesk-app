@@ -29,11 +29,29 @@
 .custom-popup .list-md{
 	margin:0!important;
 }
-.success-toast .toast-wrapper{
-		background:#32CD32!important;	
-}
-.fail-toast .toast-wrapper{
-		background:#8B1A1A!important;	
+.success-toast{
+	.toast-wrapper{
+		background:#c2f0c2!important;
+		border: 1px solid #99e699;
+		//border-radius:5px;
+		.toast-message{
+			color:#29a329 !important;
+			padding:1.2rem;
+			font-size:1.5rem;
+		}	
+	}
+} 
+.fail-toast{
+	.toast-wrapper{
+		background:#ffe6e6!important;
+		border: 1px solid #ffcccc;
+		//border-radius:5px;
+		.toast-message{
+			color:#b30000 !important;
+			padding:1.2rem;
+			font-size:1.5rem;
+		}	
+	}	
 }
 .user-avatar{
 	width:60px;
