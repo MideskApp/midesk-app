@@ -47,15 +47,37 @@
 <ion-content>
   <ion-spinner padding margin class="loading-search" *ngIf="loading"  name="crescent"></ion-spinner>
   <ion-list *ngIf="!loading">
-    <ion-card *ngFor=" let item of modelRequester.dataItems" (click)="selectRequester(item)">
-      <ion-item>
-        <ion-avatar class="box-avatar" item-start [ngStyle]="{'background':item.color}">{{item.name|charAt}}</ion-avatar>
-        <p class="name-item">{{item.name}}</p>
-        <p>{{item.email}}</p>
-        <ion-icon item-end *ngIf="selected_requesterId===item.id" name="checkmark" color="checked"></ion-icon>
-      </ion-item>
+    
+    <span *ngIf="modelCustomer.length == 0">
+      <ion-card *ngFor=" let item of modelRequester.dataItems" (click)="selectRequester(item)">
+        <ion-item>
+          <ion-avatar class="box-avatar" item-start [ngStyle]="{'background':item.color}">{{item.name|charAt}}</ion-avatar>
+          <p class="name-item">{{item.name}}</p>
+          <p>{{item.email}}</p>
+          <ion-icon item-end *ngIf="selected_requesterId===item.id" name="checkmark" color="checked"></ion-icon>
+        </ion-item>
+      </ion-card>
+    </span>
+    <ion-card *ngIf="modelCustomer.length > 0" (click)="selectCustomer(selected_requester,$type='checkContact')">
+        <ion-item>
+          <ion-avatar class="box-avatar" item-start [ngStyle]="{'background':selected_requester.color}">{{selected_requester.name|charAt}}</ion-avatar>
+          <p class="name-item">{{selected_requester.name}}</p>
+          <p>{{selected_requester.email}}</p>
+          <ion-icon item-end *ngIf="selected_requesterId===selected_requester.id" name="checkmark" color="checked"></ion-icon>
+        </ion-item>
     </ion-card>
+    <span *ngIf="modelCustomer.length > 0">
+      <ion-card *ngFor=" let item of modelCustomer" (click)="selectCustomer(item,$type='checkCustomer')" >
+        <ion-item>
+          <ion-avatar class="box-avatar" item-start [ngStyle]="{'background':item.color}">{{item.customer_name|charAt}}</ion-avatar>
+          <p class="name-item">{{item.customer_name}}</p>
+          <p>{{item.email}}</p>
+          <ion-icon item-end *ngIf="selected_requesterId===item.customer_id" name="checkmark" color="checked"></ion-icon>
+        </ion-item>
+      </ion-card>
+    </span>
   </ion-list>
+  
   <ion-infinite-scroll *ngIf="modelRequester.loadMore" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

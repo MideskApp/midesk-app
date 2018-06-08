@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 import { UserService } from './../../../services/user.service';
+import { ContactService } from '../../../services/contact.service';
 
 /**
  * Generated class for the ModalRequesterPage page.
@@ -22,6 +23,12 @@ export class ModalRequester {
     phone:'',
     email:'',
   };
+  selected_customer={
+    customer_id:0,
+    customer_name:'',
+    email:'',
+    color:''
+  };
   selected_requesterId = 0;
   loading = false;
   modelSearchRequester = {
@@ -35,6 +42,7 @@ export class ModalRequester {
     loadMore:false,
     searchText:'',
   };
+  modelCustomer:any=[];
   modelSearch={
     dataItems:[],
     dataPage:1,
@@ -46,7 +54,9 @@ export class ModalRequester {
   constructor(
   	public navParams: NavParams, 
   	private viewCtrl: ViewController,
-  	private _userService: UserService) {
+    private _userService: UserService,
+    private _contactService: ContactService
+  ) {
   }
   closeModal(){
       this.viewCtrl.dismiss({cancel:true});
@@ -91,7 +101,32 @@ export class ModalRequester {
   selectRequester(index){
     this.selected_requester = index;
     this.selected_requesterId = index.id;
-    this.viewCtrl.dismiss({'requester':this.selected_requester});
+    this.loading = true;
+    console.log(this.selected_requester);
+    this._contactService.getCustomer(this.selected_requesterId).subscribe(res=>{
+      if(res.length>0){
+        this.modelCustomer = res;
+        this.loading = false;
+      }
+      else{
+        this.viewCtrl.dismiss({requester:this.selected_requester,customer:this.selected_customer});
+      }
+    })
+    //this.viewCtrl.dismiss({'requester':this.selected_requester});
+  }
+  selectCustomer(index,$type){
+    if($type=='checkContact'){
+      this.selected_requesterId = index.id;
+      this.selected_requester = index;
+    }
+    if($type=='checkCustomer'){
+      this.selected_requesterId = index.customer_id;
+      this.selected_customer = index;
+      this.modelCustomer = [];
+    }
+    // console.log(index);
+    // this.selected_customer = index;
+    this.viewCtrl.dismiss({requester:this.selected_requester,customer:this.selected_customer});
   }
   clearSearch(){
     this.loading = true;

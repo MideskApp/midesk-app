@@ -31,6 +31,7 @@ export class TicketAddPage {
      category:'',
      file:null,
      content:'',
+     requester_customer_id:''
   }
   filterCategory={
     dataItems:[],
@@ -51,6 +52,8 @@ export class TicketAddPage {
   status:any={};
   categoryName = '';
   requesterName = '';
+  requesterName2 = '';
+  customerName = '';
   assign = '';
   cateId = 0;
   fileName='';
@@ -89,9 +92,15 @@ export class TicketAddPage {
     let requesterModal = this.modalCtrl.create(ModalRequester,{data:this.ticketParams.requester});
     requesterModal.onDidDismiss(data=>{
       if(!data.cancel){
+        console.log(data);
         this.requesterName = data.requester.name;
         this.ticketParams.requester = data.requester.id;
         this.ticketParams.requester_type = data.requester.level;
+        this.ticketParams.requester_customer_id = data.customer.customer_id;
+        this.customerName = data.customer.customer_name;
+        if(this.customerName!=''){
+          this.requesterName2 = this.requesterName+' ('+this.customerName+')';
+        }else this.requesterName2 = this.requesterName;
       }
     })
     requesterModal.present();
@@ -154,10 +163,46 @@ export class TicketAddPage {
     categoryPopover.present();
   }
   openModalProperties(){
-    let propertiesModal = this.modalCtrl.create(ModalProperties);
+    let data={
+      id:0,
+      status:(this.ticketParams.status!='')?this.checkStatus[this.ticketParams.status]:'',
+      priority:(this.ticketParams.priority!='')?this.checkPriority[parseInt(this.ticketParams.priority)-1]:'',
+      title:this.ticketParams.title,
+      requester:(this.requesterName!='')?{'name':this.requesterName,'id':this.ticketParams.requester}:'',
+      customer:(this.customerName!='')?{'customer_id':this.ticketParams.requester_customer_id,'customer_name':this.customerName}:'',
+      assign:(this.assign!='')?{'name':this.assign,'assign_team':this.ticketParams.assign_team,'assign_agent':this.ticketParams.assign_agent}:''
+    }
+    //let modal = this.modalCtrl.create(ModalProperties,{data});
+    let propertiesModal = this.modalCtrl.create(ModalProperties,{data:data});
     propertiesModal.onDidDismiss(data=>{
-      if(typeof data!= undefined && data!=null){
-        this.ticketParams.category = data.category;
+      let self = this;
+      let flag = false;
+      if(Object.keys(data).length>0){
+        Object.keys(data).forEach(function(key){
+          if(key == 'status'){
+            self.status = self.checkStatus[data['status']];
+            self.ticketParams.status= data['status'];
+          }else if(key == 'priority'){
+            self.priority = self.checkPriority[data['priority']-1];
+            self.ticketParams.priority = data['priority'];
+          }else if(key == 'title'){
+            self.ticketParams.title = data['title'];
+          }else if(key == 'assign'){
+            self.ticketParams.assign_agent = data['assign']['agent'];
+            self.ticketParams.assign_team = data['assign']['team'];
+            self.assign = data['assign']['name'];
+            self.avatar = (data['assign']['agent']==0)?'#2979ff':'#4F4F4F';
+          }else if(key == 'requester'){
+            self.requesterName = data.requester.requester_name;
+            self.ticketParams.requester = data.requester.requester;
+            self.ticketParams.requester_type = data.requester.requester_type;
+            self.ticketParams.requester_customer_id = data.requester.requester_customer_id;
+            self.customerName = data.requester.customer_name;
+            if(self.customerName!=''){
+              self.requesterName2 = self.requesterName+' ('+self.customerName+')';
+            }else self.requesterName2 = self.requesterName;
+          }
+        })
       }
     })
     propertiesModal.present();
@@ -171,9 +216,9 @@ export class TicketAddPage {
     this.fileName = $event.target.files[0].name;
   }
   createTicket(){
+    console.log(this.ticketParams);
     this.ticketParams.category=this.ticketParams.category.slice(0,this.ticketParams.category.length-1);
     let loader = this._dataService.createLoading({content:this._msgService._msg_loading});
-    console.log(this.ticketParams);
     var formData = new FormData();
     formData.append('title',this.ticketParams.title);
     formData.append('assign_agent',this.ticketParams.assign_agent);
@@ -184,6 +229,7 @@ export class TicketAddPage {
     formData.append('status',this.ticketParams.status);
     formData.append('content',this.ticketParams.content);
     formData.append('private',this.privateNote);
+    formData.append('requester_customer_id',this.ticketParams.requester_customer_id);
     if(this.ticketParams.file!=null){
       formData.append('file',this.ticketParams.file,this.ticketParams.file.name);
     }
@@ -191,7 +237,6 @@ export class TicketAddPage {
         this._ticketService.createTicket(formData).subscribe(res=>{
         loader.dismiss();
         if(res.code==200){
-          //this.presentToast(res.message,'success-toast');
           this._dataService.createToast(res.message,2000,'success-toast');
           this.resetInput();
           var self = this;
@@ -216,20 +261,24 @@ export class TicketAddPage {
   }
   clearRequester(){
     this.ticketParams.requester = '';
+    this.ticketParams.requester_customer_id = '';
     this.requesterName = '';
+    this.requesterName2 = '';
+    this.ticketParams.requester_type = '';
   }
   resetInput(){
     this.ticketParams = {
-     assign_agent:'',
-     assign_team:'',
-     requester:'',
-     requester_type:'',
-     title:'', 
-     priority:'',
-     status:'',
-     category:'',
-     file:null,
-     content:'',
+      assign_agent:'',
+      assign_team:'',
+      requester:'',
+      requester_type:'',
+      title:'', 
+      priority:'',
+      status:'',
+      category:'',
+      file:null,
+      content:'',
+      requester_customer_id:''
     }
     this.clearAssign();
     this.clearRequester();

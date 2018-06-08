@@ -34,12 +34,16 @@ export class SettingService {
     public _api_trash_or_resolve_ticket = this._baseAPIUrl + 'trashOrResolveTicket';
     public _api_delete_ticket = this._baseAPIUrl + ' deleteTicket/';
     public _api_get_macro = this._baseAPIUrl + 'getMacro';
+    public _api_get_category_name = this._baseAPIUrl + 'getCategoryName/';
     //--
     //contact service
     public _api_contact_getList = this._baseAPIUrl + 'getListContact/';
     public _api_contact_profile = this._baseAPIUrl + 'getContactProfile/';
     public _api_contact_update = this._baseAPIUrl + 'updateContact';
     public _api_contact_add = this._baseAPIUrl + 'addContact';
+    //--
+    //customer service
+    public _api_customer_getList = this._baseAPIUrl + 'getCustomer/';
     //--
     //notifications service
     public _api_notifications_getList = this._baseAPIUrl + 'getListNotification/';

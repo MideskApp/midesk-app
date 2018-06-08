@@ -48,6 +48,11 @@ export class TicketService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    getCategoryName(cateId:any){
+        return this._http.get(this._settingGlobal._api_get_category_name+cateId)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     getMoreSearch(data:any={}){
         return this._http.post(this._settingGlobal._api_search_ticket+'?page='+data.page,data)
             .map(this.extractData)
