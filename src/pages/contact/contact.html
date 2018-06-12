@@ -15,9 +15,11 @@
 	</div>
 	<ion-list *ngIf="!loading">
 		<ion-item *ngFor=" let item of modelContact.dataItems " (click)="contactProfile(item)">
-			<ion-avatar item-start class="customer-avatar margin-vertical" [ngStyle]="{'background':item.color}">{{item.fullname|firstNlast}}</ion-avatar>
-			<p class="name">{{item.fullname}}</p>
-			<p class="phone">Điện thoại: <span *ngIf="item.phone!=='' && item.phone!==null">{{item.phone}}</span><span *ngIf="item.phone==='' || item.phone===null">chưa có</span></p>
+			<ion-avatar item-start class="customer-avatar margin-vertical" *ngIf="item.fullname!==null" [ngStyle]="{'background':item.color}">{{item.fullname|firstNlast}}</ion-avatar>
+			<ion-avatar item-start class="customer-avatar margin-vertical" *ngIf="item.fullname===null" [ngStyle]="{'background':item.color}">{{item.customer_name|firstNlast}}</ion-avatar>
+			<p class="name" *ngIf="item.fullname!==null">{{item.fullname}}</p>
+			<!-- <p class="phone"><span *ngIf="item.customer_name!=='' && item.customer_name!==null">{{item.customer_name}}</span><span *ngIf="item.phone==='' || item.phone===null">chưa có</span></p> -->
+			<p *ngIf="item.relation_title!==null" class="relation" item-end><span [ngStyle]="{'background':item.relation_color}">{{item.relation_title}}</span></p>
 		</ion-item>
 	</ion-list>
 	<ion-infinite-scroll *ngIf="modelContact.loadMore" (ionInfinite)="doInfinite($event)">

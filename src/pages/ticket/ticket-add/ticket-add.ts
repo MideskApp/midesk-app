@@ -74,7 +74,7 @@ export class TicketAddPage {
     this.checkPriority = this._authService.getPriority();
     let navData = this.navParams.get('data');
     if(navData != null && typeof navData != undefined){
-        this.requesterName = navData.requesterName;
+        this.requesterName2 = navData.requesterName;
         this.ticketParams.requester = navData.requester;
         this.ticketParams.requester_type = navData.requester_type;
     }
@@ -179,29 +179,63 @@ export class TicketAddPage {
       let flag = false;
       if(Object.keys(data).length>0){
         Object.keys(data).forEach(function(key){
-          if(key == 'status'){
-            self.status = self.checkStatus[data['status']];
-            self.ticketParams.status= data['status'];
-          }else if(key == 'priority'){
-            self.priority = self.checkPriority[data['priority']-1];
-            self.ticketParams.priority = data['priority'];
-          }else if(key == 'title'){
-            self.ticketParams.title = data['title'];
-          }else if(key == 'assign'){
-            self.ticketParams.assign_agent = data['assign']['agent'];
-            self.ticketParams.assign_team = data['assign']['team'];
-            self.assign = data['assign']['name'];
-            self.avatar = (data['assign']['agent']==0)?'#2979ff':'#4F4F4F';
-          }else if(key == 'requester'){
-            self.requesterName = data.requester.requester_name;
-            self.ticketParams.requester = data.requester.requester;
-            self.ticketParams.requester_type = data.requester.requester_type;
-            self.ticketParams.requester_customer_id = data.requester.requester_customer_id;
-            self.customerName = data.requester.customer_name;
-            if(self.customerName!=''){
-              self.requesterName2 = self.requesterName+' ('+self.customerName+')';
-            }else self.requesterName2 = self.requesterName;
+          switch(key){
+            case 'status':
+              self.status = self.checkStatus[data['status']];
+              self.ticketParams.status= data['status'];
+              break;
+            case 'priority':
+              self.priority = self.checkPriority[data['priority']-1];
+              self.ticketParams.priority = data['priority'];
+              break;
+            case 'title':
+              self.ticketParams.title = data['title'];
+              break;
+            case 'assign':
+              self.ticketParams.assign_agent = data['assign']['agent'];
+              self.ticketParams.assign_team = data['assign']['team'];
+              self.assign = data['assign']['name'];
+              self.avatar = (data['assign']['agent']==0)?'#2979ff':'#4F4F4F';
+              break;
+            case 'requester':
+              self.requesterName = data.requester.requester_name;
+              self.ticketParams.requester = data.requester.requester;
+              self.ticketParams.requester_type = data.requester.requester_type;
+              self.ticketParams.requester_customer_id = data.requester.requester_customer_id;
+              self.customerName = data.requester.customer_name;
+              if(self.customerName!=''){
+                self.requesterName2 = self.requesterName+' ('+self.customerName+')';
+              }else self.requesterName2 = self.requesterName;
+              break;
+            case 'category':
+              self.ticketParams.category = data['category']['id'];
+              break;
           }
+          // if(key == 'status'){
+          //   self.status = self.checkStatus[data['status']];
+          //   self.ticketParams.status= data['status'];
+          // }else if(key == 'priority'){
+          //   self.priority = self.checkPriority[data['priority']-1];
+          //   self.ticketParams.priority = data['priority'];
+          // }else if(key == 'title'){
+          //   self.ticketParams.title = data['title'];
+          // }else if(key == 'assign'){
+          //   self.ticketParams.assign_agent = data['assign']['agent'];
+          //   self.ticketParams.assign_team = data['assign']['team'];
+          //   self.assign = data['assign']['name'];
+          //   self.avatar = (data['assign']['agent']==0)?'#2979ff':'#4F4F4F';
+          // }else if(key == 'requester'){
+          //   self.requesterName = data.requester.requester_name;
+          //   self.ticketParams.requester = data.requester.requester;
+          //   self.ticketParams.requester_type = data.requester.requester_type;
+          //   self.ticketParams.requester_customer_id = data.requester.requester_customer_id;
+          //   self.customerName = data.requester.customer_name;
+          //   if(self.customerName!=''){
+          //     self.requesterName2 = self.requesterName+' ('+self.customerName+')';
+          //   }else self.requesterName2 = self.requesterName;
+          // }else if(key){
+
+          // }
         })
       }
     })
@@ -217,7 +251,6 @@ export class TicketAddPage {
   }
   createTicket(){
     console.log(this.ticketParams);
-    this.ticketParams.category=this.ticketParams.category.slice(0,this.ticketParams.category.length-1);
     let loader = this._dataService.createLoading({content:this._msgService._msg_loading});
     var formData = new FormData();
     formData.append('title',this.ticketParams.title);
@@ -230,6 +263,7 @@ export class TicketAddPage {
     formData.append('content',this.ticketParams.content);
     formData.append('private',this.privateNote);
     formData.append('requester_customer_id',this.ticketParams.requester_customer_id);
+    formData.append('category',this.ticketParams.category);
     if(this.ticketParams.file!=null){
       formData.append('file',this.ticketParams.file,this.ticketParams.file.name);
     }

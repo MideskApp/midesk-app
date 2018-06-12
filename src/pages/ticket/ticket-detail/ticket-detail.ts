@@ -100,18 +100,19 @@ export class TicketDetailPage {
     this.initTicketDetail();
   }
   listenEventUpdateTicket(){
-    let flag = false;
-    this._socketService.listenEvent('NEW_UPDATE_TICKET').subscribe(data=>{
+      let flag = false;
+      this._socketService.listenEvent('NEW_UPDATE_TICKET').subscribe(data=>{
       console.log(data);
       let arr:any = data;
       for(let i=0;i<arr.length;i++){
         //console.log(this.navParamsCtrl.get('data'));
         if(data[i].ticket_id==this.navParamsCtrl.get('data').id){
           let content =JSON.parse(data[i].content);
-          console.log(content);
+          //console.log(content); 
           let self = this;
           Object.keys(content).forEach(function(key){
-            if(key == 'assign_agent' && content['assign_agent']['id']!=self.ticketInfo.assign_agent){
+            if(key == 'assign_agent' && content['assign_agent']['id'] != null){
+              if(content['assign_agent']['id']!=self.ticketInfo.assign_agent){
             //if(content['assign_agent']['id']!=self.ticketInfo.assign_agent){
               self.ticketInfo.assign_agent = content['assign_agent']['id'];
               self.ticketInfo.agent_name = content['assign_agent']['name'];
@@ -122,16 +123,19 @@ export class TicketDetailPage {
                 self.reChoose = true;
               }
               flag = true;
-            }
-            else if(key == 'assign_team' && content['assign_team']['id']!=self.ticketInfo.assign_team){
-              self.ticketInfo.assign_team = content['assign_team']['id'];
-              self.ticketInfo.team_name = content['assign_team']['name'];
-              self.ticketDefault.assign_team = content['assign_team']['id'];
-              if(typeof self.ticketUpdate['assign_team'] !== 'undefined'){
-                delete self.ticketUpdate['assign_team'];
-                self.reChoose = true;
               }
-              flag = true;
+            }
+            else if(key == 'assign_team' && content['assign_agent']['id'] != null){
+              if(content['assign_team']['id']!=self.ticketInfo.assign_team){
+                self.ticketInfo.assign_team = content['assign_team']['id'];
+                self.ticketInfo.team_name = content['assign_team']['name'];
+                self.ticketDefault.assign_team = content['assign_team']['id'];
+                if(typeof self.ticketUpdate['assign_team'] !== 'undefined'){
+                  delete self.ticketUpdate['assign_team'];
+                  self.reChoose = true;
+                }
+                flag = true;
+              }
             }
             else if(key == 'priority' && content['priority']['id']!=self.ticketInfo.priority){
               self.priorityDefault = content['priority'];
@@ -181,15 +185,16 @@ export class TicketDetailPage {
               flag = true;
             }
           })
+          if(this.navCtrl.getActive().name == 'TicketDetailPage'){
+            if(flag && data[0]['ticket_id'] == this.navParamsCtrl.get('data').id){
+              this.countChange = Object.keys(this.ticketUpdateDetail).length + Object.keys(this.ticketUpdate).length;
+              this._dataService.createToast('Dữ liệu đã được thay đổi bởi'+content['createby']['name']+', bạn vui lòng thực hiện lại các thao tác trước đó.',3000,'fail-toast');
+            }
+          }
         }
       }
       this.assign = (this.ticketInfo.assign_agent==0)?this.ticketInfo.team_name:this.ticketInfo.agent_name;
-      if(flag){
-        this.countChange = Object.keys(this.ticketUpdateDetail).length + Object.keys(this.ticketUpdate).length;
-        this._dataService.createToast('Dữ liệu đã bị thay đổi trước đó, bạn vui lòng thực hiện lại các thao tác hoặc tải lại phiếu',4000,'fail-toast');
-      }
     })
-    
   }
   initTicketDetail(){
     let navData = (this.navParamsCtrl.get('data'));
@@ -395,7 +400,7 @@ export class TicketDetailPage {
         this.ticketUpdate['status']=this.ticketInfo.status;
        }
        else{
-         delete this.ticketUpdate['status'];
+        delete this.ticketUpdate['status'];
        }
       }
       this.countChange = Object.keys(this.ticketUpdate).length;
@@ -436,7 +441,7 @@ export class TicketDetailPage {
          loader.dismiss();
          if(res.code==200){
            this._dataService.createToast(res.message,2000,'success-toast');
-           this.initTicketDetail();
+           //this.initTicketDetail();
            this.ticketUpdate = {};
            this.ticketUpdateDetail = {};
            this.content = '';

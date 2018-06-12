@@ -7,7 +7,7 @@ export class DataService {
         public alertCtrl: AlertController,
         private toastCtrl: ToastController,
         private loadingCtrl: LoadingController,
-        private _event: Events
+        private _event: Events,
     ) {}
     createAlertWithHandle(msgContent:string){
         var alert = this.alertCtrl.create({

@@ -51,7 +51,7 @@ export class MyApp {
     this.pages = [
       { title: 'Thông Báo', component: NotificationsPage, icon:'notifications-outline', badge:'33'},
       { title: 'Tạo Phiếu Mới', component: TicketAddPage, icon:'create', badge:''},
-      { title: 'Khách Hàng', component: ContactPage, icon:'people', badge:''},
+      { title: 'Liên Hệ', component: ContactPage, icon:'people', badge:''},
       { title: 'Tài Khoản', component: AccountPage, icon:'contact', badge:''},
       { title: 'Cài Đặt', component: SettingPage, icon:'settings', badge:''},
     ];
@@ -65,7 +65,7 @@ export class MyApp {
       if(this._authService.isUserLoggedIn()){
         this.listenEventNewNotifi();
         this.listenEventUpdate();
-        //this.receiveNotification();
+        this.receiveNotification();
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
         this.loggedInUser = this._authService.getLoggedInUser();
         this.avatarName = this._authService.getLoggedInUser().lastname;

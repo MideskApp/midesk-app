@@ -17,9 +17,9 @@ export class AuthService {
         public _cookieService: CookieService,
         private _fcm: FCM,
         ) {
-        // _fcm.getToken().then(token=>{
-        //     this.fcm_token = token;
-        // })
+        _fcm.getToken().then(token=>{
+            this.fcm_token = token;
+        })
     }
     getToken(): string {
         return this._cookieService.get(TOKEN_NAME);
@@ -30,7 +30,7 @@ export class AuthService {
             this.loggedInUser = userLogin.success;
             this._cookieService.put('fcm_token',this.fcm_token);
             this._cookieService.putObject('curuser', { info: this.loggedInUser.user, user_log: this.loggedInUser.user_log });
-            this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority });
+            this._cookieService.putObject('priority',{ priority: this.loggedInUser.priority, relation: this.loggedInUser.relation });
             this._cookieService.putObject('room',{room: this.loggedInUser.room});
             this._cookieService.put(TOKEN_NAME, this.loggedInUser.token);
             this._cookieService.putObject('setting',{ notify:this.loggedInUser.user.is_notification,vibrate:'1'});
@@ -91,7 +91,12 @@ export class AuthService {
         }
         return this.loggedInUser;
     }
-
+    getRelation(){
+        if (this._cookieService.getObject('priority')) {
+            this.loggedInUser = this._cookieService.getObject('priority')['relation'];
+        }
+        return this.loggedInUser;
+    }
     logoutUser(): void {
         this._cookieService.removeAll();
         this.isloggedIn = false;
