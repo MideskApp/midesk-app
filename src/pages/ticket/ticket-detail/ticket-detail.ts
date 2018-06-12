@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, NavController, ModalController, PopoverController, AlertController, ActionSheetController } from 'ionic-angular';
+import { NavParams, NavController, ModalController, PopoverController, AlertController, ActionSheetController, Platform } from 'ionic-angular';
 import { TicketService } from './../../../services/ticket.service';
 import { ModalAssign } from'./../../../components/modal/modal-assign/modal-assign';
 import { SettingService } from './../../../common/setting.service';
@@ -84,11 +84,17 @@ export class TicketDetailPage {
     private actsheetCtrl: ActionSheetController,
     private _dataService: DataService,
     private _msgService: MessageService,
-    private _socketService: SocketService
+    private _socketService: SocketService,
+    private _platform: Platform
   	){
     this.urlFile = this._settingService._baseUrl+'/public/upload/';
     _dataService.createLoading({duration:100}).present();
-    this.listenEventUpdateTicket();
+    this.initApp();
+  }
+  initApp(){
+    if(this._platform.ready()){
+      this.listenEventUpdateTicket();
+    }
   }
   ionViewWillLoad() {
     this.priority = this._authService.getPriority();
