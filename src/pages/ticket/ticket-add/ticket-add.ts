@@ -211,31 +211,6 @@ export class TicketAddPage {
               self.ticketParams.category = data['category']['id'];
               break;
           }
-          // if(key == 'status'){
-          //   self.status = self.checkStatus[data['status']];
-          //   self.ticketParams.status= data['status'];
-          // }else if(key == 'priority'){
-          //   self.priority = self.checkPriority[data['priority']-1];
-          //   self.ticketParams.priority = data['priority'];
-          // }else if(key == 'title'){
-          //   self.ticketParams.title = data['title'];
-          // }else if(key == 'assign'){
-          //   self.ticketParams.assign_agent = data['assign']['agent'];
-          //   self.ticketParams.assign_team = data['assign']['team'];
-          //   self.assign = data['assign']['name'];
-          //   self.avatar = (data['assign']['agent']==0)?'#2979ff':'#4F4F4F';
-          // }else if(key == 'requester'){
-          //   self.requesterName = data.requester.requester_name;
-          //   self.ticketParams.requester = data.requester.requester;
-          //   self.ticketParams.requester_type = data.requester.requester_type;
-          //   self.ticketParams.requester_customer_id = data.requester.requester_customer_id;
-          //   self.customerName = data.requester.customer_name;
-          //   if(self.customerName!=''){
-          //     self.requesterName2 = self.requesterName+' ('+self.customerName+')';
-          //   }else self.requesterName2 = self.requesterName;
-          // }else if(key){
-
-          // }
         })
       }
     })
@@ -331,44 +306,23 @@ export class TicketAddPage {
         } 
       }
       Object.keys(data['dataMacro']).forEach(function(key) {
-        self.ticketParams[key] = data['dataMacro'][key];
-        if(key == 'private' || key == 'public'){
-          self.privateNote = data['dataMacro'][key];
-        }
-        else if(key == 'status'){
-          self.status = self.checkStatus[data['dataMacro'][key]];
-          //self.ticketParams[key] = data[key];
-        }else if(key == 'priority'){
-          //self.ticketParams.priority = (data[key]).toString();
-          self.priority = self.checkPriority[data['dataMacro'][key]-1];
+        //self.ticketParams[key] = data['dataMacro'][key];
+        switch(key){
+          case 'private' || 'public':
+            self.privateNote = data['dataMacro'][key];
+            self.ticketParams[key] = data['dataMacro'][key]
+            break;
+          case 'status':
+            self.ticketParams[key] = data['dataMacro'][key]
+            self.status = self.checkStatus[data['dataMacro'][key]];
+            break;
+          case 'priority':
+            self.ticketParams[key] = data['dataMacro'][key]
+            self.priority = self.checkPriority[data['dataMacro'][key]-1];
+            break;
         }
       });   
     })
-    // this._event.subscribe('MACRO',data=>{
-    //   if(data.assignName!='') {
-    //     this.assign = data.assignName;
-    //     this.avatar = '#4F4F4F';
-    //   }
-    //   else{
-    //     if(data.teamName!=''){
-    //       this.assign = data.teamName;
-    //       this.avatar = '#2979ff';
-    //     } 
-    //   }
-    //   Object.keys(data.dataMacro).forEach(function(key) {
-    //     self.ticketParams[key] = data.dataMacro[key];
-    //     if(key == 'private' || key == 'public'){
-    //       self.privateNote = data.dataMacro[key];
-    //     }
-    //     else if(key == 'status'){
-    //       self.status = self.checkStatus[data.dataMacro[key]];
-    //       //self.ticketParams[key] = data[key];
-    //     }else if(key == 'priority'){
-    //       //self.ticketParams.priority = (data[key]).toString();
-    //       self.priority = self.checkPriority[data.dataMacro[key]-1];
-    //     }
-    //   });      
-    // })
   }
 }
 
