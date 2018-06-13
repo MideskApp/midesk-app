@@ -1,7 +1,6 @@
 import { AccountPage } from './../pages/account/account';
 import { SocketService } from './../common/socket.service';
 import { NotificationsService } from './../services/notifications.service';
-import { TicketDetailPage } from './../pages/ticket/ticket-detail/ticket-detail';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
 import { Component, ViewChild } from '@angular/core';
@@ -19,7 +18,6 @@ import { AuthService } from '../services/authentication/auth.service';
 import { DataService } from '../common/data.service';
 import { MessageService } from '../common/message.service';
 import { UserService } from '../services/user.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   templateUrl: 'app.html',
@@ -68,7 +66,7 @@ export class MyApp {
       if(this._authService.isUserLoggedIn()){
         this.listenEventNewNotifi();
         this.listenEventUpdate();
-        //this.receiveNotification();
+        this.receiveNotification();
         this.networkCheck();
         this.socketCheck();
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
@@ -207,13 +205,8 @@ export class MyApp {
     reconnect.unsubscribe();
   }
   socketCheck(){
-    // this._socketService.listenEvent('disconnect').subscribe(res=>{
-    //   this.room = JSON.parse(this._authService.getLoggedInRoom());
-    //   let self = this;
-    //   setInterval(function(){
-    //     self._dataService.createToast('Máy chủ đang gặp sự cố',2000,'fail-toast');
-    //     self._socketService.connect(self.room);
-    //   },4000);
-    // })
+    this._socketService.listenEvent('disconnect').subscribe(res=>{
+      this._dataService.createToast('Máy chủ đang gặp sự cố',2000,'fail-toast');
+    })
   }
 }
