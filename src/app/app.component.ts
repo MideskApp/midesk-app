@@ -19,6 +19,7 @@ import { AuthService } from '../services/authentication/auth.service';
 import { DataService } from '../common/data.service';
 import { MessageService } from '../common/message.service';
 import { UserService } from '../services/user.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   templateUrl: 'app.html',
@@ -33,6 +34,8 @@ export class MyApp {
   token:any;
   vibrate:any;
   avatarName:string;
+  room:any={};
+  statusConnect = true;
   constructor(
     public platform: Platform, 
     public statusBar: StatusBar, 
@@ -66,6 +69,8 @@ export class MyApp {
         this.listenEventNewNotifi();
         this.listenEventUpdate();
         //this.receiveNotification();
+        this.networkCheck();
+        this.socketCheck();
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
         this.loggedInUser = this._authService.getLoggedInUser();
         this.avatarName = this._authService.getLoggedInUser().lastname;
@@ -184,5 +189,31 @@ export class MyApp {
     this._dataService.listenEvent('UPDATE NOTIFI').subscribe(res=>{
       this.countNotify-=1;
     })
+  }
+  networkCheck(){
+    let disconnect = this._dataService.disconnectNetwork().subscribe(res=>{
+      this._dataService.createToast('Kết nối bị gián đoạn, vui lòng kiểm tra đường truyền mạng',2000,'fail-toast');
+      this._socketService.disconnect();
+    })
+    disconnect.unsubscribe();
+    let reconnect = this._dataService.reconnectNetwork().subscribe(res=>{
+      this.room = JSON.parse(this._authService.getLoggedInRoom());
+      let self = this;
+      setTimeout(function(){
+        self._socketService.connect(self.room);
+      },2000);
+      this._dataService.createToast('Thiết lập kết nối thành công',2000,'success-toast');
+    })
+    reconnect.unsubscribe();
+  }
+  socketCheck(){
+    // this._socketService.listenEvent('disconnect').subscribe(res=>{
+    //   this.room = JSON.parse(this._authService.getLoggedInRoom());
+    //   let self = this;
+    //   setInterval(function(){
+    //     self._dataService.createToast('Máy chủ đang gặp sự cố',2000,'fail-toast');
+    //     self._socketService.connect(self.room);
+    //   },4000);
+    // })
   }
 }

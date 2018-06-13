@@ -4,6 +4,7 @@ import { AuthService } from '../../services/authentication/auth.service';
 import { CookieService } from 'angular2-cookie/core';
 import { DataService } from '../../common/data.service';
 import { MessageService } from '../../common/message.service';
+import { UserService } from '../../services/user.service';
 
 /**
  * Generated class for the SettingPage page.
@@ -19,13 +20,15 @@ import { MessageService } from '../../common/message.service';
 export class SettingPage {
   enableNotify:boolean;
   enableVibrate:boolean;
+  data:any={};
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private _authService: AuthService,
     private _cookieService: CookieService,
     private _dataService: DataService,
-    private _msgService: MessageService
+    private _msgService: MessageService,
+    private _userService: UserService
   ) {
     this.enableNotify = this._authService.enableNotify();
     this.enableVibrate = this._authService.enableVibrate();
@@ -35,11 +38,16 @@ export class SettingPage {
     console.log('ionViewDidLoad SettingPage');
   }
   changeStatusNotify(){
-    let flag = (this.enableNotify==true)?'1':'0';
+    this.data['is_notification'] = (this.enableNotify==true)?'1':'0';
     let arr = this._cookieService.getObject('setting');
-    arr['notify']= flag;
+    arr['notify']= this.data['is_notification'];
     this._cookieService.putObject('setting',arr);
-    this._dataService.createAlertWithoutHandle(this._msgService._msg_setting_disable_notification);
+    this._userService.updateUserProfile({data:this.data}).subscribe(res=>{
+      console.log(res);
+    })
+    if(arr['notify']=='0'){
+      this._dataService.createAlertWithoutHandle(this._msgService._msg_setting_disable_notification);
+    }
   }
   changeVibrate(){
     let flag = (this.enableVibrate==true)?'1':'0';

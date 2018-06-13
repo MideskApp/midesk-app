@@ -1,6 +1,7 @@
 import { AlertController, ToastController, LoadingController, Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Network } from '@ionic-native/network';
 @Injectable()
 export class DataService {
     constructor(
@@ -8,6 +9,7 @@ export class DataService {
         private toastCtrl: ToastController,
         private loadingCtrl: LoadingController,
         private _event: Events,
+        private _network: Network,
     ) {}
     createAlertWithHandle(msgContent:string){
         var alert = this.alertCtrl.create({
@@ -61,5 +63,27 @@ export class DataService {
             cssClass:cssClass
         });
         toast.present();
+    }
+    disconnectNetwork(){
+        let observable = new Observable(observer=>{
+            this._network.onDisconnect().subscribe((data) => {
+                this.createToast('Kết nối bị gián đoạn, vui lòng kiểm tra lại đường truyền mạng','fail-toast');
+                observer.next(data);
+            });
+        });
+        return observable;
+        // let disconnectSubscription = this._network.onDisconnect().subscribe(() => {
+        //     console.log('network was disconnected :-(');
+        //   });
+        // //disconnectSubscription.unsubscribe();
+    }
+    reconnectNetwork(){
+        let observable = new Observable(observer=>{
+            this._network.onConnect().subscribe((data) => {
+                this.createToast('Đã thiết lập lại kết nối thành công','success-toast');
+                observer.next(data);
+            });
+        });
+        return observable;
     }
 }

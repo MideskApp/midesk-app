@@ -45,11 +45,15 @@
 				<p *ngIf="contactProfile.address!==''&&contactProfile.address!==null">{{contactProfile.address}}</p>
 				<p *ngIf="contactProfile.address===''||contactProfile.address===null">Chưa cập nhật</p>
 			</ion-item>
-			<ion-item class="customer-info">
+			<ion-item *ngIf="contactProfile.channel!==''" class="customer-info">
 				<ion-avatar item-start><ion-icon color="midesk" name="desktop"></ion-icon></ion-avatar>
 				<p class="title">Kênh</p>
-				<p *ngIf="contactProfile.channel!==''">{{contactProfile.channel}}</p>
-				<p *ngIf="contactProfile.channel===''">Chưa cập nhật</p>
+				<p>{{contactProfile.channel}}</p>
+			</ion-item>
+			<ion-item *ngIf="contactProfile.customer.length>0" class="customer-info">
+				<ion-avatar item-start><ion-icon color="midesk" name="briefcase"></ion-icon></ion-avatar>
+				<p class="title">Công ty</p>
+				<p style="text-overflow: ellipsis;overflow: hidden" *ngFor="let item of contactProfile.customer">- {{item.customer_name}}</p>
 			</ion-item>
 		</ion-list>
 		<ion-list *ngIf="edit" no-lines>

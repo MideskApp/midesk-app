@@ -19,6 +19,7 @@ export class SettingService {
     public _api_user_update_profile = this._baseAPIUrl + 'updateUserProfile';
     public _api_user_update_fcm_token = this._baseAPIUrl + 'updateFCMToken';
     public _api_user_get_name = this._baseAPIUrl + 'getUserName/';
+    public _api_user_update_notify = this._baseAPIUrl + 'updateNotify';
     //--
     //ticket service
     public _api_ticket_getList = this._baseAPIUrl + 'getListTicket';

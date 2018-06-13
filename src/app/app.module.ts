@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FCM } from '@ionic-native/fcm';
+import { Network } from '@ionic-native/network';
 
 import { CookieService } from 'angular2-cookie/core';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
@@ -152,6 +153,7 @@ export function cookieServiceFactory() {
     SplashScreen,
     LocalNotifications,
     FCM,
+    Network,
     SocketService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {

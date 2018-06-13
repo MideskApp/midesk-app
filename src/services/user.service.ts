@@ -70,6 +70,11 @@ export class UserService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    updateNotify(status:any){
+        return this._http.put(this._settingGlobal._api_user_update_notify,status)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     getUserName(userId:number){
         return this._http.get(this._settingGlobal._api_user_get_name+userId)
             .map(this.extractData)

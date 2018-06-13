@@ -2,7 +2,7 @@
 
   <ion-navbar>
   	<ion-buttons><button ion-button menuToggle><ion-icon name="menu"></ion-icon></button></ion-buttons>
-		<ion-title>Khách Hàng</ion-title>
+		<ion-title>Liên Hệ</ion-title>
 		<ion-buttons end><button (click)="openSearchContact()" ion-button><ion-icon name="search"></ion-icon></button></ion-buttons>
   </ion-navbar>
 
@@ -20,6 +20,7 @@
 			<p class="name" *ngIf="item.fullname!==null">{{item.fullname}}</p>
 			<!-- <p class="phone"><span *ngIf="item.customer_name!=='' && item.customer_name!==null">{{item.customer_name}}</span><span *ngIf="item.phone==='' || item.phone===null">chưa có</span></p> -->
 			<p *ngIf="item.relation_title!==null" class="relation" item-end><span [ngStyle]="{'background':item.relation_color}">{{item.relation_title}}</span></p>
+			<p class="phone"><span *ngIf="item.phone!=='' && item.phone!==null">Điện thoại: {{item.phone}}</span><span *ngIf="item.phone==='' || item.phone===null">Email: {{item.email}}</span></p>
 		</ion-item>
 	</ion-list>
 	<ion-infinite-scroll *ngIf="modelContact.loadMore" (ionInfinite)="doInfinite($event)">
