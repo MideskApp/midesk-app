@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController, NavController } from 'ionic-angular';
 import { TicketService } from './../../../services/ticket.service';
+import { TicketDetailPage } from '../../../pages/ticket/ticket-detail/ticket-detail';
 
 /**
  * Generated class for the ModalRequesterPage page.
@@ -31,7 +32,9 @@ export class ModalSearchTicket {
   constructor(
   	public navParams: NavParams, 
   	private viewCtrl: ViewController,
-  	private _ticketService: TicketService) {
+    private _ticketService: TicketService,
+    private navCtrl: NavController
+  ) {
   }
   closeModal(){
   	this.viewCtrl.dismiss();
@@ -70,5 +73,9 @@ export class ModalSearchTicket {
       else this.modelSearch.loadMore = false;
       this.modelSearch.dataLoading = false;
     })
+  }
+  clickTicket(index){
+  	console.log(index);
+    this.navCtrl.push(TicketDetailPage,{data:index});
   }
 }

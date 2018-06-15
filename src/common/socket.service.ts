@@ -15,6 +15,9 @@ export class SocketService {
         // ionViewWillLeave() {
         this._socket.disconnect();
     }
+    public onConnect(){
+        this._socket.connect();
+    }
     public listenEvent(eventName){
         let observable = new Observable(observer=>{
             this._socket.on(eventName,(data)=>{

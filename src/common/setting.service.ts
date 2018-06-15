@@ -42,6 +42,7 @@ export class SettingService {
     public _api_contact_profile = this._baseAPIUrl + 'getContactProfile/';
     public _api_contact_update = this._baseAPIUrl + 'updateContact';
     public _api_contact_add = this._baseAPIUrl + 'addContact';
+    public _api_contact_search = this._baseAPIUrl + 'searchContact';
     //--
     //customer service
     public _api_customer_getList = this._baseAPIUrl + 'getCustomer/';

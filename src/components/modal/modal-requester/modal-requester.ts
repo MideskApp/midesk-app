@@ -69,7 +69,6 @@ export class ModalRequester {
     // this.selected_teamId = data.selected_teamId;
     this.loading = true;
     this._userService.getListRequester(this.modelRequester).subscribe(res=>{
-        //this.requesters = res.data;
         this.modelRequester.dataItems = res.data;
         if(res.next_page_url!==null) this.modelRequester.loadMore = true;
         else this.modelRequester.loadMore = false;

@@ -33,7 +33,7 @@ export class MyApp {
   vibrate:any;
   avatarName:string;
   room:any={};
-  statusConnect = true;
+  statusConnect:any;
   constructor(
     public platform: Platform, 
     public statusBar: StatusBar, 
@@ -67,8 +67,9 @@ export class MyApp {
         this.listenEventNewNotifi();
         this.listenEventUpdate();
         this.receiveNotification();
+        this.connectSocket();
         this.networkCheck();
-        this.socketCheck();
+        // this.socketCheck();
         this._notifyService.countNewNotifications().subscribe(res=>{ this.countNotify = res;});
         this.loggedInUser = this._authService.getLoggedInUser();
         this.avatarName = this._authService.getLoggedInUser().lastname;
@@ -81,6 +82,14 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+  connectSocket(){
+    this.room=JSON.parse(this._authService.getLoggedInRoom());
+    let self = this;
+    setTimeout(function(){
+      self._socketService.connect(self.room);
+    },2000);
+    this.statusConnect = true;
   }
   openPage(page) {
     // Reset the content nav to have just this page
@@ -190,23 +199,37 @@ export class MyApp {
   }
   networkCheck(){
     let disconnect = this._dataService.disconnectNetwork().subscribe(res=>{
-      this._dataService.createToast('Kết nối bị gián đoạn, vui lòng kiểm tra đường truyền mạng',2000,'fail-toast');
-      this._socketService.disconnect();
+      this._dataService.createToast('Kết nối bị gián đoạn, vui lòng kiểm tra đường truyền mạng',5000,'fail-toast');
+      //this._socketService.disconnect();
     })
     disconnect.unsubscribe();
     let reconnect = this._dataService.reconnectNetwork().subscribe(res=>{
-      this.room = JSON.parse(this._authService.getLoggedInRoom());
-      let self = this;
-      setTimeout(function(){
-        self._socketService.connect(self.room);
-      },2000);
-      this._dataService.createToast('Thiết lập kết nối thành công',2000,'success-toast');
+      // this.room = JSON.parse(this._authService.getLoggedInRoom());
+      // let self = this;
+      // setTimeout(function(){
+      //   self._socketService.connect(self.room);
+      // },2000);
+      // this._dataService.createToast('Thiết lập kết nối thành công',2000,'success-toast');
+      //this.socketCheck();
     })
     reconnect.unsubscribe();
   }
-  socketCheck(){
-    this._socketService.listenEvent('disconnect').subscribe(res=>{
-      this._dataService.createToast('Máy chủ đang gặp sự cố',2000,'fail-toast');
-    })
-  }
+  // socketCheck(){
+  //   let time = 0;
+  //   this._socketService.listenEvent('disconnect').subscribe(res=>{
+  //     this.statusConnect = false;
+  //     this._dataService.createToast('Đang kết nối lại server',2000);
+  //     time++;
+  //     if(time >=10){
+  //       this._dataService.createToastWithHandle('Kết nối đến server thất bại, vui lòng tải lại app',100000,'fail-toast',true,'tải lại');  
+  //       this._socketService.disconnect();
+  //     }
+      
+  //   })
+  //   this._socketService.listenEvent('connect').subscribe(res=>{
+  //     this.statusConnect = true;
+  //     this.connectSocket();
+  //     this._dataService.createToast('Đã kết nối đến server',2000,'success-toast');
+  //   })
+  // }
 }

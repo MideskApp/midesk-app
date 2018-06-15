@@ -58,6 +58,7 @@ import { ConvertTime } from '../pipes/convert-time.pipe';
 import { ConvertTimeListTicket } from '../pipes/convert-time-list-ticket.pipe';
 import { SearchFilter } from '../pipes/search-filter.pipe';
 import { GroupByPipe } from '../pipes/group-by.pipe';
+import { HighlightPipe } from '../pipes/highlight-search.pipe';
 const config: SocketIoConfig = { url: 'https://socketprod.midesk.vn', options: {} };
 export function cookieServiceFactory() {
   return new CookieService();
@@ -90,6 +91,7 @@ export function cookieServiceFactory() {
     SearchFilter,
     SafeHtmlPipe,
     GroupByPipe,
+    HighlightPipe,
     PopoverSort,
     PopoverChannel,
     PopoverCategory,
@@ -113,6 +115,7 @@ export function cookieServiceFactory() {
     ConvertTimeListTicket,
     SearchFilter,
     GroupByPipe,
+    HighlightPipe,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

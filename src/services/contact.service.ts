@@ -32,6 +32,11 @@ export class ContactService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    searchContact(data:any={}){
+        return this._http.post(this._settingGlobal._api_contact_search,data)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
     getCustomer(contactId:number){
         return this._http.get(this._settingGlobal._api_customer_getList+contactId)
             .map(this.extractData)

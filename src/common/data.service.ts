@@ -60,14 +60,28 @@ export class DataService {
             message:msgContent,
             position:'bottom',
             duration:duration,
-            cssClass:cssClass
+            cssClass:cssClass,
         });
+        toast.present();
+    }
+    createToastWithHandle(msgContent?,duration?,cssClass?,showCloseButton?,closeButtonText?){
+        let toast = this.toastCtrl.create({
+            message:msgContent,
+            position:'bottom',
+            duration:duration,
+            cssClass:cssClass,
+            showCloseButton:showCloseButton,
+            closeButtonText:closeButtonText
+        });
+        toast.onDidDismiss(()=>{
+            window.location.reload();
+        })
         toast.present();
     }
     disconnectNetwork(){
         let observable = new Observable(observer=>{
             this._network.onDisconnect().subscribe((data) => {
-                this.createToast('Kết nối bị gián đoạn, vui lòng kiểm tra lại đường truyền mạng','fail-toast');
+                this.createToast('Kết nối bị gián đoạn, vui lòng kiểm tra lại đường truyền mạng',5000,'fail-toast');
                 observer.next(data);
             });
         });
