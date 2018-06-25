@@ -66,7 +66,7 @@ export class MyApp {
       if(this._authService.isUserLoggedIn()){
         this.listenEventNewNotifi();
         this.listenEventUpdate();
-        this.receiveNotification();
+        //this.receiveNotification();
         this.connectSocket();
         this.networkCheck();
         // this.socketCheck();
